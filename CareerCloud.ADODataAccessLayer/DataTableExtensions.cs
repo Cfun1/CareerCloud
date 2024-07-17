@@ -5,7 +5,7 @@ using System.Reflection;
 namespace CareerCloud.ADODataAccessLayer;
 public static class DataTableExtensions
 {
-    public static IEnumerable<T> MapToListOf<T>(this DataTable dataTable) where T : new()
+    public static List<T> MapToListOf<T>(this DataTable dataTable) where T : new()
     {
         var pocos = new List<T>();
         var properties = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
@@ -37,8 +37,9 @@ public static class DataTableExtensions
             }
             pocos.Add(item);
         }
-        foreach (var poco in pocos)
-            yield return poco;
+        return pocos;
+        //foreach (var poco in pocos)
+        //    yield return poco;
     }
 
     // Extension method to check if a column exists in the data reader
