@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Linq;
-using System.Reflection;
-using System.Transactions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using CareerCloud.ADODataAccessLayer;
 using CareerCloud.Pocos;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Reflection;
+using System.Linq;
+using System.Transactions;
 
 namespace CareerCloud.UnitTests.Assignment2
 {
@@ -357,7 +357,7 @@ namespace CareerCloud.UnitTests.Assignment2
                 }
             }
         }
-
+        
         [TestMethod]
         public void Assignment2_DeepDive_CRUD_Test_SystemCountryCodeRepository()
         {
@@ -570,15 +570,15 @@ namespace CareerCloud.UnitTests.Assignment2
         public void Assignment2_DeepDive_CRUD_Test_ApplicantEducationRepository()
         {
             using (TransactionScope Scope = new TransactionScope())
-            {
+            {             
                 _dbConstraints.DisableConstraintsForPoco(_applicantEducation.GetType());
                 ApplicantEducationAdd();
                 ApplicantEducationCheck();
                 ApplicantEducationUpdate();
                 ApplicantEducationCheck();
                 ApplicantEducationRemove();
-                _dbConstraints.EnableConstraintsForPoco(_applicantEducation.GetType());
-            }
+                _dbConstraints.EnableConstraintsForPoco(_applicantEducation.GetType());               
+            }           
         }
 
         [TestMethod]
@@ -1330,6 +1330,6 @@ namespace CareerCloud.UnitTests.Assignment2
         {
             if (string.IsNullOrEmpty(str)) return str;
             return str.Length <= maxLength ? str : str.Substring(0, maxLength);
-        }
+        }      
     }
 }

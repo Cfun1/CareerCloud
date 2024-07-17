@@ -1,8 +1,8 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Data.SqlClient;
 using System.IO;
 using System.Reflection;
+using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 
 namespace CareerCloud.UnitTests.Assignment2
