@@ -25,8 +25,8 @@ public static class DbConnection
 
     static DbConnection()
     {
-        // avoids an exception when the test is using System.Data.SqlClient instead of Microsoft.Data.SqlClient;
-        //System.Transactions.TransactionManager.ImplicitDistributedTransactions = true;
+        // avoids an exception when the test project is using System.Data.SqlClient instead of Microsoft.Data.SqlClient;
+        System.Transactions.TransactionManager.ImplicitDistributedTransactions = true;
 
         var config = new ConfigurationBuilder();
         var path = Path.Combine(Directory.GetCurrentDirectory(), "appsettings.json");

@@ -24,7 +24,7 @@ internal static class DbQueryHelpers
         if (propertiesName.Count() == 0)
             throw new Exception("No properties found !?");
 
-        ushort pocoCurrentNum = 1;  //not name index, not to confuse sicne index start from 0
+        ushort pocoCurrentNum = 1;  //don't name it index, not to confuse sicne index start from 0
         var pocosCount = pocos.Count();
         columnsNamesStr.Append("(");
 
