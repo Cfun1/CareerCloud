@@ -1,0 +1,60 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.34928.147
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CareerCloud.Pocos", "CareerCloud.Pocos\CareerCloud.Pocos.csproj", "{4D95D84F-948A-4F7C-8612-285585ABB4F1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CareerCloudCore.UnitTests.Assignment1", "CareerCloudCore.UnitTests.Assignment1\CareerCloudCore.UnitTests.Assignment1.csproj", "{B9D84A5B-4101-45BF-A0DB-EB7D1CC9EF37}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CareerCloud.DataAccessLayer", "CareerCloud.DataAccessLayer\CareerCloud.DataAccessLayer.csproj", "{1D9C94F1-5B45-4FCF-BFC4-7EDABE3C8FDA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CareerCloud.ADODataAccessLayer", "CareerCloud.ADODataAccessLayer\CareerCloud.ADODataAccessLayer.csproj", "{9324C47F-E9A8-4FEA-A4CE-7EBC9854D979}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CareerCloudCore.UnitTests.Assignment2", "CareerCloudCore.UnitTests.Assignment2\CareerCloudCore.UnitTests.Assignment2.csproj", "{A3E9EB18-D79C-48E4-BCB2-BD487922AE8F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp", "ConsoleApp\ConsoleApp.csproj", "{6A21EFC4-CACD-48F3-BF1C-33DC3B0A7C5C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D80E218E-33FB-4234-AE9E-2AE0CEB1CC19}"
+	ProjectSection(SolutionItems) = preProject
+		NoteToAmandeep.txt = NoteToAmandeep.txt
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4D95D84F-948A-4F7C-8612-285585ABB4F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D95D84F-948A-4F7C-8612-285585ABB4F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D95D84F-948A-4F7C-8612-285585ABB4F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D95D84F-948A-4F7C-8612-285585ABB4F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9D84A5B-4101-45BF-A0DB-EB7D1CC9EF37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9D84A5B-4101-45BF-A0DB-EB7D1CC9EF37}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9D84A5B-4101-45BF-A0DB-EB7D1CC9EF37}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9D84A5B-4101-45BF-A0DB-EB7D1CC9EF37}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D9C94F1-5B45-4FCF-BFC4-7EDABE3C8FDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D9C94F1-5B45-4FCF-BFC4-7EDABE3C8FDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D9C94F1-5B45-4FCF-BFC4-7EDABE3C8FDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D9C94F1-5B45-4FCF-BFC4-7EDABE3C8FDA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9324C47F-E9A8-4FEA-A4CE-7EBC9854D979}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9324C47F-E9A8-4FEA-A4CE-7EBC9854D979}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9324C47F-E9A8-4FEA-A4CE-7EBC9854D979}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9324C47F-E9A8-4FEA-A4CE-7EBC9854D979}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3E9EB18-D79C-48E4-BCB2-BD487922AE8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3E9EB18-D79C-48E4-BCB2-BD487922AE8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3E9EB18-D79C-48E4-BCB2-BD487922AE8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3E9EB18-D79C-48E4-BCB2-BD487922AE8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A21EFC4-CACD-48F3-BF1C-33DC3B0A7C5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A21EFC4-CACD-48F3-BF1C-33DC3B0A7C5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A21EFC4-CACD-48F3-BF1C-33DC3B0A7C5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A21EFC4-CACD-48F3-BF1C-33DC3B0A7C5C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {60B5848D-E529-4FAB-9F00-2F1F93A471D2}
+	EndGlobalSection
+EndGlobal
