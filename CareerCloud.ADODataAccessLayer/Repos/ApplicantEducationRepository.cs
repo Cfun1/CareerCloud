@@ -4,7 +4,6 @@ using CareerCloud.DataAccessLayer;
 using CareerCloud.Pocos;
 using Microsoft.Data.SqlClient;
 
-
 namespace CareerCloud.ADODataAccessLayer;
 
 public class ApplicantEducationRepository : IDataRepository<ApplicantEducationPoco>

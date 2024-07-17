@@ -16,24 +16,8 @@ internal static class DbQueryHelpers
 
         List<string> columnsNames = new(), columnsValues = new();
 
-        //IEnumerable<PropertyInfo> properties;
-
-        //must be ini otherwise compiler complains
-        (string Name, string Values) insertStrColumns;
         List<SqlParameter> sqlParameters = new();
 
-        //if (skipKey)
-        //{
-        //    properties = typeof(T).GetProperties()
-        // .Where(prop => prop.GetCustomAttributes(typeof(ColumnAttribute), false).Any()
-        //     && prop.GetCustomAttributes(typeof(KeyAttribute), false).IsNullOrEmpty());
-        //}
-        //else
-        //{
-        //    properties = typeof(T).GetProperties()
-        //        .Where(prop => prop.GetCustomAttributes(typeof(ColumnAttribute), false).Any());
-        //}
-        //replaced by:
         IEnumerable<string> propertiesName;
         propertiesName = ReflectionHelpers.GetPropertiesNamesOf<T>(skipKey);
 
@@ -58,10 +42,10 @@ internal static class DbQueryHelpers
                 PropertyInfo? propInfo = typeof(T)?.GetProperty(propertyName);
                 object? propertyValue = propInfo?.GetValue(poco);
 
-                //flaw: if one object doesn't specify a column (null object) it wil lcrash for inconsistency prams count
+                //flaw: if one object doesn't specify a column (null object) it will crash for inconsistency param count
                 if (propertyValue == null)
                 {
-                    // should be done only first sicne we re building string only once doesn't make sense to try to fix issue later
+                    //should be done only first sicne we re building string only once doesn't make sense to try to fix issue later
                     columnsNames.Remove(ReflectionHelpers.GetColumnFromProperty<T>(propertyName));
                     continue;
                 }
@@ -88,10 +72,8 @@ internal static class DbQueryHelpers
                 columnsValuesStr.Append(", ");
 
             columnsValues.Clear();
-
             pocoCurrentNum++;
         }
-
         return (columnsNamesStr.ToString(), columnsValuesStr.ToString(), sqlParameters.ToArray());
     }
 
@@ -122,7 +104,6 @@ internal static class DbQueryHelpers
         }
 
         //more robust solution is using a list rather than string builder to check count consistency at the end
-
         queryStr.Remove(queryStr.Length - 2, 2);    //remove last ','
         return (queryStr.ToString(), sqlParameters.ToArray());
     }

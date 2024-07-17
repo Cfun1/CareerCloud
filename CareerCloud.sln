@@ -13,8 +13,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CareerCloud.ADODataAccessLa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CareerCloudCore.UnitTests.Assignment2", "CareerCloudCore.UnitTests.Assignment2\CareerCloudCore.UnitTests.Assignment2.csproj", "{A3E9EB18-D79C-48E4-BCB2-BD487922AE8F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp", "ConsoleApp\ConsoleApp.csproj", "{6A21EFC4-CACD-48F3-BF1C-33DC3B0A7C5C}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D80E218E-33FB-4234-AE9E-2AE0CEB1CC19}"
 	ProjectSection(SolutionItems) = preProject
 		NoteToAmandeep.txt = NoteToAmandeep.txt
@@ -46,10 +44,6 @@ Global
 		{A3E9EB18-D79C-48E4-BCB2-BD487922AE8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A3E9EB18-D79C-48E4-BCB2-BD487922AE8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A3E9EB18-D79C-48E4-BCB2-BD487922AE8F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6A21EFC4-CACD-48F3-BF1C-33DC3B0A7C5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6A21EFC4-CACD-48F3-BF1C-33DC3B0A7C5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6A21EFC4-CACD-48F3-BF1C-33DC3B0A7C5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6A21EFC4-CACD-48F3-BF1C-33DC3B0A7C5C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

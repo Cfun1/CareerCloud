@@ -1,14 +1,16 @@
 ﻿//***********           TODOs
 //              Improve code quality
 //      //[PRIVACY_OMITTED]
-
-//      Add appconfig instead of string
-//      1- Implement insert all/multiple records in one batch (batch processing ?) [x]
-//      2- Implement transactions
-//      3- Implement schemas names? if not default dbo
-//      4- Implement exceptions handling rather than re-throw, custom exceptions
-//      5- Check if code is compliant with S.O.L.I.D principles                     [On going...]
-//      6- Make SqlCnn singelton thread safe
+//
+//      1- Implement insert all/multiple records in one batch (batch processing ?)          [x]
+//      2- Add appconfig instead of string                                                  [x]
+//      3- Implement transactions
+//      4- Implement schemas names? if not default dbo
+//      5- Implement exceptions handling rather than re-throw, custom exceptions
+//      6- Check if code is compliant with S.O.L.I.D principles, refactor if necessary      [On going...]
+//      7- Make SqlCnn singelton thread safe
+//      8- Think about lazy loading using yield / change List to IEnumerator when possible for performance purpose
+//      9- Better nullability checks
 
 using System.Data;
 using Microsoft.Data.SqlClient;
@@ -35,7 +37,6 @@ public static class DbConnection
 
     static SqlConnection _sqlCnn;
     public static SqlConnection SqlCnn => _sqlCnn ??= new SqlConnection(cnnStr);
-
 
     public static void Insert<T>(params T[] pocos) where T : new() //, IPoco
     {
