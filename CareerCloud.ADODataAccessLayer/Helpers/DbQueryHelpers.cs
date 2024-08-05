@@ -7,9 +7,9 @@ namespace CareerCloud.ADODataAccessLayer;
 internal static class DbQueryHelpers
 {
     /*** Build the sql INSERT INTO string query, plus relevant columns value/parameters for T type using refelction ***/
-    internal static (string, string, SqlParameter[]) PrepareInsertQueryFields<T>(
-          bool skipKey = false, params T[] pocos)
-        where T : new()
+    internal static (string, string, SqlParameter[]) PrepareInsertQueryFields<TPoco>(
+          bool skipKey = false, params TPoco[] pocos)
+        where TPoco : new()
     {
         StringBuilder columnsNamesStr = new(string.Empty),
                       columnsValuesStr = new(string.Empty);
@@ -19,7 +19,7 @@ internal static class DbQueryHelpers
         List<SqlParameter> sqlParameters = new();
 
         IEnumerable<string> propertiesName;
-        propertiesName = ReflectionHelpers.GetPropertiesNamesOf<T>(skipKey);
+        propertiesName = ReflectionHelpers.GetPropertiesNamesOf<TPoco>(skipKey);
 
         if (propertiesName.Count() == 0)
             throw new Exception("No properties found !?");
@@ -36,17 +36,17 @@ internal static class DbQueryHelpers
             {
                 if (pocoCurrentNum == 1)
                 {    //only build it once
-                    columnsNames.Add(ReflectionHelpers.GetColumnFromProperty<T>(propertyName));
+                    columnsNames.Add(ReflectionHelpers.GetColumnFromProperty<TPoco>(propertyName));
                 }
 
-                PropertyInfo? propInfo = typeof(T)?.GetProperty(propertyName);
+                PropertyInfo? propInfo = typeof(TPoco)?.GetProperty(propertyName);
                 object? propertyValue = propInfo?.GetValue(poco);
 
                 //flaw: if one object doesn't specify a column (null object) it will crash for inconsistency param count
                 if (propertyValue == null)
                 {
                     //should be done only first sicne we re building string only once doesn't make sense to try to fix issue later
-                    columnsNames.Remove(ReflectionHelpers.GetColumnFromProperty<T>(propertyName));
+                    columnsNames.Remove(ReflectionHelpers.GetColumnFromProperty<TPoco>(propertyName));
                     continue;
                 }
 
@@ -78,22 +78,22 @@ internal static class DbQueryHelpers
     }
 
     /*** Build the sql UPDATE string query, plus relevant columns value/parameters for T type using refelction ***/
-    internal static (string, SqlParameter[]) PrepareUpdateQueryFields<T>(T poco, bool skipKey = false)
-        where T : new()
+    internal static (string, SqlParameter[]) PrepareUpdateQueryFields<TPoco>(TPoco poco, bool skipKey = false)
+        where TPoco : new()
     {
         List<SqlParameter> sqlParameters = new();
         StringBuilder queryStr = new StringBuilder();
         IEnumerable<string> propertiesName;
 
-        propertiesName = ReflectionHelpers.GetPropertiesNamesOf<T>(skipKey);
+        propertiesName = ReflectionHelpers.GetPropertiesNamesOf<TPoco>(skipKey);
         if (propertiesName.Count() == 0)
             throw new Exception("No properties found !?");
 
         foreach (var propertyName in propertiesName)
         {
-            string ColumnName = ReflectionHelpers.GetColumnFromProperty<T>(propertyName);
+            string ColumnName = ReflectionHelpers.GetColumnFromProperty<TPoco>(propertyName);
 
-            PropertyInfo? propInfo = typeof(T)?.GetProperty(propertyName);
+            PropertyInfo? propInfo = typeof(TPoco)?.GetProperty(propertyName);
             object? propertyValue = propInfo?.GetValue(poco);
 
             if (propertyValue == null)

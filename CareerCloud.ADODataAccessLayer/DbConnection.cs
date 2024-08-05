@@ -4,7 +4,8 @@
 //
 //      1- Implement insert all/multiple records in one batch (batch processing ?)          [x]
 //      2- Add appconfig instead of string                                                  [x]
-//      3- Implement transactions
+//      3- Implement update multiple records based on a query: ie use MERGE
+//      4- Implement transactions
 //      4- Implement schemas names? if not default dbo
 //      5- Implement exceptions handling rather than re-throw, custom exceptions
 //      6- Check if code is compliant with S.O.L.I.D principles, refactor if necessary      [On going...]
