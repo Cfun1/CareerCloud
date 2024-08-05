@@ -13,6 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CareerCloud.ADODataAccessLa
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D80E218E-33FB-4234-AE9E-2AE0CEB1CC19}"
 	ProjectSection(SolutionItems) = preProject
+		MyNotes.txt = MyNotes.txt
 		NoteToAmandeep.txt = NoteToAmandeep.txt
 	EndProjectSection
 EndProject
