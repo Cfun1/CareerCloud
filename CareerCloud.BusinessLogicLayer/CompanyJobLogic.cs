@@ -14,19 +14,25 @@ public class CompanyJobLogic : BaseLogic<CompanyJobPoco>
         Verify(pocos);
         base.Add(pocos);
     }
+    public override void Update(CompanyJobPoco[] pocos)
+    {
+        Verify(pocos);
+        base.Update(pocos);
+    }
+
     protected override void Verify(CompanyJobPoco[] pocos)
     {
-        List<ValidationException> validationExceptions = new List<ValidationException>();
+        //List<ValidationException> validationExceptions = new List<ValidationException>();
 
-        foreach (var poco in pocos)
-        {
-            if (poco)
-                validationExceptions.Add(new ValidationException(
-                                  ExceptionCodes,
-                                  $" "));
-        }
+        //foreach (var poco in pocos)
+        //{
+        //    if (poco)
+        //        validationExceptions.Add(new ValidationException(
+        //                          ExceptionCodes,
+        //                          $" "));
+        //}
 
-        if (validationExceptions.Count > 0)
-            throw new AggregateException(validationExceptions);
+        //if (validationExceptions.Count > 0)
+        //    throw new AggregateException(validationExceptions);
     }
 }

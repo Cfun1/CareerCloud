@@ -15,16 +15,33 @@ public class ApplicantEducationLogic : BaseLogic<ApplicantEducationPoco>
         base.Add(pocos);
     }
 
+    public override void Update(ApplicantEducationPoco[] pocos)
+    {
+        Verify(pocos);
+        base.Update(pocos);
+    }
+
     protected override void Verify(ApplicantEducationPoco[] pocos)
     {
         List<ValidationException> validationExceptions = new List<ValidationException>();
 
         foreach (var poco in pocos)
         {
-            if (string.IsNullOrEmpty(poco.Major) || poco.Major.Length < 3)
+            if (string.IsNullOrEmpty(poco.Major))
+            {
                 validationExceptions.Add(
-                    new ValidationException(ExceptionCodes.ApplicantEducation_Major, "Cannot be empty or less than 3 characters"));
+                    new ValidationException(ExceptionCodes.ApplicantEducation_Major
+                    , $"{nameof(poco.Major)} Cannot be empty or less than 3 characters"));
+            }
+            else if (poco.Major.Length < 3)
+            {
+                validationExceptions.Add(
+                    new ValidationException(ExceptionCodes.ApplicantEducation_Major
+                    , $"{nameof(poco.Major)}: {poco.Major}  Cannot be empty or less than 3 characters"));
+            }
 
+
+            //todo DateTime.Now or DateTime.Today ?
             if (poco.StartDate > DateTime.Now)
                 validationExceptions.Add(
                     new ValidationException(ExceptionCodes.ApplicantEducation_StartDate,

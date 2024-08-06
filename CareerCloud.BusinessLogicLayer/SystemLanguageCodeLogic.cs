@@ -14,7 +14,28 @@ public class SystemLanguageCodeLogic
 
     protected virtual void Verify(SystemLanguageCodePoco[] pocos)
     {
-        return;
+        List<ValidationException> validationExceptions = new List<ValidationException>();
+
+        foreach (var poco in pocos)
+        {
+            if (string.IsNullOrEmpty(poco.LanguageID))
+                validationExceptions.Add(new ValidationException(
+                                  ExceptionCodes.SystemLanguageCode_LanguageID,
+                                  $"{nameof(poco.LanguageID)} Cannot be empty"));
+
+            if (string.IsNullOrEmpty(poco.Name))
+                validationExceptions.Add(new ValidationException(
+                                  ExceptionCodes.SystemLanguageCode_Name,
+                                  $"{nameof(poco.Name)} Cannot be empty"));
+
+            if (string.IsNullOrEmpty(poco.NativeName))
+                validationExceptions.Add(new ValidationException(
+                                  ExceptionCodes.SystemLanguageCode_NativeName,
+                                  $"{nameof(poco.NativeName)} Cannot be empty"));
+        }
+
+        if (validationExceptions.Count > 0)
+            throw new AggregateException(validationExceptions);
     }
 
     public virtual SystemLanguageCodePoco Get(string languageID)
@@ -29,19 +50,13 @@ public class SystemLanguageCodeLogic
 
     public virtual void Add(SystemLanguageCodePoco[] pocos)
     {
-        foreach (SystemLanguageCodePoco poco in pocos)
-        {
-            if (string.IsNullOrEmpty(poco.LanguageID))
-            {
-
-            }
-        }
-
+        Verify(pocos);
         _repository.Add(pocos);
     }
 
     public virtual void Update(SystemLanguageCodePoco[] pocos)
     {
+        Verify(pocos);
         _repository.Update(pocos);
     }
 

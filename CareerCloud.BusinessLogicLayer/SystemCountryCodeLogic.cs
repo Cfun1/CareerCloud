@@ -14,7 +14,23 @@ public class SystemCountryCodeLogic
 
     protected virtual void Verify(SystemCountryCodePoco[] pocos)
     {
-        return;
+        List<ValidationException> validationExceptions = new List<ValidationException>();
+
+        foreach (var poco in pocos)
+        {
+            if (string.IsNullOrEmpty(poco.Code))
+                validationExceptions.Add(new ValidationException(
+                                  ExceptionCodes.SystemCountryCode_Code,
+                                  $"{nameof(poco.Code)} Cannot be empty"));
+
+            if (string.IsNullOrEmpty(poco.Name))
+                validationExceptions.Add(new ValidationException(
+                                  ExceptionCodes.SystemCountryCode_Name,
+                                  $"{nameof(poco.Name)} Cannot be empty"));
+        }
+
+        if (validationExceptions.Count > 0)
+            throw new AggregateException(validationExceptions);
     }
 
     public virtual SystemCountryCodePoco Get(string code)
@@ -29,19 +45,13 @@ public class SystemCountryCodeLogic
 
     public virtual void Add(SystemCountryCodePoco[] pocos)
     {
-        foreach (SystemCountryCodePoco poco in pocos)
-        {
-            if (string.IsNullOrEmpty(poco.Code))
-            {
-
-            }
-        }
-
+        Verify(pocos);
         _repository.Add(pocos);
     }
 
     public virtual void Update(SystemCountryCodePoco[] pocos)
     {
+        Verify(pocos);
         _repository.Update(pocos);
     }
 

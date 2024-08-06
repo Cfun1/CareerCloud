@@ -14,16 +14,22 @@ public class SecurityRoleLogic : BaseLogic<SecurityRolePoco>
         Verify(pocos);
         base.Add(pocos);
     }
+    public override void Update(SecurityRolePoco[] pocos)
+    {
+        Verify(pocos);
+        base.Update(pocos);
+    }
+
     protected override void Verify(SecurityRolePoco[] pocos)
     {
         List<ValidationException> validationExceptions = new List<ValidationException>();
 
         foreach (var poco in pocos)
         {
-            if (poco)
+            if (string.IsNullOrEmpty(poco.Role))
                 validationExceptions.Add(new ValidationException(
-                                  ExceptionCodes,
-                                  $" "));
+                                  ExceptionCodes.SecurityRole_Role,
+                                  $"{nameof(poco.Role)} Cannot be empty"));
         }
 
         if (validationExceptions.Count > 0)
