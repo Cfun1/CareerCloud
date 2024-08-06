@@ -1,10 +1,11 @@
-﻿using System.Security.Cryptography;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using CareerCloud.DataAccessLayer;
 using CareerCloud.Pocos;
 
 namespace CareerCloud.BusinessLogicLayer;
+
 public class SecurityLoginLogic : BaseLogic<SecurityLoginPoco>
 {
     private const int saltLengthLimit = 10;
@@ -174,4 +175,4 @@ public class SecurityLoginLogic : BaseLogic<SecurityLoginPoco>
         string expectedHashString = ComputeHash(plainText, saltBytes);
         return (hashValue == expectedHashString);
     }
-
+}
