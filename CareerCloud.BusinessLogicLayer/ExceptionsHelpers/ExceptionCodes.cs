@@ -40,6 +40,5 @@ internal static class ExceptionCodes
     internal const int SystemLanguageCode_LanguageID = 1000;
     internal const int SystemLanguageCode_Name = 1001;
     internal const int SystemLanguageCode_NativeName = 1002;
-
 }
 
