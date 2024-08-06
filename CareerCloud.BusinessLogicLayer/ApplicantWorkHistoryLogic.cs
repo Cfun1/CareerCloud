@@ -21,7 +21,9 @@ public class ApplicantWorkHistoryLogic : BaseLogic<ApplicantWorkHistoryPoco>
         foreach (var poco in pocos)
         {
             if (poco)
-                validationExceptions.Add(new ValidationException(110, ""));
+                validationExceptions.Add(new ValidationException(
+                                  ExceptionCodes,
+                                  $" "));
         }
 
         if (validationExceptions.Count > 0)
