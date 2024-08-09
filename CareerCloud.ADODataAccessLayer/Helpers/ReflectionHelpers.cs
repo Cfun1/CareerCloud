@@ -12,20 +12,26 @@ internal static class ReflectionHelpers
                 .FirstOrDefault() as TableAttribute)?.Name;
 
     /*** Retireve name and value of the first property having custom attribute "key" from T type using refelction ***/
-    internal static (string, object) GetKeyPropertyFrom<T>(T poco) where T : new()
+    internal static (string, object) GetKeyPropertyNameValueFrom<T>(T poco) where T : new()
     {
         if (poco == null)
             throw new ArgumentNullException(nameof(poco));
 
+        var keyPropertyName = GetKeyPropertyNameFrom<T>();
+        var keyValue = GetPropertyValueOf<T>(poco, keyPropertyName);
+
+        return (keyPropertyName, keyValue);
+    }
+
+    internal static string GetKeyPropertyNameFrom<T>() where T : new()
+    {
         var keyProperty = typeof(T).GetProperties()
-          .Where(prop => prop.GetCustomAttributes(typeof(KeyAttribute), false).Any()).FirstOrDefault();
+         .Where(prop => prop.GetCustomAttributes(typeof(KeyAttribute), false).Any()).FirstOrDefault();
 
         if (keyProperty is null)
             throw new KeyNotFoundException($"Property with key attribute not found for {typeof(T)}");
 
-        var keyValue = GetPropertyValueOf(poco, keyProperty.Name);
-
-        return (keyProperty.Name, keyValue);
+        return keyProperty.Name;
     }
 
     internal static object? GetPropertyValueOf<T>(T poco, string propertyName) where T : new()
@@ -38,6 +44,21 @@ internal static class ReflectionHelpers
             throw new ArgumentNullException($"Unexpected Property info is null {typeof(T)}");
 
         return propInfo?.GetValue(poco);
+    }
+
+    internal static Type? GetPropertyTypeOf<T>(string propertyName) where T : new()
+    {
+        PropertyInfo? propInfo = typeof(T)?.GetProperty(propertyName);
+        if (propInfo is null)
+            throw new ArgumentNullException($"Unexpected Property info is null {typeof(T)}");
+
+        var propType = propInfo.PropertyType;
+        //handle nullable types
+        if (propType.IsGenericType && propType.GetGenericTypeDefinition().Equals(typeof(Nullable<>)))
+        {
+            propType = Nullable.GetUnderlyingType(propType);
+        }
+        return propType;
     }
 
     internal static IEnumerable<string> GetPropertiesNamesOf<T>(bool skipKey = false)

@@ -1,4 +1,4 @@
-﻿//***********           TODOs
+﻿//***********           TODOs List
 //              Improve code quality
 //      //[PRIVACY_OMITTED]
 //
@@ -39,7 +39,7 @@ public static class DbConnection
     static SqlConnection _sqlCnn;
     public static SqlConnection SqlCnn => _sqlCnn ??= new SqlConnection(cnnStr);
 
-    public static void Insert<T>(params T[] pocos) where T : new() //, IPoco
+    public static void Insert<T>(params T[] pocos) where T : class, new() //T is a reference and non-abstract, IPoco
     {
         (string columnsNameStatement, string columnsVal, SqlParameter[] parameters) sqlInsertContext;
 
@@ -75,7 +75,7 @@ public static class DbConnection
         }
     }
 
-    public static IList<T> GetAllRecords<T>() where T : new()//, IPoco
+    public static IList<T> GetAllRecords<T>() where T : class, new() //T is a reference and non-abstract, IPoco
     {
         List<T> applicantProfiles = new List<T>();
 
@@ -117,7 +117,7 @@ public static class DbConnection
         //[[connected::]]  }
     }
 
-    public static void Delete<T>(params T[] pocos) where T : new() //, IPoco
+    public static void Delete<T>(params T[] pocos) where T : class, new() //T is a reference and non-abstract, IPoco
     {
         (string Name, object Value) sqlKeyTuple;
 
@@ -129,7 +129,7 @@ public static class DbConnection
         {
             try
             {
-                sqlKeyTuple = ReflectionHelpers.GetKeyPropertyFrom<T>(poco);
+                sqlKeyTuple = ReflectionHelpers.GetKeyPropertyNameValueFrom<T>(poco);
             }
             catch (ArgumentNullException)
             {
@@ -164,7 +164,7 @@ public static class DbConnection
         }
     }
 
-    public static void Update<T>(params T[] pocos) where T : new() //, IPoco
+    public static void Update<T>(params T[] pocos) where T : class, new() //T is a reference and non-abstract, IPoco
     {
         (string QueryStr, SqlParameter[] parameters) sqlUpdateContext;
 
@@ -183,7 +183,7 @@ public static class DbConnection
                     if (poco is null)
                         throw new ArgumentNullException(nameof(poco));
 
-                    var (sqlKeyColumnName, sqlKeyColumnValue) = ReflectionHelpers.GetKeyPropertyFrom<T>(poco);
+                    var (sqlKeyColumnName, sqlKeyColumnValue) = ReflectionHelpers.GetKeyPropertyNameValueFrom<T>(poco);
                     sqlUpdateContext = DbQueryHelpers.PrepareUpdateQueryFields<T>(poco, skipKey: true);
 
                     cmd.CommandText = $"UPDATE {sqlTableName} SET {sqlUpdateContext.QueryStr} WHERE {sqlKeyColumnName} = @{sqlKeyColumnName}";
@@ -214,4 +214,97 @@ public static class DbConnection
             }
         }
     }
+    /*
+    public static void UpdateMerge<T>(params T[] pocos) where T : class, new() //T is a reference and non-abstract, IPoco
+    {
+        //note: not yet ready
+        throw new NotImplementedException();
+
+        (string QueryStr, SqlParameter[] parameters) sqlUpdateContext;
+
+        using (SqlCommand cmd = SqlCnn.CreateCommand())
+        {
+            cmd.CommandType = CommandType.Text;
+
+            var sqlTableName = ReflectionHelpers.GetTableNameFrom<T>();
+            if (sqlTableName == null)
+                throw new Exception("Unexpected error: table attribute not found");
+
+            try
+            {
+                foreach (var poco in pocos)
+                {
+                    if (poco is null)
+                        throw new ArgumentNullException(nameof(poco));
+                }
+                 
+                   //'MERGE Security_Logins as trg
+                   //     using ##TEMPTAB as src
+                   //         ON trg.Id = src.Id
+                   //             when matched THEN UPDATE SET ' +
+                   //         (select STRING_AGG('trg.' + QUOTENAME(c.name) + ' = src.' + QUOTENAME(c.name), ', ') + ';'
+                   //         FROM sys.columns c
+                   //             WHERE c.object_id = OBJECT_ID('Security_Logins')
+                   //             AND c.name <> 'Id' and c.name <> 'Time_Stamp')
+                  
+    DataTable tempTable = CreateDataTable<T>("#" + sqlTableName, pocos);
+
+    //tempTable.sc
+
+   //var sqlKeyColumnName = ReflectionHelpers.GetKeyPropertyNameFrom<T>();
+   //var sqlMergeUpdateQuery = DbQueryHelpers.PrepareMergeQueryFields<T>(sqlTableName, sqlKeyColumnName, excludedColumns);
+
+   //cmd.CommandText = $"MERGE {sqlTableName} AS trg using {tempTable} AS src " +
+     //  $"ON trg.{sqlKeyColumnName} = src.{sqlKeyColumnName}" +
+      // $"WHEN MATCHED THEN UPDATE SET " +
+       //$"SET (select STRING_AGG('trg.' + QUOTENAME(c.name) + ' = src.' + QUOTENAME(c.name), ', ') + ';'\r\n                            FROM sys.columns c\r\n                                WHERE c.object_id = OBJECT_ID('{sqlTableName}')\r\n AND c.name <> '{sqlKeyColumnName}')";
+   //add exluded columns: and c.name <> 'Time_Stamp'
+    
+    SqlCnn.Open();
+                cmd.ExecuteNonQuery();
+            }
+            catch (ArgumentNullException)
+            {
+                throw;
+            }
+            catch (KeyNotFoundException)
+            {
+    throw;
+}
+            catch (SqlException ex)
+            {
+                throw;
+            }
+            finally
+            {
+    cmd.Dispose();
+    SqlCnn.Close();
+}
+        }
+    }
+
+    public static DataTable CreateDataTable<T>(string tableName, IEnumerable<T> pocos) where T : class, new() //T is a reference and non-abstract, IPoco
+{
+    Type type = typeof(T);
+    var properties = ReflectionHelpers.GetPropertiesNamesOf<T>(true);
+
+    DataTable dataTable = new DataTable();
+    dataTable.TableName = tableName;
+
+    foreach (var prop in properties)
+    {
+        dataTable.Columns.Add(new DataColumn(ReflectionHelpers.GetColumnFromProperty<T>(prop),
+            ReflectionHelpers.GetPropertyTypeOf<T>(prop)));
+    }
+
+    object[] objectArray = (object[])pocos;
+
+    foreach (var pocoObj in objectArray)
+    {
+        dataTable.Rows.Add(pocoObj);
+    }
+
+    return dataTable;
+}
+*/
 }

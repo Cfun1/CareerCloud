@@ -41,6 +41,6 @@ public class ApplicantProfileRepository : IDataRepository<ApplicantProfilePoco>
     public void Update(params ApplicantProfilePoco[] items)
     {
         DbConnection.Update<ApplicantProfilePoco>(items);
+        //  DbConnection.UpdateMerge<ApplicantProfilePoco>(items);
     }
-
 }

@@ -9,7 +9,7 @@ internal static class DbQueryHelpers
     /*** Build the sql INSERT INTO string query, plus relevant columns value/parameters for T type using refelction ***/
     internal static (string, string, SqlParameter[]) PrepareInsertQueryFields<TPoco>(
           bool skipKey = false, params TPoco[] pocos)
-        where TPoco : new()
+        where TPoco : class, new() //TPoco is a reference and non-abstract, IPoco
     {
         StringBuilder columnsNamesStr = new(string.Empty),
                       columnsValuesStr = new(string.Empty);
@@ -79,7 +79,7 @@ internal static class DbQueryHelpers
 
     /*** Build the sql UPDATE string query, plus relevant columns value/parameters for T type using refelction ***/
     internal static (string, SqlParameter[]) PrepareUpdateQueryFields<TPoco>(TPoco poco, bool skipKey = false)
-        where TPoco : new()
+        where TPoco : class, new() //TPoco is a reference and non-abstract, IPoco
     {
         List<SqlParameter> sqlParameters = new();
         StringBuilder queryStr = new StringBuilder();
@@ -107,4 +107,32 @@ internal static class DbQueryHelpers
         queryStr.Remove(queryStr.Length - 2, 2);    //remove last ','
         return (queryStr.ToString(), sqlParameters.ToArray());
     }
+
+    /*
+    internal static string PrepareMergeQueryFields<TPoco>(string sqlTableName, string sqlKeyColumnName, string[]? excludedColumns = null) where TPoco : class, new()
+    {
+        List<SqlParameter> sqlParameters = new();
+        StringBuilder queryStr = new StringBuilder();
+        IEnumerable<string> propertiesName;
+
+        propertiesName = ReflectionHelpers.GetPropertiesNamesOf<TPoco>(true);
+        if (propertiesName.Count() == 0)
+            throw new Exception("No properties found !?");
+
+        foreach (var propertyName in propertiesName)
+        {
+            string ColumnName = ReflectionHelpers.GetColumnFromProperty<TPoco>(propertyName);
+
+            PropertyInfo? propInfo = typeof(TPoco)?.GetProperty(propertyName);
+            //object? propertyValue = propInfo?.GetValue(poco);
+
+            //if (propertyValue == null)
+            //  continue;
+
+            //sqlParameters.Add(new SqlParameter(propertyName, propertyValue));
+            queryStr.Append($"{ColumnName}= @{propertyName}, ");
+        }
+        return queryStr.ToString();
+    }
+    */
 }

@@ -25,12 +25,7 @@ public static class DataTableExtensions
 
                 var value = row[columnName];
 
-                var propType = property.PropertyType;
-                //handle nullable types
-                if (propType.IsGenericType && propType.GetGenericTypeDefinition().Equals(typeof(Nullable<>)))
-                {
-                    propType = Nullable.GetUnderlyingType(propType);
-                }
+                var propType = ReflectionHelpers.GetPropertyTypeOf<T>(property.Name);
 
                 //avoid Object cannot be cast from DBNull to other types exception
                 property.SetValue(item, value == DBNull.Value ? null : Convert.ChangeType(value, propType!));
