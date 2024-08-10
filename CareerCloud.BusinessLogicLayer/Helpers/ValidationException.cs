@@ -1,4 +1,4 @@
-﻿namespace CareerCloud.BusinessLogicLayer;
+﻿namespace CareerCloud.BusinessLogicLayer.Helpers;
 
 public class ValidationException : Exception
 {
