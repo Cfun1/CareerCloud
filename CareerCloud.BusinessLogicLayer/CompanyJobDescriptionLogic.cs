@@ -29,12 +29,12 @@ public class CompanyJobDescriptionLogic : BaseLogic<CompanyJobDescriptionPoco>
             if (string.IsNullOrEmpty(poco.JobName))
                 validationExceptions.Add(new ValidationException(
                                   ExceptionCodes.CompanyJobDescription_JobName,
-                                  $"{nameof(poco.JobName)} cannot be empty"));
+                                  $"{nameof(poco.JobName)} cannot be null or empty"));
 
             if (string.IsNullOrEmpty(poco.JobDescriptions))
                 validationExceptions.Add(new ValidationException(
                                   ExceptionCodes.CompanyJobDescription_JobDescriptions,
-                                  $"{nameof(poco.JobDescriptions)} cannot be empty"));
+                                  $"{nameof(poco.JobDescriptions)} cannot be null or empty"));
         }
 
         if (validationExceptions.Count > 0)

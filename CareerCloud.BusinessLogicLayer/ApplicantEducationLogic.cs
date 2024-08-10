@@ -40,8 +40,6 @@ public class ApplicantEducationLogic : BaseLogic<ApplicantEducationPoco>
                     , $"{nameof(poco.Major)}: {poco.Major}  Cannot be empty or less than 3 characters"));
             }
 
-
-            //todo DateTime.Now or DateTime.Today ?
             if (poco.StartDate > DateTime.Now)
                 validationExceptions.Add(
                     new ValidationException(ExceptionCodes.ApplicantEducation_StartDate,

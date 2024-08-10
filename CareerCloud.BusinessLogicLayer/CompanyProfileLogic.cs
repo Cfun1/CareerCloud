@@ -56,7 +56,7 @@ public class CompanyProfileLogic : BaseLogic<CompanyProfilePoco>
             {
                 validationExceptions.Add(new ValidationException(
                                   ExceptionCodes.CompanyProfile_ContactPhone,
-                                  $"{nameof(poco.ContactPhone)}: {poco.ContactPhone} Must correspond to a               valid phone number (e.g. 416-555-1234)"));
+                                  $"{nameof(poco.ContactPhone)}: {poco.ContactPhone} Must correspond to a valid phone number (e.g. 416-555-1234)"));
             }
         }
 
