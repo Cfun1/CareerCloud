@@ -1,6 +1,7 @@
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
+using CareerCloud.BusinessLogicLayer.Helpers;
 using CareerCloud.DataAccessLayer;
 using CareerCloud.Pocos;
 
@@ -73,32 +74,11 @@ public class SecurityLoginLogic : BaseLogic<SecurityLoginPoco>
                 exceptions.Add(new ValidationException(ExceptionCodes.SecurityLogin_PhoneNumberEmpty,
                     $"PhoneNumber for SecurityLogin {poco.Id} is required"));
             }
-            else
+
+            else if (!ValidationHelper.IsPhoneValide(poco.PhoneNumber))
             {
-                string[] phoneComponents = poco.PhoneNumber.Split('-');
-                if (phoneComponents.Length != 3)
-                {
-                    exceptions.Add(new ValidationException(ExceptionCodes.SecurityLogin_PhoneNumberPattern,
-                        $"PhoneNumber for SecurityLogin {poco.Id} is not in the required format."));
-                }
-                else
-                {
-                    if (phoneComponents[0].Length != 3)
-                    {
-                        exceptions.Add(new ValidationException(ExceptionCodes.SecurityLogin_PhoneNumberPattern,
-                            $"PhoneNumber for SecurityLogin {poco.Id} is not in the required format."));
-                    }
-                    else if (phoneComponents[1].Length != 3)
-                    {
-                        exceptions.Add(new ValidationException(ExceptionCodes.SecurityLogin_PhoneNumberPattern,
-                            $"PhoneNumber for SecurityLogin {poco.Id} is not in the required format."));
-                    }
-                    else if (phoneComponents[2].Length != 4)
-                    {
-                        exceptions.Add(new ValidationException(ExceptionCodes.SecurityLogin_PhoneNumberPattern,
-                            $"PhoneNumber for SecurityLogin {poco.Id} is not in the required format."));
-                    }
-                }
+                exceptions.Add(new ValidationException(ExceptionCodes.SecurityLogin_PhoneNumberPattern,
+               $"PhoneNumber for SecurityLogin {poco.Id} is not in the required format."));
             }
 
             if (string.IsNullOrEmpty(poco.EmailAddress))

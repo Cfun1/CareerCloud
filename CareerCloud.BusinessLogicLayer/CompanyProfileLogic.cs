@@ -1,3 +1,4 @@
+using CareerCloud.BusinessLogicLayer.Helpers;
 using CareerCloud.DataAccessLayer;
 using CareerCloud.Pocos;
 
@@ -52,11 +53,11 @@ public class CompanyProfileLogic : BaseLogic<CompanyProfilePoco>
                                   ExceptionCodes.CompanyProfile_ContactPhone,
                                   $"{nameof(poco.ContactPhone)}: Must correspond to a valid phone number (e.g. 416-555-1234)"));
             }
-            else if (!poco.ContactPhone.EndsWith(".ca"))
+            else if (!ValidationHelper.IsPhoneValide(poco.ContactPhone))
             {
                 validationExceptions.Add(new ValidationException(
-                                  ExceptionCodes.CompanyProfile_ContactPhone,
-                                  $"{nameof(poco.ContactPhone)}: {poco.ContactPhone} Must correspond to a valid phone number (e.g. 416-555-1234)"));
+                          ExceptionCodes.CompanyProfile_ContactPhone,
+                        $"{nameof(poco.ContactPhone)}: {poco.ContactPhone} Must correspond to a valid phone number (e.g. 416-555-1234)"));
             }
         }
 
