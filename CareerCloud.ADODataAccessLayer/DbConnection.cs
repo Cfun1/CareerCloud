@@ -19,7 +19,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace CareerCloud.ADODataAccessLayer;
 
-public static class DbConnection
+internal static class DbConnection
 {
     //modified from string literal to appsentig after 15/07 class - readonly only ini once in the static ctor
     static readonly string? cnnStr;  //= @"Server=localhost\MSSQLDEV; Database=JOB_PORTAL_DB; Integrated Security=true; TrustServerCertificate=True; Application Name='ADO.NET //[PRIVACY_OMITTED] Demo App'";
@@ -37,9 +37,9 @@ public static class DbConnection
     }
 
     static SqlConnection _sqlCnn;
-    public static SqlConnection SqlCnn => _sqlCnn ??= new SqlConnection(cnnStr);
+    internal static SqlConnection SqlCnn => _sqlCnn ??= new SqlConnection(cnnStr);
 
-    public static void Insert<T>(params T[] pocos) where T : class, new() //T is a reference and non-abstract, IPoco
+    internal static void Insert<T>(params T[] pocos) where T : class, new() //T is a reference and non-abstract, IPoco
     {
         (string columnsNameStatement, string columnsVal, SqlParameter[] parameters) sqlInsertContext;
 
@@ -75,7 +75,7 @@ public static class DbConnection
         }
     }
 
-    public static IList<T> GetAllRecords<T>() where T : class, new() //T is a reference and non-abstract, IPoco
+    internal static IList<T> GetAllRecords<T>() where T : class, new() //T is a reference and non-abstract, IPoco
     {
         List<T> applicantProfiles = new List<T>();
 
@@ -117,7 +117,7 @@ public static class DbConnection
         //[[connected::]]  }
     }
 
-    public static void Delete<T>(params T[] pocos) where T : class, new() //T is a reference and non-abstract, IPoco
+    internal static void Delete<T>(params T[] pocos) where T : class, new() //T is a reference and non-abstract, IPoco
     {
         (string Name, object Value) sqlKeyTuple;
 
@@ -164,7 +164,7 @@ public static class DbConnection
         }
     }
 
-    public static void Update<T>(params T[] pocos) where T : class, new() //T is a reference and non-abstract, IPoco
+    internal static void Update<T>(params T[] pocos) where T : class, new() //T is a reference and non-abstract, IPoco
     {
         (string QueryStr, SqlParameter[] parameters) sqlUpdateContext;
 
@@ -215,7 +215,7 @@ public static class DbConnection
         }
     }
     /*
-    public static void UpdateMerge<T>(params T[] pocos) where T : class, new() //T is a reference and non-abstract, IPoco
+    internal static void UpdateMerge<T>(params T[] pocos) where T : class, new() //T is a reference and non-abstract, IPoco
     {
         //note: not yet ready
         throw new NotImplementedException();
@@ -283,7 +283,7 @@ public static class DbConnection
         }
     }
 
-    public static DataTable CreateDataTable<T>(string tableName, IEnumerable<T> pocos) where T : class, new() //T is a reference and non-abstract, IPoco
+    internal static DataTable CreateDataTable<T>(string tableName, IEnumerable<T> pocos) where T : class, new() //T is a reference and non-abstract, IPoco
 {
     Type type = typeof(T);
     var properties = ReflectionHelpers.GetPropertiesNamesOf<T>(true);

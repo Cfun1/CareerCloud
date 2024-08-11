@@ -3,10 +3,10 @@ using Microsoft.Data.SqlClient;
 
 namespace CareerCloud.ADODataAccessLayer;
 
-public static class DataReaderExtensions
+internal static class DataReaderExtensions
 {
     //use access by name [] instead of using GetType() methods of reader, more flexible for generic approach
-    public static List<T> MapToListOf<T>(this SqlDataReader reader) where T : new()
+    internal static List<T> MapToListOf<T>(this SqlDataReader reader) where T : new()
     {
         var results = new List<T>();
         var properties = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
@@ -39,7 +39,7 @@ public static class DataReaderExtensions
     }
 
     // Extension method to check if a column exists in the data reader
-    public static bool HasColumn(this SqlDataReader reader, string columnName)
+    internal static bool HasColumn(this SqlDataReader reader, string columnName)
     {
         for (int i = 0; i < reader.FieldCount; i++)
         {

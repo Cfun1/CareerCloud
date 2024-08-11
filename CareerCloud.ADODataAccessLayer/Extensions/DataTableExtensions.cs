@@ -3,9 +3,9 @@ using System.Reflection;
 
 
 namespace CareerCloud.ADODataAccessLayer;
-public static class DataTableExtensions
+internal static class DataTableExtensions
 {
-    public static List<T> MapToListOf<T>(this DataTable dataTable) where T : new()
+    internal static List<T> MapToListOf<T>(this DataTable dataTable) where T : new()
     {
         var pocos = new List<T>();
         var properties = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
@@ -38,6 +38,6 @@ public static class DataTableExtensions
     }
 
     // Extension method to check if a column exists in the data reader
-    public static bool HasColumn(this DataTable dataTable, string columnName)
+    internal static bool HasColumn(this DataTable dataTable, string columnName)
         => dataTable.Columns.Contains(columnName);
 }
