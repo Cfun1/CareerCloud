@@ -1,6 +1,6 @@
 ﻿//***********           TODOs List
 //              Improve code quality
-//      //[PRIVACY_OMITTED]
+//[PRIVACY_OMITTED]
 //
 //      1- Implement insert all/multiple records in one batch (batch processing ?)          [x]
 //      2- Add appconfig instead of string                                                  [x]
