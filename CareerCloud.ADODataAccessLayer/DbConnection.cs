@@ -4,7 +4,7 @@
 //
 //      1- Implement insert all/multiple records in one batch (batch processing ?)          [x]
 //      2- Add appconfig instead of string                                                  [x]
-//      3- Implement update multiple records based on a query: ie use MERGE
+//      3- Implement update multiple records: adapter.Update(dataset)
 //      4- Implement transactions
 //      4- Implement schemas names? if not default dbo
 //      5- Implement exceptions handling rather than re-throw, custom exceptions
@@ -21,8 +21,7 @@ namespace CareerCloud.ADODataAccessLayer;
 
 internal static class DbConnection
 {
-    //modified from string literal to appsentig after 15/07 class - readonly only ini once in the static ctor
-    static readonly string? cnnStr;  //= @"Server=localhost\MSSQLDEV; Database=JOB_PORTAL_DB; Integrated Security=true; TrustServerCertificate=True; Application Name='ADO.NET //[PRIVACY_OMITTED] Demo App'";
+    static readonly string? cnnStr;
 
     static DbConnection()
     {
@@ -214,97 +213,15 @@ internal static class DbConnection
             }
         }
     }
-    /*
-    internal static void UpdateMerge<T>(params T[] pocos) where T : class, new() //T is a reference and non-abstract, IPoco
+
+    internal static void UpdateMultiple<T>(params T[] pocos) where T : class, new() //T is a reference and non-abstract, IPoco
     {
         //note: not yet ready
+        //https://stackoverflow.com/questions/5889102/ado-net-updating-multiple-datatables
+        //1. open transaction, init dataset
+        //2. use adapter.Update(dataset) method in connected mode
+        //3. commit transaction
         throw new NotImplementedException();
 
-        (string QueryStr, SqlParameter[] parameters) sqlUpdateContext;
-
-        using (SqlCommand cmd = SqlCnn.CreateCommand())
-        {
-            cmd.CommandType = CommandType.Text;
-
-            var sqlTableName = ReflectionHelpers.GetTableNameFrom<T>();
-            if (sqlTableName == null)
-                throw new Exception("Unexpected error: table attribute not found");
-
-            try
-            {
-                foreach (var poco in pocos)
-                {
-                    if (poco is null)
-                        throw new ArgumentNullException(nameof(poco));
-                }
-                 
-                   //'MERGE Security_Logins as trg
-                   //     using ##TEMPTAB as src
-                   //         ON trg.Id = src.Id
-                   //             when matched THEN UPDATE SET ' +
-                   //         (select STRING_AGG('trg.' + QUOTENAME(c.name) + ' = src.' + QUOTENAME(c.name), ', ') + ';'
-                   //         FROM sys.columns c
-                   //             WHERE c.object_id = OBJECT_ID('Security_Logins')
-                   //             AND c.name <> 'Id' and c.name <> 'Time_Stamp')
-                  
-    DataTable tempTable = CreateDataTable<T>("#" + sqlTableName, pocos);
-
-    //tempTable.sc
-
-   //var sqlKeyColumnName = ReflectionHelpers.GetKeyPropertyNameFrom<T>();
-   //var sqlMergeUpdateQuery = DbQueryHelpers.PrepareMergeQueryFields<T>(sqlTableName, sqlKeyColumnName, excludedColumns);
-
-   //cmd.CommandText = $"MERGE {sqlTableName} AS trg using {tempTable} AS src " +
-     //  $"ON trg.{sqlKeyColumnName} = src.{sqlKeyColumnName}" +
-      // $"WHEN MATCHED THEN UPDATE SET " +
-       //$"SET (select STRING_AGG('trg.' + QUOTENAME(c.name) + ' = src.' + QUOTENAME(c.name), ', ') + ';'\r\n                            FROM sys.columns c\r\n                                WHERE c.object_id = OBJECT_ID('{sqlTableName}')\r\n AND c.name <> '{sqlKeyColumnName}')";
-   //add exluded columns: and c.name <> 'Time_Stamp'
-    
-    SqlCnn.Open();
-                cmd.ExecuteNonQuery();
-            }
-            catch (ArgumentNullException)
-            {
-                throw;
-            }
-            catch (KeyNotFoundException)
-            {
-    throw;
-}
-            catch (SqlException ex)
-            {
-                throw;
-            }
-            finally
-            {
-    cmd.Dispose();
-    SqlCnn.Close();
-}
-        }
     }
-
-    internal static DataTable CreateDataTable<T>(string tableName, IEnumerable<T> pocos) where T : class, new() //T is a reference and non-abstract, IPoco
-{
-    Type type = typeof(T);
-    var properties = ReflectionHelpers.GetPropertiesNamesOf<T>(true);
-
-    DataTable dataTable = new DataTable();
-    dataTable.TableName = tableName;
-
-    foreach (var prop in properties)
-    {
-        dataTable.Columns.Add(new DataColumn(ReflectionHelpers.GetColumnFromProperty<T>(prop),
-            ReflectionHelpers.GetPropertyTypeOf<T>(prop)));
-    }
-
-    object[] objectArray = (object[])pocos;
-
-    foreach (var pocoObj in objectArray)
-    {
-        dataTable.Rows.Add(pocoObj);
-    }
-
-    return dataTable;
-}
-*/
 }

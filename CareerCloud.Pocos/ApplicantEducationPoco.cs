@@ -11,6 +11,8 @@ public class ApplicantEducationPoco : IPoco
     public Guid Id { get; set; }
 
     //TODO: ForeignKey: ApplicantProfilePoco.Id
+    //at api layer possibly need JsonIgnore attribute to avoid overflow exception caused by infinite relationship loop when serializing json
+    //with EF, the property would be defined as virtual to enable lazy loading by EF
     [Column("Applicant")]
     public Guid Applicant { get; set; }
 
