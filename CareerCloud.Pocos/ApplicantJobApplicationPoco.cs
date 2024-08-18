@@ -14,18 +14,23 @@ public class ApplicantJobApplicationPoco : IPoco
     [ForeignKey(nameof(Applicant))]
     public ApplicantProfilePoco ApplicantProfile { get; set; }
 
+
     [Column("Applicant")]
     public Guid Applicant { get; set; }
 
+
     [Column("Application_Date")]
     public DateTime ApplicationDate { get; set; }
+
 
     //TODO: ForeignKey: CompanyJobPoco.Id
     [ForeignKey(nameof(Job))]
     public CompanyJobPoco CompanyJob { get; set; }
 
+
     [Column("Job")]
     public Guid Job { get; set; }
+
 
     [Column("Time_Stamp"), Timestamp]
     public byte[] TimeStamp { get; set; }

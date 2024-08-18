@@ -14,39 +14,51 @@ public class ApplicantWorkHistoryPoco : IPoco
     [ForeignKey(nameof(Applicant))]
     public ApplicantProfilePoco ApplicantProfile { get; set; }
 
+
     [Column("Applicant")]
     public Guid Applicant { get; set; }
 
+
     [Column("Company_Name")]
     public string CompanyName { get; set; }
+
 
     //TODO: ForeignKey: SystemCountryCodePoco.Code
     [ForeignKey(nameof(CountryCode))]
     public SystemCountryCodePoco SystemCountryCode { get; set; }
 
+
     [Column("Country_Code")]
     public string CountryCode { get; set; }
+
 
     [Column("End_Month")]
     public Int16 EndMonth { get; set; }
 
+
     [Column("End_Year")]
     public Int32 EndYear { get; set; }
+
 
     [Column("Job_Description")]
     public string JobDescription { get; set; }
 
+
     [Column("Job_Title")]
     public string JobTitle { get; set; }
+
 
     [Column("Location")]
     public string Location { get; set; }
 
+
     [Column("Start_Month")]
     public Int16 StartMonth { get; set; }
 
+
     [Column("Start_Year")]
     public Int32 StartYear { get; set; }
+
 
     [Column("Time_Stamp"), Timestamp]
     public byte[] TimeStamp { get; set; }

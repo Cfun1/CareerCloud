@@ -10,47 +10,62 @@ public class SecurityLoginPoco : IPoco
     [Key, Column("Id")]
     public Guid Id { get; set; }
 
+
     [Column("Agreement_Accepted_Date")]
     public DateTime? AgreementAccepted { get; set; }
+
 
     [Column("Created_Date")]
     public DateTime Created { get; set; }
 
+
     [Column("Email_Address")]
     public string EmailAddress { get; set; }
+
 
     [Column("Force_Change_Password")]
     public bool ForceChangePassword { get; set; }
 
+
     [Column("Full_Name")]
     public string? FullName { get; set; }
+
 
     [Column("Is_Inactive")]
     public bool IsInactive { get; set; }
 
+
     [Column("Is_Locked")]
     public bool IsLocked { get; set; }
+
 
     [Column("Login")]
     public string Login { get; set; }
 
+
     [Column("Password")]
     public string Password { get; set; }
+
 
     [Column("Password_Update_Date")]
     public DateTime? PasswordUpdate { get; set; }
 
+
     [Column("Phone_Number")]
     public string? PhoneNumber { get; set; }
+
 
     [Column("Prefferred_Language")]
     public string? PrefferredLanguage { get; set; }
 
+
     [Column("Time_Stamp"), Timestamp]
     public byte[] TimeStamp { get; set; }
 
+
+    #region EF related
     public virtual IList<ApplicantProfilePoco> ApplicantProfiles { get; set; }
     public virtual IList<SecurityLoginsRolePoco> SecurityLoginsRoles { get; set; }
     public virtual IList<SecurityLoginsLogPoco> SecurityLoginsLogs { get; set; }
-
+    #endregion
 }

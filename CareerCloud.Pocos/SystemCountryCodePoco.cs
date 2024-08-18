@@ -10,9 +10,12 @@ public class SystemCountryCodePoco
     [Key, Column("Code")]
     public string Code { get; set; }
 
+
     [Column("Name")]
     public string Name { get; set; }
 
-    public virtual CompanyLocationPoco CompanyLocation { get; set; }
 
+    #region EF related
+    public virtual CompanyLocationPoco CompanyLocation { get; set; }
+    #endregion
 }

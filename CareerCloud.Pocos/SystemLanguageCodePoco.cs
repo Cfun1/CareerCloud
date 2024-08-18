@@ -10,11 +10,16 @@ public class SystemLanguageCodePoco
     [Key, Column("LanguageID")]
     public string LanguageID { get; set; }
 
+
     [Column("Name")]
     public string Name { get; set; }
+
 
     [Column("Native_Name")]
     public string NativeName { get; set; }
 
+
+    #region EF related
     public CompanyDescriptionPoco CompanyDescription { get; set; }
+    #endregion
 }

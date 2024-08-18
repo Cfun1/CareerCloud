@@ -10,16 +10,19 @@ public class ApplicantSkillPoco : IPoco
     [Key, Column("Id")]
     public Guid Id { get; set; }
 
-    //TODO: ForeignKey: ApplicantProfilePoco.Id
 
+    //TODO: ForeignKey: ApplicantProfilePoco.Id
     [ForeignKey(nameof(Applicant))]
     public ApplicantProfilePoco ApplicantProfile { get; set; }
+
 
     [Column("Applicant")]
     public Guid Applicant { get; set; }
 
+
     [Column("End_Month")]
     public byte EndMonth { get; set; }
+
 
     [Column("End_Year")]
     public Int32 EndYear { get; set; }
@@ -28,14 +31,18 @@ public class ApplicantSkillPoco : IPoco
     [Column("Skill")]
     public string Skill { get; set; }
 
+
     [Column("Skill_Level")]
     public string SkillLevel { get; set; }
+
 
     [Column("Start_Month")]
     public byte StartMonth { get; set; }
 
+
     [Column("Start_Year")]
     public Int32 StartYear { get; set; }
+
 
     [Column("Time_Stamp"), Timestamp]
     public byte[] TimeStamp { get; set; }
