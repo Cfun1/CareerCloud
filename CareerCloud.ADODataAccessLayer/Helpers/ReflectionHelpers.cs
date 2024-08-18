@@ -81,7 +81,9 @@ internal static class ReflectionHelpers
         var temp = (ColumnAttribute)prop.GetCustomAttribute(typeof(ColumnAttribute));
 
         if (temp == null)
-            throw new Exception($"Unexpected null column attribute for {prop.Name}");
+            return string.Empty;
+        //commented out because the properties added in the pocos for EF introduced an exception here
+        //throw new Exception($"Unexpected null column attribute for {prop.Name}");
 
         return temp.Name;
     }
