@@ -1,19 +1,22 @@
 ﻿using System.Linq.Expressions;
 using CareerCloud.DataAccessLayer;
+using Microsoft.EntityFrameworkCore;
 
 namespace CareerCloud.EntityFrameworkDataAccess;
-public class EFGenericRepository<T> : IDataRepository<T> where T : class
+public class EFGenericRepository<T> : IDisposable, IDataRepository<T> where T : class
 {
+    CareerCloudContext context;
+    DbSet<T> dbSetT;
+
     public EFGenericRepository()
     {
         context = new CareerCloudContext();
+        dbSetT = context.Set<T>();
     }
-
-    CareerCloudContext context;
 
     public void Add(params T[] items)
     {
-        context.AddRange(items);
+        dbSetT.AddRange(items);
         context.SaveChanges();
     }
 
@@ -29,23 +32,24 @@ public class EFGenericRepository<T> : IDataRepository<T> where T : class
 
     public IList<T> GetList(Expression<Func<T, bool>> where, params Expression<Func<T, object>>[] navigationProperties)
     {
-        return context.Set<T>().Where(where).ToList();
+        return dbSetT.Where(where).ToList();
     }
 
     public T GetSingle(Expression<Func<T, bool>> where, params Expression<Func<T, object>>[] navigationProperties)
     {
-        return context.Set<T>().Where(where).FirstOrDefault();
+        return dbSetT.Where(where).FirstOrDefault();
     }
 
     public void Remove(params T[] items)
     {
-        context.Set<T>().RemoveRange(items);
+        dbSetT.RemoveRange(items);
         context.SaveChanges();
     }
 
     public void Update(params T[] items)
     {
-        context.Set<T>().UpdateRange(items);
+        dbSetT.UpdateRange(items);
         context.SaveChanges();
     }
+    public void Dispose() => context?.Dispose();
 }
