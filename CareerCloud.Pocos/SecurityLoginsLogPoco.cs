@@ -14,6 +14,10 @@ public class SecurityLoginsLogPoco : IPoco
     public bool IsSuccesful { get; set; }
 
     //TODO: ForeignKey: SecurityLoginPoco.Id
+    [ForeignKey("Login")]
+    public SecurityLoginPoco SecurityLogin { get; set; }
+
+
     [Column("Login")]
     public Guid Login { get; set; }
 

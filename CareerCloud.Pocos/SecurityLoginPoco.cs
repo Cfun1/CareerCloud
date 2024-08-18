@@ -48,4 +48,9 @@ public class SecurityLoginPoco : IPoco
 
     [Column("Time_Stamp")]
     public byte[] TimeStamp { get; set; }
+
+    public virtual IList<ApplicantProfilePoco> ApplicantProfiles { get; set; }
+    public virtual IList<SecurityLoginsRolePoco> SecurityLoginsRoles { get; set; }
+    public virtual IList<SecurityLoginsLogPoco> SecurityLoginsLogs { get; set; }
+
 }

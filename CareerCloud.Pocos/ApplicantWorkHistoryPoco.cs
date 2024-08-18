@@ -11,6 +11,9 @@ public class ApplicantWorkHistoryPoco : IPoco
     public Guid Id { get; set; }
 
     //TODO: ForeignKey: ApplicantProfilePoco.Id
+    [ForeignKey("Applicant")]
+    public ApplicantProfilePoco ApplicantProfile { get; set; }
+
     [Column("Applicant")]
     public Guid Applicant { get; set; }
 
@@ -18,6 +21,9 @@ public class ApplicantWorkHistoryPoco : IPoco
     public string CompanyName { get; set; }
 
     //TODO: ForeignKey: SystemCountryCodePoco.Code
+    [ForeignKey("Country")]
+    public SystemCountryCodePoco SystemCountryCode { get; set; }
+
     [Column("Country_Code")]
     public string CountryCode { get; set; }
 

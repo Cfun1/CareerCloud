@@ -14,6 +14,9 @@ public class CompanyJobSkillPoco : IPoco
     public Int32 Importance { get; set; }
 
     //TODO: ForeignKey: CompanyJobPoco.Id
+    [ForeignKey("Job")]
+    public CompanyJobPoco CompanyJob { get; set; }
+
     [Column("Job")]
     public Guid Job { get; set; }
 

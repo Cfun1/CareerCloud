@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
 
 namespace CareerCloud.Pocos;
 
@@ -13,6 +14,10 @@ public class ApplicantEducationPoco : IPoco
     //TODO: ForeignKey: ApplicantProfilePoco.Id
     //at api layer possibly need JsonIgnore attribute to avoid overflow exception caused by infinite relationship loop when serializing json
     //with EF, the property would be defined as virtual to enable lazy loading by EF
+    [IgnoreDataMember]
+    public ApplicantProfilePoco ApplicantProfile { get; set; }
+
+
     [Column("Applicant")]
     public Guid Applicant { get; set; }
 

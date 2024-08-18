@@ -11,6 +11,10 @@ public class ApplicantSkillPoco : IPoco
     public Guid Id { get; set; }
 
     //TODO: ForeignKey: ApplicantProfilePoco.Id
+
+    [ForeignKey("Applicant")]
+    public ApplicantProfilePoco ApplicantProfile { get; set; }
+
     [Column("Applicant")]
     public Guid Applicant { get; set; }
 

@@ -15,4 +15,6 @@ public class SecurityRolePoco : IPoco
 
     [Column("Role")]
     public string Role { get; set; }
+
+    public virtual IList<SecurityLoginsRolePoco> SecurityLoginsRoles { get; set; }
 }

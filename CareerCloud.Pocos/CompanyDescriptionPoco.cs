@@ -12,6 +12,9 @@ public class CompanyDescriptionPoco : IPoco
     public Guid Id { get; set; }
 
     //TODO: ForeignKey: CompanyProfilePoco.Id
+    [ForeignKey("Company")]
+    public CompanyProfilePoco CompanyProfile { get; set; }
+
     [Column("Company")]
     public Guid Company { get; set; }
 
@@ -22,6 +25,10 @@ public class CompanyDescriptionPoco : IPoco
     public string CompanyName { get; set; }
 
     //TODO: ForeignKey: SystemLanguageCodePoco.LanguageID
+    [ForeignKey("LanguageID")]
+    public SystemLanguageCodePoco SystemLanguageCode { get; set; }
+
+
     [Column("LanguageID")]
     public string LanguageId { get; set; }
 

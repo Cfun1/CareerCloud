@@ -27,4 +27,11 @@ public class CompanyProfilePoco : IPoco
 
     [Column("Time_Stamp")]
     public byte[]? TimeStamp { get; set; }
+
+    [ForeignKey("Job")]
+    public virtual IList<CompanyLocationPoco> CompanyLocations { get; set; }
+
+    public virtual IList<CompanyDescriptionPoco> CompanyDescriptions { get; set; }
+
+    public virtual IList<CompanyJobPoco> CompanyJobs { get; set; }
 }

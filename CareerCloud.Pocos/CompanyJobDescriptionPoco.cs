@@ -11,6 +11,10 @@ public class CompanyJobDescriptionPoco : IPoco
     public Guid Id { get; set; }
 
     //TODO: ForeignKey: CompanyJobPoco.Id
+    [ForeignKey("Job")]
+    public CompanyJobPoco CompanyJob { get; set; }
+
+
     [Column("Job")]
     public Guid Job { get; set; }
 

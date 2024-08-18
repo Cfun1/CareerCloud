@@ -11,10 +11,17 @@ public class SecurityLoginsRolePoco : IPoco
     public Guid Id { get; set; }
 
     //TODO: ForeignKey: SecurityLoginPoco.Id
+    [ForeignKey("Login")]
+    public SecurityLoginPoco SecurityLogin { get; set; }
+
+
     [Column("Login")]
     public Guid Login { get; set; }
 
     //TODO: ForeignKey: SecurityRolePoco.Id
+    [ForeignKey("Role")]
+    public SecurityRolePoco SecurityRole { get; set; }
+
     [Column("Role")]
     public Guid Role { get; set; }
 

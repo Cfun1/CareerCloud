@@ -13,7 +13,10 @@ public class ApplicantProfilePoco : IPoco
     [Column("City_Town")]
     public string? City { get; set; }
 
-    //TODO: ForeignKey: ApplicantProfilePoco.Id
+    //TODO: ForeignKey: SystemCountryCodePoco.Code
+    [ForeignKey("Country")]
+    public SystemCountryCodePoco SystemCountryCode { get; set; }
+
     [Column("Country_Code")]
     public string? Country { get; set; }
 
@@ -26,7 +29,7 @@ public class ApplicantProfilePoco : IPoco
     [Column("Current_Salary")]
     public decimal? CurrentSalary { get; set; }
 
-    //TODO: ForeignKey: SystemCountryCodePoco.Code
+
     [Column("Login")]
     public Guid Login { get; set; }
 
@@ -42,4 +45,11 @@ public class ApplicantProfilePoco : IPoco
 
     [Column("Zip_Postal_Code")]
     public string? PostalCode { get; set; }
+
+
+    public virtual IList<ApplicantSkillPoco> ApplicantSkills { get; set; }
+    public virtual IList<ApplicantEducationPoco> ApplicantEducations { get; set; }
+    public virtual IList<ApplicantJobApplicationPoco> ApplicantJobApplications { get; set; }
+    public virtual IList<ApplicantResumePoco> ApplicantResumes { get; set; }
+    public virtual IList<ApplicantWorkHistoryPoco> ApplicantWorkHistorys { get; set; }
 }
