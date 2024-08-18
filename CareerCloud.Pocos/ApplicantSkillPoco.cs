@@ -12,7 +12,7 @@ public class ApplicantSkillPoco : IPoco
 
     //TODO: ForeignKey: ApplicantProfilePoco.Id
 
-    [ForeignKey("Applicant")]
+    [ForeignKey(nameof(Applicant))]
     public ApplicantProfilePoco ApplicantProfile { get; set; }
 
     [Column("Applicant")]
@@ -37,6 +37,6 @@ public class ApplicantSkillPoco : IPoco
     [Column("Start_Year")]
     public Int32 StartYear { get; set; }
 
-    [Column("Time_Stamp")]
+    [Column("Time_Stamp"), Timestamp]
     public byte[] TimeStamp { get; set; }
 }

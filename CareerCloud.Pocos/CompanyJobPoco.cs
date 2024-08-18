@@ -11,7 +11,7 @@ public class CompanyJobPoco : IPoco
     public Guid Id { get; set; }
 
     //TODO: ForeignKey: CompanyProfilePoco.Id
-    [ForeignKey("Company")]
+    [ForeignKey(nameof(Company))]
     public CompanyProfilePoco CompanyProfile { get; set; }
 
 
@@ -27,7 +27,7 @@ public class CompanyJobPoco : IPoco
     [Column("Profile_Created")]
     public DateTime ProfileCreated { get; set; }
 
-    [Column("Time_Stamp")]
+    [Column("Time_Stamp"), Timestamp]
     public byte[]? TimeStamp { get; set; }
 
     public virtual IList<CompanyJobDescriptionPoco> CompanyJobDescriptions { get; set; }

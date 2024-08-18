@@ -14,7 +14,7 @@ public class ApplicantProfilePoco : IPoco
     public string? City { get; set; }
 
     //TODO: ForeignKey: SystemCountryCodePoco.Code
-    [ForeignKey("Country")]
+    [ForeignKey(nameof(Country))]
     public SystemCountryCodePoco SystemCountryCode { get; set; }
 
     [Column("Country_Code")]
@@ -29,18 +29,20 @@ public class ApplicantProfilePoco : IPoco
     [Column("Current_Salary")]
     public decimal? CurrentSalary { get; set; }
 
+    //TODO: ForeignKey: SecurityLogin.Id
+    [ForeignKey(nameof(Login))]
+    public SecurityLoginPoco SecurityLogin { get; set; }
 
     [Column("Login")]
     public Guid Login { get; set; }
 
     [Column("State_Province_Code")]
-    public string? Province
-    { get; set; }
+    public string? Province { get; set; }
 
     [Column("Street_Address")]
     public string? Street { get; set; }
 
-    [Column("Time_Stamp")]
+    [Column("Time_Stamp"), Timestamp]
     public byte[] TimeStamp { get; set; }
 
     [Column("Zip_Postal_Code")]

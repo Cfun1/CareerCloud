@@ -10,7 +10,7 @@ public class ApplicantResumePoco : IPoco
     [Key, Column("Id")]
     public Guid Id { get; set; }
 
-    [ForeignKey("Applicant")]
+    [ForeignKey(nameof(Applicant))]
     public ApplicantProfilePoco ApplicantProfile { get; set; }
 
     //TODO: ForeignKey: ApplicantProfilePoco.Id

@@ -11,9 +11,8 @@ public class CompanyJobDescriptionPoco : IPoco
     public Guid Id { get; set; }
 
     //TODO: ForeignKey: CompanyJobPoco.Id
-    [ForeignKey("Job")]
+    [ForeignKey(nameof(Job))]
     public CompanyJobPoco CompanyJob { get; set; }
-
 
     [Column("Job")]
     public Guid Job { get; set; }
@@ -24,6 +23,6 @@ public class CompanyJobDescriptionPoco : IPoco
     [Column("Job_Descriptions")]
     public string? JobDescriptions { get; set; }
 
-    [Column("Time_Stamp")]
+    [Column("Time_Stamp"), Timestamp]
     public byte[]? TimeStamp { get; set; }
 }

@@ -14,7 +14,7 @@ public class CompanyJobEducationPoco : IPoco
     public Int16 Importance { get; set; }
 
     //TODO: ForeignKey: CompanyJobPoco.Id
-    [ForeignKey("Job")]
+    [ForeignKey(nameof(Job))]
     public CompanyJobPoco CompanyJob { get; set; }
 
     [Column("Job")]
@@ -23,6 +23,6 @@ public class CompanyJobEducationPoco : IPoco
     [Column("Major")]
     public string Major { get; set; }
 
-    [Column("Time_Stamp")]
+    [Column("Time_Stamp"), Timestamp]
     public byte[] TimeStamp { get; set; }
 }

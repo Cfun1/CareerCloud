@@ -14,15 +14,16 @@ public class CompanyLocationPoco : IPoco
     public string? City { get; set; }
 
     //TODO: ForeignKey: CompanyProfilePoco.Id
-    [ForeignKey("Company")]
-    public CompanyProfilePoco CompanyProfile { get; set; }
+    [ForeignKey(nameof(Company))]
+    public virtual CompanyProfilePoco CompanyProfile { get; set; }
 
 
     [Column("Company")]
     public Guid Company { get; set; }
 
-    [ForeignKey("Country_Code")]
-    public SystemCountryCodePoco SystemCountryCode { get; set; }
+    //[ForeignKey("Country_Code")]
+    [ForeignKey(nameof(CountryCode))]
+    public virtual SystemCountryCodePoco SystemCountryCode { get; set; }
 
     [Column("Country_Code")]
     public string CountryCode { get; set; }
@@ -33,7 +34,7 @@ public class CompanyLocationPoco : IPoco
     [Column("Street_Address")]
     public string? Street { get; set; }
 
-    [Column("Time_Stamp")]
+    [Column("Time_Stamp"), Timestamp]
     public byte[] TimeStamp { get; set; }
 
     [Column("Zip_Postal_Code")]

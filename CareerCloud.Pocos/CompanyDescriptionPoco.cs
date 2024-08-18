@@ -25,13 +25,12 @@ public class CompanyDescriptionPoco : IPoco
     public string CompanyName { get; set; }
 
     //TODO: ForeignKey: SystemLanguageCodePoco.LanguageID
-    [ForeignKey("LanguageID")]
+    [ForeignKey(nameof(LanguageId))]
     public SystemLanguageCodePoco SystemLanguageCode { get; set; }
-
 
     [Column("LanguageID")]
     public string LanguageId { get; set; }
 
-    [Column("Time_Stamp")]
+    [Column("Time_Stamp"), Timestamp]
     public byte[] TimeStamp { get; set; }
 }

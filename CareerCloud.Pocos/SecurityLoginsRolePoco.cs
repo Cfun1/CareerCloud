@@ -11,7 +11,7 @@ public class SecurityLoginsRolePoco : IPoco
     public Guid Id { get; set; }
 
     //TODO: ForeignKey: SecurityLoginPoco.Id
-    [ForeignKey("Login")]
+    [ForeignKey(nameof(Login))]
     public SecurityLoginPoco SecurityLogin { get; set; }
 
 
@@ -19,12 +19,12 @@ public class SecurityLoginsRolePoco : IPoco
     public Guid Login { get; set; }
 
     //TODO: ForeignKey: SecurityRolePoco.Id
-    [ForeignKey("Role")]
+    [ForeignKey(nameof(Role))]
     public SecurityRolePoco SecurityRole { get; set; }
 
     [Column("Role")]
     public Guid Role { get; set; }
 
-    [Column("Time_Stamp")]
+    [Column("Time_Stamp"), Timestamp]
     public byte[]? TimeStamp { get; set; }
 }

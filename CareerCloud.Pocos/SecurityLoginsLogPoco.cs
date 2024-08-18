@@ -14,7 +14,7 @@ public class SecurityLoginsLogPoco : IPoco
     public bool IsSuccesful { get; set; }
 
     //TODO: ForeignKey: SecurityLoginPoco.Id
-    [ForeignKey("Login")]
+    [ForeignKey(nameof(Login))]
     public SecurityLoginPoco SecurityLogin { get; set; }
 
 

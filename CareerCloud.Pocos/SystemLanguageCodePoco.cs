@@ -15,4 +15,6 @@ public class SystemLanguageCodePoco
 
     [Column("Native_Name")]
     public string NativeName { get; set; }
+
+    public CompanyDescriptionPoco CompanyDescription { get; set; }
 }

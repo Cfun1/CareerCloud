@@ -12,4 +12,7 @@ public class SystemCountryCodePoco
 
     [Column("Name")]
     public string Name { get; set; }
+
+    public virtual CompanyLocationPoco CompanyLocation { get; set; }
+
 }

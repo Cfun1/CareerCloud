@@ -25,10 +25,9 @@ public class CompanyProfilePoco : IPoco
     [Column("Registration_Date")]
     public DateTime RegistrationDate { get; set; }
 
-    [Column("Time_Stamp")]
+    [Column("Time_Stamp"), Timestamp]
     public byte[]? TimeStamp { get; set; }
 
-    [ForeignKey("Job")]
     public virtual IList<CompanyLocationPoco> CompanyLocations { get; set; }
 
     public virtual IList<CompanyDescriptionPoco> CompanyDescriptions { get; set; }
