@@ -15,7 +15,6 @@
 
 using System.Data;
 using Microsoft.Data.SqlClient;
-using Microsoft.Extensions.Configuration;
 
 namespace CareerCloud.ADODataAccessLayer;
 
@@ -28,11 +27,14 @@ internal static class DbConnection
         // avoids an exception when the test project is using System.Data.SqlClient instead of Microsoft.Data.SqlClient;
         //System.Transactions.TransactionManager.ImplicitDistributedTransactions = true;
 
-        var config = new ConfigurationBuilder();
-        var path = Path.Combine(Directory.GetCurrentDirectory(), "appsettings.json");
-        config.AddJsonFile(path, false);
-        var root = config.Build();
-        cnnStr = root.GetSection("ConnectionStrings").GetSection("DataConnection").Value;
+        //var config = new ConfigurationBuilder();
+        //var path = Path.Combine(Directory.GetCurrentDirectory(), "appsettings.json");
+        //config.AddJsonFile(path, false);
+        //var root = config.Build();
+        //cnnStr = root.GetSection("ConnectionStrings").GetSection("DataConnection").Value;
+
+        //use a common connection string, or define a different one
+        cnnStr = DataAccessLayer.CommonDbConnection.String;
     }
 
     static SqlConnection _sqlCnn;
