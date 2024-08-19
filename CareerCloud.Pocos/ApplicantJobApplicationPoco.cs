@@ -19,7 +19,7 @@ public class ApplicantJobApplicationPoco : IPoco
     public Guid Applicant { get; set; }
 
 
-    [Column("Application_Date")]
+    [Column("Application_Date", TypeName = SqlTypes.DATETIME2)]
     public DateTime ApplicationDate { get; set; }
 
 
@@ -32,6 +32,6 @@ public class ApplicantJobApplicationPoco : IPoco
     public Guid Job { get; set; }
 
 
-    [Column("Time_Stamp"), Timestamp]
+    [Column("Time_Stamp", TypeName = SqlTypes.TIMESTAMP), Timestamp]
     public byte[] TimeStamp { get; set; }
 }

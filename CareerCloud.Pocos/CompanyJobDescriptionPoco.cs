@@ -20,14 +20,14 @@ public class CompanyJobDescriptionPoco : IPoco
     public Guid Job { get; set; }
 
 
-    [Column("Job_Name")]
+    [Column("Job_Name", TypeName = $"{SqlTypes.NVARCHAR}(100)")]
     public string? JobName { get; set; }
 
 
-    [Column("Job_Descriptions")]
+    [Column("Job_Descriptions", TypeName = $"{SqlTypes.NVARCHAR}(1000)")]
     public string? JobDescriptions { get; set; }
 
 
-    [Column("Time_Stamp"), Timestamp]
+    [Column("Time_Stamp", TypeName = $"{SqlTypes.TIMESTAMP})"), Timestamp]
     public byte[]? TimeStamp { get; set; }
 }

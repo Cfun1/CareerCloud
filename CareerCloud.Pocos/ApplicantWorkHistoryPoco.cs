@@ -19,7 +19,7 @@ public class ApplicantWorkHistoryPoco : IPoco
     public Guid Applicant { get; set; }
 
 
-    [Column("Company_Name")]
+    [Column("Company_Name", TypeName = $"{SqlTypes.NVARCHAR}(50)")]
     public string CompanyName { get; set; }
 
 
@@ -28,36 +28,36 @@ public class ApplicantWorkHistoryPoco : IPoco
     public SystemCountryCodePoco SystemCountryCode { get; set; }
 
 
-    [Column("Country_Code")]
+    [Column("Country_Code", TypeName = $"{SqlTypes.CHAR}(10)")]
     public string CountryCode { get; set; }
 
 
-    [Column("End_Month")]
-    public Int16 EndMonth { get; set; }
-
-
-    [Column("End_Year")]
-    public Int32 EndYear { get; set; }
-
-
-    [Column("Job_Description")]
-    public string JobDescription { get; set; }
-
-
-    [Column("Job_Title")]
-    public string JobTitle { get; set; }
-
-
-    [Column("Location")]
-    public string Location { get; set; }
-
-
-    [Column("Start_Month")]
+    [Column("Start_Month", TypeName = SqlTypes.SMALLINT)]
     public Int16 StartMonth { get; set; }
 
 
-    [Column("Start_Year")]
+    [Column("End_Month", TypeName = SqlTypes.SMALLINT)]
+    public Int16 EndMonth { get; set; }
+
+
+    [Column("Start_Year", TypeName = SqlTypes.INT)]
     public Int32 StartYear { get; set; }
+
+
+    [Column("End_Year", TypeName = SqlTypes.INT)]
+    public Int32 EndYear { get; set; }
+
+
+    [Column("Job_Description", TypeName = $"{SqlTypes.NVARCHAR}(500)")]
+    public string JobDescription { get; set; }
+
+
+    [Column("Job_Title", TypeName = $"{SqlTypes.NVARCHAR}(50)")]
+    public string JobTitle { get; set; }
+
+
+    [Column("Location", TypeName = $"{SqlTypes.NVARCHAR}(50)")]
+    public string Location { get; set; }
 
 
     [Column("Time_Stamp"), Timestamp]

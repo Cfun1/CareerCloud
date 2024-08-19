@@ -11,7 +11,7 @@ public class CompanyJobEducationPoco : IPoco
     public Guid Id { get; set; }
 
 
-    [Column("Importance")]
+    [Column("Importance", TypeName = $"{SqlTypes.SMALLINT}")]
     public Int16 Importance { get; set; }
 
 
@@ -24,10 +24,10 @@ public class CompanyJobEducationPoco : IPoco
     public Guid Job { get; set; }
 
 
-    [Column("Major")]
+    [Column("Major", TypeName = $"{SqlTypes.NVARCHAR}(100)")]
     public string Major { get; set; }
 
 
-    [Column("Time_Stamp"), Timestamp]
+    [Column("Time_Stamp", TypeName = $"{SqlTypes.TIMESTAMP}"), Timestamp]
     public byte[] TimeStamp { get; set; }
 }

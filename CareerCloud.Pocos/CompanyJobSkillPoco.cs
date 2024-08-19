@@ -11,7 +11,7 @@ public class CompanyJobSkillPoco : IPoco
     public Guid Id { get; set; }
 
 
-    [Column("Importance")]
+    [Column("Importance", TypeName = $"{SqlTypes.INT}")]
     public Int32 Importance { get; set; }
 
 
@@ -24,14 +24,14 @@ public class CompanyJobSkillPoco : IPoco
     public Guid Job { get; set; }
 
 
-    [Column("Skill")]
+    [Column("Skill", TypeName = $"{SqlTypes.NVARCHAR}(100)")]
     public string Skill { get; set; }
 
 
-    [Column("Skill_Level")]
+    [Column("Skill_Level", TypeName = $"{SqlTypes.VARCHAR}(10)")]
     public string SkillLevel { get; set; }
 
 
-    [Column("Time_Stamp"), Timestamp]
+    [Column("Time_Stamp", TypeName = $"{SqlTypes.TIMESTAMP}"), Timestamp]
     public byte[] TimeStamp { get; set; }
 }

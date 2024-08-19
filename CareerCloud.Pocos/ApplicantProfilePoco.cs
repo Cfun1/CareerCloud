@@ -11,7 +11,7 @@ public class ApplicantProfilePoco : IPoco
     public Guid Id { get; set; }
 
 
-    [Column("City_Town")]
+    [Column("City_Town", TypeName = $"{SqlTypes.NVARCHAR}(100)")]
     public string? City { get; set; }
 
     //TODO: ForeignKey: SystemCountryCodePoco.Code
@@ -23,7 +23,7 @@ public class ApplicantProfilePoco : IPoco
     public string? Country { get; set; }
 
 
-    [Column("Currency")]
+    [Column("Currency", TypeName = $"{SqlTypes.CHAR}(10)")]
     public string? Currency { get; set; }
 
 
@@ -31,7 +31,7 @@ public class ApplicantProfilePoco : IPoco
     public decimal? CurrentRate { get; set; }
 
 
-    [Column("Current_Salary")]
+    [Column("Current_Salary", TypeName = $"{SqlTypes.DECIMAL}(18, 0)")]
     public decimal? CurrentSalary { get; set; }
 
 
@@ -44,19 +44,19 @@ public class ApplicantProfilePoco : IPoco
     public Guid Login { get; set; }
 
 
-    [Column("State_Province_Code")]
+    [Column("State_Province_Code", TypeName = $"{SqlTypes.CHAR}(10)")]
     public string? Province { get; set; }
 
 
-    [Column("Street_Address")]
+    [Column("Street_Address", TypeName = $"{SqlTypes.NVARCHAR}(100)")]
     public string? Street { get; set; }
 
 
-    [Column("Time_Stamp"), Timestamp]
+    [Column("Time_Stamp", TypeName = SqlTypes.TIMESTAMP), Timestamp]
     public byte[] TimeStamp { get; set; }
 
 
-    [Column("Zip_Postal_Code")]
+    [Column("Zip_Postal_Code", TypeName = $"{SqlTypes.CHAR}(20)")]
     public string? PostalCode { get; set; }
 
     #region EF related

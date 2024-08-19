@@ -28,11 +28,11 @@ public class CompanyJobPoco : IPoco
     public bool IsInactive { get; set; }
 
 
-    [Column("Profile_Created")]
+    [Column("Profile_Created", TypeName = $"{SqlTypes.DATETIME2}")]
     public DateTime ProfileCreated { get; set; }
 
 
-    [Column("Time_Stamp"), Timestamp]
+    [Column("Time_Stamp", TypeName = $"{SqlTypes.TIMESTAMP}"), Timestamp]
     public byte[]? TimeStamp { get; set; }
 
     #region EF related

@@ -15,23 +15,23 @@ public class CompanyProfilePoco : IPoco
     public byte[]? CompanyLogo { get; set; }
 
 
-    [Column("Company_Website")]
+    [Column("Company_Website", TypeName = $"{SqlTypes.VARCHAR}(100)")]
     public string? CompanyWebsite { get; set; }
 
 
-    [Column("Contact_Name")]
+    [Column("Contact_Name", TypeName = $"{SqlTypes.VARCHAR}(50)")]
     public string? ContactName { get; set; }
 
 
-    [Column("Contact_Phone")]
+    [Column("Contact_Phone", TypeName = $"{SqlTypes.VARCHAR}(20)")]
     public string ContactPhone { get; set; }
 
 
-    [Column("Registration_Date")]
+    [Column("Registration_Date", TypeName = $"{SqlTypes.DATETIME2}")]
     public DateTime RegistrationDate { get; set; }
 
 
-    [Column("Time_Stamp"), Timestamp]
+    [Column("Time_Stamp", TypeName = $"{SqlTypes.TIMESTAMP}"), Timestamp]
     public byte[]? TimeStamp { get; set; }
 
 

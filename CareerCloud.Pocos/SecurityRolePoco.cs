@@ -15,7 +15,7 @@ public class SecurityRolePoco : IPoco
     public bool IsInactive { get; set; }
 
 
-    [Column("Role")]
+    [Column("Role", TypeName = $"{SqlTypes.VARCHAR}(50)")]
     public string Role { get; set; }
 
 

@@ -7,15 +7,15 @@ namespace CareerCloud.Pocos;
 
 public class SystemLanguageCodePoco
 {
-    [Key, Column("LanguageID")]
+    [Key, Column("LanguageID", TypeName = $"{SqlTypes.CHAR}(10)")]
     public string LanguageID { get; set; }
 
 
-    [Column("Name")]
+    [Column("Name", TypeName = $"{SqlTypes.NVARCHAR}(50)")]
     public string Name { get; set; }
 
 
-    [Column("Native_Name")]
+    [Column("Native_Name", TypeName = $"{SqlTypes.NVARCHAR}(50)")]
     public string NativeName { get; set; }
 
 

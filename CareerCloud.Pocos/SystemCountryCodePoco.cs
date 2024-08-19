@@ -7,11 +7,11 @@ namespace CareerCloud.Pocos;
 
 public class SystemCountryCodePoco
 {
-    [Key, Column("Code")]
+    [Key, Column("Code", TypeName = $"{SqlTypes.CHAR}(10)")]
     public string Code { get; set; }
 
 
-    [Column("Name")]
+    [Column("Name", TypeName = $"{SqlTypes.NVARCHAR}(50)")]
     public string Name { get; set; }
 
 

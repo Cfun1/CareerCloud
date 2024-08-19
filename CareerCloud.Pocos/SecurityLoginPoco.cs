@@ -15,11 +15,11 @@ public class SecurityLoginPoco : IPoco
     public DateTime? AgreementAccepted { get; set; }
 
 
-    [Column("Created_Date")]
+    [Column("Created_Date", TypeName = $"{SqlTypes.DATETIME2}")]
     public DateTime Created { get; set; }
 
 
-    [Column("Email_Address")]
+    [Column("Email_Address", TypeName = $"{SqlTypes.VARCHAR}(50)")]
     public string EmailAddress { get; set; }
 
 
@@ -27,7 +27,7 @@ public class SecurityLoginPoco : IPoco
     public bool ForceChangePassword { get; set; }
 
 
-    [Column("Full_Name")]
+    [Column("Full_Name", TypeName = $"{SqlTypes.NVARCHAR}(100)")]
     public string? FullName { get; set; }
 
 
@@ -39,11 +39,11 @@ public class SecurityLoginPoco : IPoco
     public bool IsLocked { get; set; }
 
 
-    [Column("Login")]
+    [Column("Login", TypeName = $"{SqlTypes.VARCHAR}(50)")]
     public string Login { get; set; }
 
 
-    [Column("Password")]
+    [Column("Password", TypeName = $"{SqlTypes.VARCHAR}(100)")]
     public string Password { get; set; }
 
 
@@ -51,15 +51,15 @@ public class SecurityLoginPoco : IPoco
     public DateTime? PasswordUpdate { get; set; }
 
 
-    [Column("Phone_Number")]
+    [Column("Phone_Number", TypeName = $"{SqlTypes.VARCHAR}(20)")]
     public string? PhoneNumber { get; set; }
 
 
-    [Column("Prefferred_Language")]
+    [Column("Prefferred_Language", TypeName = $"{SqlTypes.CHAR}(10)")]
     public string? PrefferredLanguage { get; set; }
 
 
-    [Column("Time_Stamp"), Timestamp]
+    [Column("Time_Stamp", TypeName = $"{SqlTypes.TIMESTAMP}"), Timestamp]
     public byte[] TimeStamp { get; set; }
 
 

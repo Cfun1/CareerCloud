@@ -50,7 +50,6 @@ public class CareerCloudContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-
         optionsBuilder.UseSqlServer(DataAccessLayer.CommonDbConnection.String)
             .LogTo(msg => Debug.WriteLine(msg), LogLevel.Information);
     }

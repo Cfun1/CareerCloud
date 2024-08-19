@@ -24,10 +24,10 @@ public class SecurityLoginsLogPoco : IPoco
     public Guid Login { get; set; }
 
 
-    [Column("Logon_Date")]
+    [Column("Logon_Date", TypeName = $"{SqlTypes.DATETIME}")]
     public DateTime LogonDate { get; set; }
 
 
-    [Column("Source_IP")]
+    [Column("Source_IP", TypeName = $"{SqlTypes.CHAR}(15)")]
     public string SourceIP { get; set; }
 }

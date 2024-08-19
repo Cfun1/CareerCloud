@@ -20,7 +20,7 @@ public class ApplicantResumePoco : IPoco
     public Guid Applicant { get; set; }
 
 
-    [Column("Last_Updated")]
+    [Column("Last_Updated", TypeName = $"{SqlTypes.DATETIME2}")]
     public DateTime? LastUpdated { get; set; }
 
 

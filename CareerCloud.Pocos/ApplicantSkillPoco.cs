@@ -20,30 +20,30 @@ public class ApplicantSkillPoco : IPoco
     public Guid Applicant { get; set; }
 
 
-    [Column("End_Month")]
+    [Column("End_Month", TypeName = SqlTypes.TINYINT)]
     public byte EndMonth { get; set; }
 
 
-    [Column("End_Year")]
+    [Column("End_Year", TypeName = SqlTypes.INT)]
     public Int32 EndYear { get; set; }
 
 
-    [Column("Skill")]
+    [Column("Skill", TypeName = $"{SqlTypes.NVARCHAR}(100)")]
     public string Skill { get; set; }
 
 
-    [Column("Skill_Level")]
+    [Column("Skill_Level", TypeName = $"{SqlTypes.CHAR}(10)")]
     public string SkillLevel { get; set; }
 
 
-    [Column("Start_Month")]
+    [Column("Start_Month", TypeName = SqlTypes.TINYINT)]
     public byte StartMonth { get; set; }
 
 
-    [Column("Start_Year")]
+    [Column("Start_Year", TypeName = SqlTypes.INT)]
     public Int32 StartYear { get; set; }
 
 
-    [Column("Time_Stamp"), Timestamp]
+    [Column("Time_Stamp", TypeName = SqlTypes.TIMESTAMP), Timestamp]
     public byte[] TimeStamp { get; set; }
 }

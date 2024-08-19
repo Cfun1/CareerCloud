@@ -20,11 +20,11 @@ public class CompanyDescriptionPoco : IPoco
     public Guid Company { get; set; }
 
 
-    [Column("Company_Description")]
+    [Column("Company_Description", TypeName = $"{SqlTypes.NVARCHAR}(1000)")]
     public string CompanyDescription { get; set; }
 
 
-    [Column("Company_Name")]
+    [Column("Company_Name", TypeName = $"{SqlTypes.NVARCHAR}(50)")]
     public string CompanyName { get; set; }
 
 
@@ -33,10 +33,10 @@ public class CompanyDescriptionPoco : IPoco
     public SystemLanguageCodePoco SystemLanguageCode { get; set; }
 
 
-    [Column("LanguageID")]
+    [Column("LanguageID", TypeName = $"{SqlTypes.CHAR}(10)")]
     public string LanguageId { get; set; }
 
 
-    [Column("Time_Stamp"), Timestamp]
+    [Column("Time_Stamp", TypeName = $"{SqlTypes.TIMESTAMP}"), Timestamp]
     public byte[] TimeStamp { get; set; }
 }
