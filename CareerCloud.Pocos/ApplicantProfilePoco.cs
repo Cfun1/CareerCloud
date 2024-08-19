@@ -16,7 +16,7 @@ public class ApplicantProfilePoco : IPoco
     public SystemCountryCodePoco? SystemCountryCode { get; set; }
 
     [ForeignKey(nameof(Login))]
-    public SecurityLoginPoco SecurityLogin { get; set; }
+    public SecurityLoginPoco SecurityLogin { get; set; } = null!;
 
 
     public virtual IList<ApplicantSkillPoco>? ApplicantSkills { get; set; }

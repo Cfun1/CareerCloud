@@ -12,7 +12,7 @@ public class SecurityRolePoco : IPoco
 
 
     #region EF navigation
-    public virtual IList<SecurityLoginsRolePoco> SecurityLoginsRoles { get; set; }
+    public virtual IList<SecurityLoginsRolePoco> SecurityLoginsRoles { get; set; } = null!;
     #endregion
 
 

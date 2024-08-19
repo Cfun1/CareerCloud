@@ -12,7 +12,7 @@ public class ApplicantResumePoco : IPoco
 
     #region EF navigation
     [ForeignKey(nameof(Applicant))]
-    public ApplicantProfilePoco ApplicantProfile { get; set; }
+    public ApplicantProfilePoco ApplicantProfile { get; set; } = null!;
     #endregion
 
 

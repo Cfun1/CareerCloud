@@ -13,10 +13,10 @@ public class ApplicantWorkHistoryPoco : IPoco
 
     #region EF navigation
     [ForeignKey(nameof(Applicant))]
-    public ApplicantProfilePoco ApplicantProfile { get; set; }
+    public ApplicantProfilePoco ApplicantProfile { get; set; } = null!;
 
     [ForeignKey(nameof(CountryCode))]
-    public SystemCountryCodePoco SystemCountryCode { get; set; }
+    public SystemCountryCodePoco SystemCountryCode { get; set; } = null!;
     #endregion
 
 

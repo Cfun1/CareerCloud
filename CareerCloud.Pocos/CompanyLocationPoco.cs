@@ -13,11 +13,11 @@ public class CompanyLocationPoco : IPoco
 
     #region EF navigation
     [ForeignKey(nameof(Company))]
-    public virtual CompanyProfilePoco CompanyProfile { get; set; }
+    public virtual CompanyProfilePoco CompanyProfile { get; set; } = null!;
 
 
     [ForeignKey(nameof(CountryCode))]
-    public virtual SystemCountryCodePoco SystemCountryCode { get; set; }
+    public virtual SystemCountryCodePoco SystemCountryCode { get; set; } = null!;
     #endregion
 
 

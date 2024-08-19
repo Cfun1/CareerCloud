@@ -13,11 +13,11 @@ public class ApplicantJobApplicationPoco : IPoco
 
     #region EF navigation
     [ForeignKey(nameof(Applicant))]
-    public ApplicantProfilePoco ApplicantProfile { get; set; }
+    public ApplicantProfilePoco ApplicantProfile { get; set; } = null!;
 
 
     [ForeignKey(nameof(Job))]
-    public CompanyJobPoco CompanyJob { get; set; }
+    public CompanyJobPoco CompanyJob { get; set; } = null!;
     #endregion
 
 

@@ -13,11 +13,11 @@ public class CompanyDescriptionPoco : IPoco
 
     #region EF navigation
     [ForeignKey("Company")]
-    public CompanyProfilePoco CompanyProfile { get; set; }
+    public CompanyProfilePoco CompanyProfile { get; set; } = null!;
 
 
     [ForeignKey(nameof(LanguageId))]
-    public SystemLanguageCodePoco SystemLanguageCode { get; set; }
+    public SystemLanguageCodePoco SystemLanguageCode { get; set; } = null!;
     #endregion
 
     [Column("Company")]

@@ -11,11 +11,6 @@ public class SystemCountryCodePoco
     public string Code { get; set; }
 
 
-    #region EF navigation
-    public virtual CompanyLocationPoco CompanyLocation { get; set; }
-    #endregion
-
-
     [Column("Name", TypeName = $"{SqlTypes.NVARCHAR}(50)")]
     public string Name { get; set; }
 }

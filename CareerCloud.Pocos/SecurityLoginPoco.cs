@@ -12,9 +12,9 @@ public class SecurityLoginPoco : IPoco
 
 
     #region EF navigation
-    public virtual IList<ApplicantProfilePoco> ApplicantProfiles { get; set; }
-    public virtual IList<SecurityLoginsRolePoco> SecurityLoginsRoles { get; set; }
-    public virtual IList<SecurityLoginsLogPoco> SecurityLoginsLogs { get; set; }
+    public virtual IList<ApplicantProfilePoco> ApplicantProfiles { get; set; } = null!;
+    public virtual IList<SecurityLoginsRolePoco> SecurityLoginsRoles { get; set; } = null!;
+    public virtual IList<SecurityLoginsLogPoco> SecurityLoginsLogs { get; set; } = null!;
     #endregion
 
 

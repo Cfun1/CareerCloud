@@ -13,12 +13,12 @@ public class CompanyJobPoco : IPoco
 
     #region EF navigation
     [ForeignKey(nameof(Company))]
-    public CompanyProfilePoco CompanyProfile { get; set; }
+    public CompanyProfilePoco CompanyProfile { get; set; } = null!;
 
 
-    public virtual IList<CompanyJobDescriptionPoco> CompanyJobDescriptions { get; set; }
-    public virtual IList<CompanyJobSkillPoco> CompanyJobSkills { get; set; }
-    public virtual IList<CompanyJobEducationPoco> CompanyJobEducations { get; set; }
+    public virtual IList<CompanyJobDescriptionPoco> CompanyJobDescriptions { get; set; } = null!;
+    public virtual IList<CompanyJobSkillPoco> CompanyJobSkills { get; set; } = null!;
+    public virtual IList<CompanyJobEducationPoco> CompanyJobEducations { get; set; } = null!;
     #endregion
 
     [Column("Company")]

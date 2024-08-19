@@ -13,7 +13,7 @@ public class CompanyJobSkillPoco : IPoco
 
     #region EF navigation
     [ForeignKey(nameof(Job))]
-    public CompanyJobPoco CompanyJob { get; set; }
+    public CompanyJobPoco CompanyJob { get; set; } = null!;
     #endregion
 
 

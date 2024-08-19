@@ -13,11 +13,11 @@ public class SecurityLoginsRolePoco : IPoco
 
     #region EF navigation
     [ForeignKey(nameof(Login))]
-    public SecurityLoginPoco SecurityLogin { get; set; }
+    public SecurityLoginPoco SecurityLogin { get; set; } = null!;
 
 
     [ForeignKey(nameof(Role))]
-    public SecurityRolePoco SecurityRole { get; set; }
+    public SecurityRolePoco SecurityRole { get; set; } = null!;
     #endregion
 
 
