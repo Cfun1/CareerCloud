@@ -10,12 +10,12 @@ public class ApplicantResumePoco : IPoco
     [Key, Column("Id")]
     public Guid Id { get; set; }
 
-
+    #region EF navigation
     [ForeignKey(nameof(Applicant))]
     public ApplicantProfilePoco ApplicantProfile { get; set; }
+    #endregion
 
 
-    //TODO: ForeignKey: ApplicantProfilePoco.Id
     [Column("Applicant")]
     public Guid Applicant { get; set; }
 

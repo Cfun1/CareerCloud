@@ -11,6 +11,13 @@ public class SecurityLoginPoco : IPoco
     public Guid Id { get; set; }
 
 
+    #region EF navigation
+    public virtual IList<ApplicantProfilePoco> ApplicantProfiles { get; set; }
+    public virtual IList<SecurityLoginsRolePoco> SecurityLoginsRoles { get; set; }
+    public virtual IList<SecurityLoginsLogPoco> SecurityLoginsLogs { get; set; }
+    #endregion
+
+
     [Column("Agreement_Accepted_Date")]
     public DateTime? AgreementAccepted { get; set; }
 
@@ -61,11 +68,4 @@ public class SecurityLoginPoco : IPoco
 
     [Column("Time_Stamp", TypeName = $"{SqlTypes.TIMESTAMP}"), Timestamp]
     public byte[] TimeStamp { get; set; }
-
-
-    #region EF related
-    public virtual IList<ApplicantProfilePoco> ApplicantProfiles { get; set; }
-    public virtual IList<SecurityLoginsRolePoco> SecurityLoginsRoles { get; set; }
-    public virtual IList<SecurityLoginsLogPoco> SecurityLoginsLogs { get; set; }
-    #endregion
 }

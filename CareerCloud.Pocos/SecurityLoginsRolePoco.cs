@@ -11,18 +11,18 @@ public class SecurityLoginsRolePoco : IPoco
     public Guid Id { get; set; }
 
 
-    //TODO: ForeignKey: SecurityLoginPoco.Id
+    #region EF navigation
     [ForeignKey(nameof(Login))]
     public SecurityLoginPoco SecurityLogin { get; set; }
 
 
-    [Column("Login")]
-    public Guid Login { get; set; }
-
-
-    //TODO: ForeignKey: SecurityRolePoco.Id
     [ForeignKey(nameof(Role))]
     public SecurityRolePoco SecurityRole { get; set; }
+    #endregion
+
+
+    [Column("Login")]
+    public Guid Login { get; set; }
 
 
     [Column("Role")]

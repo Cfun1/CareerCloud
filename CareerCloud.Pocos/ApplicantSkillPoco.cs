@@ -11,21 +11,13 @@ public class ApplicantSkillPoco : IPoco
     public Guid Id { get; set; }
 
 
-    //TODO: ForeignKey: ApplicantProfilePoco.Id
+    #region EF navigation
     [ForeignKey(nameof(Applicant))]
     public ApplicantProfilePoco ApplicantProfile { get; set; }
-
+    #endregion
 
     [Column("Applicant")]
     public Guid Applicant { get; set; }
-
-
-    [Column("End_Month", TypeName = SqlTypes.TINYINT)]
-    public byte EndMonth { get; set; }
-
-
-    [Column("End_Year", TypeName = SqlTypes.INT)]
-    public Int32 EndYear { get; set; }
 
 
     [Column("Skill", TypeName = $"{SqlTypes.NVARCHAR}(100)")]
@@ -40,8 +32,16 @@ public class ApplicantSkillPoco : IPoco
     public byte StartMonth { get; set; }
 
 
+    [Column("End_Month", TypeName = SqlTypes.TINYINT)]
+    public byte EndMonth { get; set; }
+
+
     [Column("Start_Year", TypeName = SqlTypes.INT)]
     public Int32 StartYear { get; set; }
+
+
+    [Column("End_Year", TypeName = SqlTypes.INT)]
+    public Int32 EndYear { get; set; }
 
 
     [Column("Time_Stamp", TypeName = SqlTypes.TIMESTAMP), Timestamp]

@@ -11,13 +11,14 @@ public class SecurityLoginsLogPoco : IPoco
     public Guid Id { get; set; }
 
 
-    [Column("Is_Succesful")]
-    public bool IsSuccesful { get; set; }
-
-
-    //TODO: ForeignKey: SecurityLoginPoco.Id
+    #region EF navigation
     [ForeignKey(nameof(Login))]
     public SecurityLoginPoco SecurityLogin { get; set; }
+    #endregion
+
+
+    [Column("Is_Succesful")]
+    public bool IsSuccesful { get; set; }
 
 
     [Column("Login")]

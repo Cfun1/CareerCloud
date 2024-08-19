@@ -11,10 +11,14 @@ public class CompanyDescriptionPoco : IPoco
     [Key, Column("Id")]
     public Guid Id { get; set; }
 
-    //TODO: ForeignKey: CompanyProfilePoco.Id
+    #region EF navigation
     [ForeignKey("Company")]
     public CompanyProfilePoco CompanyProfile { get; set; }
 
+
+    [ForeignKey(nameof(LanguageId))]
+    public SystemLanguageCodePoco SystemLanguageCode { get; set; }
+    #endregion
 
     [Column("Company")]
     public Guid Company { get; set; }
@@ -26,11 +30,6 @@ public class CompanyDescriptionPoco : IPoco
 
     [Column("Company_Name", TypeName = $"{SqlTypes.NVARCHAR}(50)")]
     public string CompanyName { get; set; }
-
-
-    //TODO: ForeignKey: SystemLanguageCodePoco.LanguageID
-    [ForeignKey(nameof(LanguageId))]
-    public SystemLanguageCodePoco SystemLanguageCode { get; set; }
 
 
     [Column("LanguageID", TypeName = $"{SqlTypes.CHAR}(10)")]

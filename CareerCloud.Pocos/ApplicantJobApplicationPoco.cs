@@ -10,9 +10,15 @@ public class ApplicantJobApplicationPoco : IPoco
     [Key, Column("Id")]
     public Guid Id { get; set; }
 
-    //TODO: ForeignKey: ApplicantProfilePoco.Id
+
+    #region EF navigation
     [ForeignKey(nameof(Applicant))]
     public ApplicantProfilePoco ApplicantProfile { get; set; }
+
+
+    [ForeignKey(nameof(Job))]
+    public CompanyJobPoco CompanyJob { get; set; }
+    #endregion
 
 
     [Column("Applicant")]
@@ -21,11 +27,6 @@ public class ApplicantJobApplicationPoco : IPoco
 
     [Column("Application_Date", TypeName = SqlTypes.DATETIME2)]
     public DateTime ApplicationDate { get; set; }
-
-
-    //TODO: ForeignKey: CompanyJobPoco.Id
-    [ForeignKey(nameof(Job))]
-    public CompanyJobPoco CompanyJob { get; set; }
 
 
     [Column("Job")]

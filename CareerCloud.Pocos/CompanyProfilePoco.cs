@@ -11,6 +11,15 @@ public class CompanyProfilePoco : IPoco
     public Guid Id { get; set; }
 
 
+    #region EF navigation
+    public virtual IList<CompanyLocationPoco> CompanyLocations { get; set; }
+
+    public virtual IList<CompanyDescriptionPoco> CompanyDescriptions { get; set; }
+
+    public virtual IList<CompanyJobPoco> CompanyJobs { get; set; }
+    #endregion
+
+
     [Column("Company_Logo")]
     public byte[]? CompanyLogo { get; set; }
 
@@ -33,13 +42,4 @@ public class CompanyProfilePoco : IPoco
 
     [Column("Time_Stamp", TypeName = $"{SqlTypes.TIMESTAMP}"), Timestamp]
     public byte[]? TimeStamp { get; set; }
-
-
-    #region EF related
-    public virtual IList<CompanyLocationPoco> CompanyLocations { get; set; }
-
-    public virtual IList<CompanyDescriptionPoco> CompanyDescriptions { get; set; }
-
-    public virtual IList<CompanyJobPoco> CompanyJobs { get; set; }
-    #endregion
 }

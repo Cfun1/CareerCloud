@@ -11,20 +11,28 @@ public class ApplicantProfilePoco : IPoco
     public Guid Id { get; set; }
 
 
+    #region EF navigation
+    [ForeignKey(nameof(Country))]
+    public SystemCountryCodePoco? SystemCountryCode { get; set; }
+
+    [ForeignKey(nameof(Login))]
+    public SecurityLoginPoco SecurityLogin { get; set; }
+
+
+    public virtual IList<ApplicantSkillPoco>? ApplicantSkills { get; set; }
+    public virtual IList<ApplicantEducationPoco>? ApplicantEducations { get; set; }
+    public virtual IList<ApplicantJobApplicationPoco>? ApplicantJobApplications { get; set; }
+    public virtual IList<ApplicantResumePoco>? ApplicantResumes { get; set; }
+    public virtual IList<ApplicantWorkHistoryPoco>? ApplicantWorkHistorys { get; set; }
+    #endregion
+
+
     [Column("City_Town", TypeName = $"{SqlTypes.NVARCHAR}(100)")]
     public string? City { get; set; }
-
-    //TODO: ForeignKey: SystemCountryCodePoco.Code
-    [ForeignKey(nameof(Country))]
-    public SystemCountryCodePoco SystemCountryCode { get; set; }
 
 
     [Column("Country_Code")]
     public string? Country { get; set; }
-
-
-    [Column("Currency", TypeName = $"{SqlTypes.CHAR}(10)")]
-    public string? Currency { get; set; }
 
 
     [Column("Current_Rate")]
@@ -35,13 +43,16 @@ public class ApplicantProfilePoco : IPoco
     public decimal? CurrentSalary { get; set; }
 
 
-    //TODO: ForeignKey: SecurityLogin.Id
-    [ForeignKey(nameof(Login))]
-    public SecurityLoginPoco SecurityLogin { get; set; }
+    [Column("Currency", TypeName = $"{SqlTypes.CHAR}(10)")]
+    public string? Currency { get; set; }
 
 
     [Column("Login")]
     public Guid Login { get; set; }
+
+
+    [Column("Zip_Postal_Code", TypeName = $"{SqlTypes.CHAR}(20)")]
+    public string? PostalCode { get; set; }
 
 
     [Column("State_Province_Code", TypeName = $"{SqlTypes.CHAR}(10)")]
@@ -54,16 +65,4 @@ public class ApplicantProfilePoco : IPoco
 
     [Column("Time_Stamp", TypeName = SqlTypes.TIMESTAMP), Timestamp]
     public byte[] TimeStamp { get; set; }
-
-
-    [Column("Zip_Postal_Code", TypeName = $"{SqlTypes.CHAR}(20)")]
-    public string? PostalCode { get; set; }
-
-    #region EF related
-    public virtual IList<ApplicantSkillPoco> ApplicantSkills { get; set; }
-    public virtual IList<ApplicantEducationPoco> ApplicantEducations { get; set; }
-    public virtual IList<ApplicantJobApplicationPoco> ApplicantJobApplications { get; set; }
-    public virtual IList<ApplicantResumePoco> ApplicantResumes { get; set; }
-    public virtual IList<ApplicantWorkHistoryPoco> ApplicantWorkHistorys { get; set; }
-    #endregion
 }

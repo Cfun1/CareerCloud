@@ -3,24 +3,21 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CareerCloud.Pocos;
 
-/// <summary>
-/// EXTRA: fluent API: schema db level: modelBuilder.HasDefaultSchema("dbo");
-/// schema per table: ToTable("Applicant_Educations", schema: "dbo");
-/// </summary>
 
 [Table("Applicant_Educations")]
+
 public class ApplicantEducationPoco : IPoco
 {
-    //fluent API:   .HasKey(c => c.Id);
-
     [Key, Column("Id")]
     public Guid Id { get; set; }
 
-    //TODO: ForeignKey: ApplicantProfilePoco.Id
-    //at api layer possibly need JsonIgnore attribute to avoid overflow exception caused by infinite relationship loop when serializing json
-    //with EF, the property would be defined as virtual to enable lazy loading by EF
+
+    #region EF navigation
+    //api layer might require to add JsonIgnore attribute to avoid overflow exception caused by infinite relationship loop when serializing json
     [ForeignKey(nameof(Applicant))]
     public ApplicantProfilePoco ApplicantProfile { get; set; }
+    #endregion
+
 
     [Column("Applicant")]
     public Guid Applicant { get; set; }

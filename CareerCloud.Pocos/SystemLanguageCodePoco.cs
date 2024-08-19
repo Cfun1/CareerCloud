@@ -11,15 +11,15 @@ public class SystemLanguageCodePoco
     public string LanguageID { get; set; }
 
 
+    #region EF navigation
+    public CompanyDescriptionPoco CompanyDescription { get; set; }
+    #endregion
+
+
     [Column("Name", TypeName = $"{SqlTypes.NVARCHAR}(50)")]
     public string Name { get; set; }
 
 
     [Column("Native_Name", TypeName = $"{SqlTypes.NVARCHAR}(50)")]
     public string NativeName { get; set; }
-
-
-    #region EF related
-    public CompanyDescriptionPoco CompanyDescription { get; set; }
-    #endregion
 }

@@ -10,9 +10,14 @@ public class ApplicantWorkHistoryPoco : IPoco
     [Key, Column("Id")]
     public Guid Id { get; set; }
 
-    //TODO: ForeignKey: ApplicantProfilePoco.Id
+
+    #region EF navigation
     [ForeignKey(nameof(Applicant))]
     public ApplicantProfilePoco ApplicantProfile { get; set; }
+
+    [ForeignKey(nameof(CountryCode))]
+    public SystemCountryCodePoco SystemCountryCode { get; set; }
+    #endregion
 
 
     [Column("Applicant")]
@@ -21,11 +26,6 @@ public class ApplicantWorkHistoryPoco : IPoco
 
     [Column("Company_Name", TypeName = $"{SqlTypes.NVARCHAR}(50)")]
     public string CompanyName { get; set; }
-
-
-    //TODO: ForeignKey: SystemCountryCodePoco.Code
-    [ForeignKey(nameof(CountryCode))]
-    public SystemCountryCodePoco SystemCountryCode { get; set; }
 
 
     [Column("Country_Code", TypeName = $"{SqlTypes.CHAR}(10)")]

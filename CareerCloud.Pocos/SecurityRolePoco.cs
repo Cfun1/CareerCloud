@@ -11,15 +11,15 @@ public class SecurityRolePoco : IPoco
     public Guid Id { get; set; }
 
 
+    #region EF navigation
+    public virtual IList<SecurityLoginsRolePoco> SecurityLoginsRoles { get; set; }
+    #endregion
+
+
     [Column("Is_Inactive")]
     public bool IsInactive { get; set; }
 
 
     [Column("Role", TypeName = $"{SqlTypes.VARCHAR}(50)")]
     public string Role { get; set; }
-
-
-    #region EF related
-    public virtual IList<SecurityLoginsRolePoco> SecurityLoginsRoles { get; set; }
-    #endregion
 }

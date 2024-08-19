@@ -11,13 +11,14 @@ public class CompanyJobEducationPoco : IPoco
     public Guid Id { get; set; }
 
 
-    [Column("Importance", TypeName = $"{SqlTypes.SMALLINT}")]
-    public Int16 Importance { get; set; }
-
-
-    //TODO: ForeignKey: CompanyJobPoco.Id
+    #region EF navigation
     [ForeignKey(nameof(Job))]
     public CompanyJobPoco CompanyJob { get; set; }
+    #endregion
+
+
+    [Column("Importance", TypeName = $"{SqlTypes.SMALLINT}")]
+    public Int16 Importance { get; set; }
 
 
     [Column("Job")]

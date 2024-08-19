@@ -11,10 +11,15 @@ public class CompanyJobPoco : IPoco
     public Guid Id { get; set; }
 
 
-    //TODO: ForeignKey: CompanyProfilePoco.Id
+    #region EF navigation
     [ForeignKey(nameof(Company))]
     public CompanyProfilePoco CompanyProfile { get; set; }
 
+
+    public virtual IList<CompanyJobDescriptionPoco> CompanyJobDescriptions { get; set; }
+    public virtual IList<CompanyJobSkillPoco> CompanyJobSkills { get; set; }
+    public virtual IList<CompanyJobEducationPoco> CompanyJobEducations { get; set; }
+    #endregion
 
     [Column("Company")]
     public Guid Company { get; set; }
@@ -34,10 +39,4 @@ public class CompanyJobPoco : IPoco
 
     [Column("Time_Stamp", TypeName = $"{SqlTypes.TIMESTAMP}"), Timestamp]
     public byte[]? TimeStamp { get; set; }
-
-    #region EF related
-    public virtual IList<CompanyJobDescriptionPoco> CompanyJobDescriptions { get; set; }
-    public virtual IList<CompanyJobSkillPoco> CompanyJobSkills { get; set; }
-    public virtual IList<CompanyJobEducationPoco> CompanyJobEducations { get; set; }
-    #endregion
 }

@@ -11,21 +11,21 @@ public class CompanyJobDescriptionPoco : IPoco
     public Guid Id { get; set; }
 
 
-    //TODO: ForeignKey: CompanyJobPoco.Id
+    #region EF navigation
     [ForeignKey(nameof(Job))]
     public CompanyJobPoco CompanyJob { get; set; }
-
+    #endregion
 
     [Column("Job")]
     public Guid Job { get; set; }
 
 
-    [Column("Job_Name", TypeName = $"{SqlTypes.NVARCHAR}(100)")]
-    public string? JobName { get; set; }
-
-
     [Column("Job_Descriptions", TypeName = $"{SqlTypes.NVARCHAR}(1000)")]
     public string? JobDescriptions { get; set; }
+
+
+    [Column("Job_Name", TypeName = $"{SqlTypes.NVARCHAR}(100)")]
+    public string? JobName { get; set; }
 
 
     [Column("Time_Stamp", TypeName = $"{SqlTypes.TIMESTAMP})"), Timestamp]

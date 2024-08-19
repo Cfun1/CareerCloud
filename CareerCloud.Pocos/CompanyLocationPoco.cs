@@ -11,22 +11,21 @@ public class CompanyLocationPoco : IPoco
     public Guid Id { get; set; }
 
 
-    [Column("City_Town", TypeName = $"{SqlTypes.NVARCHAR}(100)")]
-    public string? City { get; set; }
-
-
-    //TODO: ForeignKey: CompanyProfilePoco.Id
+    #region EF navigation
     [ForeignKey(nameof(Company))]
     public virtual CompanyProfilePoco CompanyProfile { get; set; }
 
 
-    [Column("Company")]
-    public Guid Company { get; set; }
-
-
-    //[ForeignKey("Country_Code")]
     [ForeignKey(nameof(CountryCode))]
     public virtual SystemCountryCodePoco SystemCountryCode { get; set; }
+    #endregion
+
+
+    [Column("City_Town", TypeName = $"{SqlTypes.NVARCHAR}(100)")]
+    public string? City { get; set; }
+
+    [Column("Company")]
+    public Guid Company { get; set; }
 
 
     [Column("Country_Code", TypeName = $"{SqlTypes.CHAR}(10)")]
