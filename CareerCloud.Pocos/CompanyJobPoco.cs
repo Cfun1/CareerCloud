@@ -19,6 +19,7 @@ public class CompanyJobPoco : IPoco
     public virtual IList<CompanyJobDescriptionPoco> CompanyJobDescriptions { get; set; } = null!;
     public virtual IList<CompanyJobSkillPoco> CompanyJobSkills { get; set; } = null!;
     public virtual IList<CompanyJobEducationPoco> CompanyJobEducations { get; set; } = null!;
+    public virtual IList<ApplicantJobApplicationPoco> ApplicantJobApplications { get; set; } = null!;
     #endregion
 
     [Column("Company")]

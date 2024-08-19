@@ -12,7 +12,7 @@ public class SystemLanguageCodePoco
 
 
     #region EF navigation
-    public CompanyDescriptionPoco CompanyDescription { get; set; }
+    public virtual IList<CompanyDescriptionPoco>? CompanyDescriptions { get; set; }
     #endregion
 
 

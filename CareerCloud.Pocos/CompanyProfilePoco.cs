@@ -12,11 +12,11 @@ public class CompanyProfilePoco : IPoco
 
 
     #region EF navigation
-    public virtual IList<CompanyLocationPoco> CompanyLocations { get; set; } = null!;
+    public virtual IList<CompanyLocationPoco>? CompanyLocations { get; set; }
 
-    public virtual IList<CompanyDescriptionPoco> CompanyDescriptions { get; set; } = null!;
+    public virtual IList<CompanyDescriptionPoco>? CompanyDescriptions { get; set; }
 
-    public virtual IList<CompanyJobPoco> CompanyJobs { get; set; } = null!;
+    public virtual IList<CompanyJobPoco>? CompanyJobs { get; set; }
     #endregion
 
 
