@@ -56,87 +56,76 @@ public class CareerCloudContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        #region ApplicantEducationPoco
-        //ApplicantEducationPoco <<- (Applicant) -> ApplicantProfilePoco
-        modelBuilder.Entity<ApplicantEducationPoco>()
-          .HasOne(e => e.ApplicantProfile)
-          .WithMany(e => e.ApplicantEducations)
-          .HasForeignKey(e => e.Applicant)
-          .IsRequired();
-        #endregion
-
-
-        #region ApplicantJobApplicationPoco
-        //ApplicantJobApplicationPoco <<- () -> ApplicantProfilePoco
-        modelBuilder.Entity<ApplicantJobApplicationPoco>()
-          .HasOne(e => e.ApplicantProfile)
-          .WithMany(e => e.ApplicantJobApplications)
-          .HasForeignKey(e => e.Applicant)
-          .IsRequired();
-
-        //ApplicantJobApplicationPoco <<- () -> CompanyJobPoco
-        modelBuilder.Entity<ApplicantJobApplicationPoco>()
-          .HasOne(e => e.CompanyJob)
-          .WithMany(e => e.ApplicantJobApplications)
-          .HasForeignKey(e => e.Job)
-          .IsRequired();
-        #endregion
-
-
         #region ApplicantProfilePoco
-        //ApplicantProfilePoco <<- () -> SecurityLoginPoco
+        //ApplicantProfilePoco <- (Applicant) ->> ApplicantEducations
+        modelBuilder.Entity<ApplicantProfilePoco>()
+          .HasMany(e => e.ApplicantEducations)
+          .WithOne(e => e.ApplicantProfile)
+          .HasForeignKey(e => e.Applicant)
+          .IsRequired();
+
         //note: should be one-to-one I believe: a single SecurityLogin reference a single applicant
+        //ApplicantProfilePoco <<- (Login) -> SecurityLoginPoco
         modelBuilder.Entity<ApplicantProfilePoco>()
           .HasOne(e => e.SecurityLogin)
           .WithMany(e => e.ApplicantProfiles)
           .HasForeignKey(e => e.Login)
           .IsRequired();
 
-        //ApplicantProfilePoco <<- () -> SystemCountryCodePoco
+        //ApplicantProfilePoco <- (Applicant) ->> ApplicantWorkHistoryPoco
         modelBuilder.Entity<ApplicantProfilePoco>()
-          .HasOne(e => e.SystemCountryCode)
-          .WithMany(e => e.ApplicantProfiles)
-          .HasForeignKey(e => e.Country);
-        #endregion
-
-
-        #region ApplicantResumePoco
-        //ApplicantResumePoco <<- () -> ApplicantProfilePoco
-        modelBuilder.Entity<ApplicantResumePoco>()
-          .HasOne(e => e.ApplicantProfile)
-          .WithMany(e => e.ApplicantResumes)
-          .HasForeignKey(e => e.Applicant)
-          .IsRequired();
-        #endregion
-
-
-        #region ApplicantSkillPoco
-        //ApplicantSkillPoco <<- () -> ApplicantProfilePoco
-        modelBuilder.Entity<ApplicantSkillPoco>()
-          .HasOne(e => e.ApplicantProfile)
-          .WithMany(e => e.ApplicantSkills)
-          .HasForeignKey(e => e.Applicant)
-          .IsRequired();
-        #endregion
-
-
-        #region ApplicantWorkHistoryPoco
-        //ApplicantWorkHistoryPoco <<- () -> ApplicantProfilePoco
-        modelBuilder.Entity<ApplicantWorkHistoryPoco>()
-          .HasOne(e => e.ApplicantProfile)
-          .WithMany(e => e.ApplicantWorkHistorys)
+          .HasMany(e => e.ApplicantWorkHistorys)
+          .WithOne(e => e.ApplicantProfile)
           .HasForeignKey(e => e.Applicant);
 
-        //ApplicantWorkHistoryPoco <<- () -> SystemCountryCodePoco
-        modelBuilder.Entity<ApplicantWorkHistoryPoco>()
-          .HasOne(e => e.SystemCountryCode)
-          .WithMany(e => e.ApplicantWorkHistories)
+        //ApplicantProfilePoco  <- (Applicant) ->> ApplicantJobApplicationPoco
+        modelBuilder.Entity<ApplicantProfilePoco>()
+          .HasMany(e => e.ApplicantJobApplications)
+          .WithOne(e => e.ApplicantProfile)
+          .HasForeignKey(e => e.Applicant)
+          .IsRequired();
+
+        //ApplicantProfilePoco  <- (Applicant) ->> ApplicantSkillPoco
+        modelBuilder.Entity<ApplicantProfilePoco>()
+          .HasMany(e => e.ApplicantSkills)
+          .WithOne(e => e.ApplicantProfile)
+          .HasForeignKey(e => e.Applicant)
+          .IsRequired();
+
+        // ApplicantProfilePoco <- (Applicant) ->> ApplicantResumePoco 
+        modelBuilder.Entity<ApplicantProfilePoco>()
+          .HasMany(e => e.ApplicantResumes)
+          .WithOne(e => e.ApplicantProfile)
+          .HasForeignKey(e => e.Applicant)
+          .IsRequired();
+        #endregion
+
+
+        #region SystemCountryCodePoco
+        //SystemCountryCodePoco <- (Country) ->> ApplicantProfilePoco
+        modelBuilder.Entity<SystemCountryCodePoco>()
+          .HasMany(e => e.ApplicantProfiles)
+          .WithOne(e => e.SystemCountryCode)
+          .HasForeignKey(e => e.Country);
+
+
+        //SystemCountryCodePoco <- (CountryCode) ->> ApplicantWorkHistoryPoco
+        modelBuilder.Entity<SystemCountryCodePoco>()
+          .HasMany(e => e.ApplicantWorkHistories)
+          .WithOne(e => e.SystemCountryCode)
           .HasForeignKey(e => e.CountryCode);
+
+        //SystemCountryCodePoco  <- (CountryCode) ->> CompanyLocationPoco
+        modelBuilder.Entity<SystemCountryCodePoco>()
+          .HasMany(e => e.CompanyLocations)
+          .WithOne(e => e.SystemCountryCode)
+          .HasForeignKey(e => e.CountryCode)
+          .IsRequired();
         #endregion
 
 
         #region CompanyDescriptionPoco
-        //CompanyDescriptionPoco <<- () -> CompanyProfilePoco
+        //CompanyDescriptionPoco <<- (Company) -> CompanyProfilePoco
         //note: many descriptions / company because in different languages
         modelBuilder.Entity<CompanyDescriptionPoco>()
           .HasOne(e => e.CompanyProfile)
@@ -144,7 +133,7 @@ public class CareerCloudContext : DbContext
           .HasForeignKey(e => e.Company)
           .IsRequired();
 
-        //CompanyDescriptionPoco <<- () -> SystemLanguageCode
+        //CompanyDescriptionPoco <<- (LanguageId) -> SystemLanguageCode
         modelBuilder.Entity<CompanyDescriptionPoco>()
           .HasOne(e => e.SystemLanguageCode)
           .WithMany(e => e.CompanyDescriptions)
@@ -153,64 +142,55 @@ public class CareerCloudContext : DbContext
 
 
         #region CompanyJobPoco
-        //CompanyJobPoco <<- () -> CompanyProfilePoco
+        //CompanyJobPoco <- (Job) ->> ApplicantJobApplicationPoco
         modelBuilder.Entity<CompanyJobPoco>()
-          .HasOne(e => e.CompanyProfile)
-          .WithMany(e => e.CompanyJobs)
-          .HasForeignKey(e => e.Company)
+          .HasMany(e => e.ApplicantJobApplications)
+          .WithOne(e => e.CompanyJob)
+          .HasForeignKey(e => e.Job)
           .IsRequired();
-        #endregion
 
+        //CompanyJobPoco <- (Job) ->> CompanyJobDescriptionPoco
+        modelBuilder.Entity<CompanyJobPoco>()
+          .HasMany(e => e.CompanyJobDescriptions)
+          .WithOne(e => e.CompanyJob)
+          .HasForeignKey(e => e.Job)
+          .IsRequired();
 
-        #region CompanyJobDescriptionPoco
-        //CompanyJobDescriptionPoco <<- () -> CompanyJobPoco
-        modelBuilder.Entity<CompanyJobDescriptionPoco>()
-          .HasOne(e => e.CompanyJob)
-          .WithMany(e => e.CompanyJobDescriptions)
+        //CompanyJobPoco <- (Job) ->> CompanyJobEducationPoco 
+        modelBuilder.Entity<CompanyJobPoco>()
+          .HasMany(e => e.CompanyJobEducations)
+          .WithOne(e => e.CompanyJob)
+          .HasForeignKey(e => e.Job)
+          .IsRequired();
+
+        //CompanyJobPoco  <- (Job) ->> CompanyJobSkillPoco
+        modelBuilder.Entity<CompanyJobPoco>()
+          .HasMany(e => e.CompanyJobSkills)
+          .WithOne(e => e.CompanyJob)
           .HasForeignKey(e => e.Job)
           .IsRequired();
         #endregion
 
 
-        #region CompanyJobEducationPoco
-        //CompanyJobEducationPoco <<- () -> CompanyJobPoco
-        modelBuilder.Entity<CompanyJobEducationPoco>()
-          .HasOne(e => e.CompanyJob)
-          .WithMany(e => e.CompanyJobEducations)
-          .HasForeignKey(e => e.Job)
-          .IsRequired();
-        #endregion
-
-
-        #region CompanyJobSkillPoco
-        //CompanyJobSkillPoco <<- () -> CompanyJobPoco
-        modelBuilder.Entity<CompanyJobSkillPoco>()
-          .HasOne(e => e.CompanyJob)
-          .WithMany(e => e.CompanyJobSkills)
-          .HasForeignKey(e => e.Job)
-          .IsRequired();
-        #endregion
-
-
-        #region CompanyLocationPoco
-        //CompanyLocationPoco <<- () -> CompanyProfilePoco
-        modelBuilder.Entity<CompanyLocationPoco>()
-          .HasOne(e => e.CompanyProfile)
-          .WithMany(e => e.CompanyLocations)
+        #region CompanyProfilePoco
+        //CompanyProfilePoco <- (Company) ->> CompanyLocationPoco
+        modelBuilder.Entity<CompanyProfilePoco>()
+          .HasMany(e => e.CompanyLocations)
+          .WithOne(e => e.CompanyProfile)
           .HasForeignKey(e => e.Company)
           .IsRequired();
 
-        //CompanyLocationPoco <<- () -> SystemCountryCodePoco
-        modelBuilder.Entity<CompanyLocationPoco>()
-          .HasOne(e => e.SystemCountryCode)
-          .WithMany(e => e.CompanyLocations)
-          .HasForeignKey(e => e.CountryCode)
+        //CompanyProfilePoco  <- (Company) ->> CompanyJobPoco
+        modelBuilder.Entity<CompanyProfilePoco>()
+          .HasMany(e => e.CompanyJobs)
+          .WithOne(e => e.CompanyProfile)
+          .HasForeignKey(e => e.Company)
           .IsRequired();
         #endregion
 
 
         #region SecurityLoginsLogPoco
-        //SecurityLoginsLogPoco <<- () -> SecurityLoginPoco
+        //SecurityLoginsLogPoco <<- (Login) -> SecurityLoginPoco
         modelBuilder.Entity<SecurityLoginsLogPoco>()
           .HasOne(e => e.SecurityLogin)
           .WithMany(e => e.SecurityLoginsLogs)
@@ -220,14 +200,14 @@ public class CareerCloudContext : DbContext
 
 
         #region SecurityLoginsRolePoco
-        //SecurityLoginsRolePoco <<- () -> SecurityLoginPoco
+        //SecurityLoginsRolePoco <<- (Login) -> SecurityLoginPoco
         modelBuilder.Entity<SecurityLoginsRolePoco>()
           .HasOne(e => e.SecurityLogin)
           .WithMany(e => e.SecurityLoginsRoles)
           .HasForeignKey(e => e.Login)
           .IsRequired();
 
-        //SecurityLoginsRolePoco <<- () -> SecurityRolePoco
+        //SecurityLoginsRolePoco <<- (Login) -> SecurityRolePoco
         modelBuilder.Entity<SecurityLoginsRolePoco>()
           .HasOne(e => e.SecurityRole)
           .WithMany(e => e.SecurityLoginsRoles)
