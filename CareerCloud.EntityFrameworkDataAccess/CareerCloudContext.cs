@@ -76,7 +76,8 @@ public class CareerCloudContext : DbContext
         modelBuilder.Entity<ApplicantProfilePoco>()
           .HasMany(e => e.ApplicantWorkHistorys)
           .WithOne(e => e.ApplicantProfile)
-          .HasForeignKey(e => e.Applicant);
+          .HasForeignKey(e => e.Applicant)
+          .IsRequired(false);
 
         //ApplicantProfilePoco  <- (Applicant) ->> ApplicantJobApplicationPoco
         modelBuilder.Entity<ApplicantProfilePoco>()
@@ -106,14 +107,15 @@ public class CareerCloudContext : DbContext
         modelBuilder.Entity<SystemCountryCodePoco>()
           .HasMany(e => e.ApplicantProfiles)
           .WithOne(e => e.SystemCountryCode)
-          .HasForeignKey(e => e.Country);
-
+          .HasForeignKey(e => e.Country)
+          .IsRequired(false);
 
         //SystemCountryCodePoco <- (CountryCode) ->> ApplicantWorkHistoryPoco
         modelBuilder.Entity<SystemCountryCodePoco>()
           .HasMany(e => e.ApplicantWorkHistories)
           .WithOne(e => e.SystemCountryCode)
-          .HasForeignKey(e => e.CountryCode);
+          .HasForeignKey(e => e.CountryCode)
+          .IsRequired(false);
 
         //SystemCountryCodePoco  <- (CountryCode) ->> CompanyLocationPoco
         modelBuilder.Entity<SystemCountryCodePoco>()
@@ -137,7 +139,8 @@ public class CareerCloudContext : DbContext
         modelBuilder.Entity<CompanyDescriptionPoco>()
           .HasOne(e => e.SystemLanguageCode)
           .WithMany(e => e.CompanyDescriptions)
-          .HasForeignKey(e => e.LanguageId);
+          .HasForeignKey(e => e.LanguageId)
+          .IsRequired(false);
         #endregion
 
 
