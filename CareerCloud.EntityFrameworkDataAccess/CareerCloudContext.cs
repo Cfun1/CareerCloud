@@ -50,8 +50,9 @@ public class CareerCloudContext : DbContext
     {
         optionsBuilder
                     .UseSqlServer(DataAccessLayer.CommonDbConnection.String)
-                    .UseLazyLoadingProxies();
+        //            .UseLazyLoadingProxies()
         //.LogTo(msg => Debug.WriteLine(msg), LogLevel.Information);
+        ;
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
