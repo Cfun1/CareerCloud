@@ -16,6 +16,7 @@ public class ApplicantSkillPoco : IPoco
     public ApplicantProfilePoco ApplicantProfile { get; set; } = null!;
     #endregion
 
+
     [Column("Applicant")]
     public Guid Applicant { get; set; }
 

@@ -10,6 +10,7 @@ public class SystemCountryCodePoco
     [Key, Column("Code", TypeName = $"{SqlTypes.CHAR}(10)")]
     public string Code { get; set; }
 
+
     #region EF navigation
     public virtual ICollection<ApplicantProfilePoco>? ApplicantProfiles { get; set; }
 

@@ -1,7 +1,5 @@
-﻿using System.Diagnostics;
-using CareerCloud.Pocos;
+﻿using CareerCloud.Pocos;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 
 namespace CareerCloud.EntityFrameworkDataAccess;
 //TODO:
@@ -50,8 +48,10 @@ public class CareerCloudContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlServer(DataAccessLayer.CommonDbConnection.String)
-            .LogTo(msg => Debug.WriteLine(msg), LogLevel.Information);
+        optionsBuilder
+                    .UseSqlServer(DataAccessLayer.CommonDbConnection.String)
+                    .UseLazyLoadingProxies();
+        //.LogTo(msg => Debug.WriteLine(msg), LogLevel.Information);
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

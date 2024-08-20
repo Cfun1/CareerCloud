@@ -12,13 +12,14 @@ public class CompanyDescriptionPoco : IPoco
     public Guid Id { get; set; }
 
     #region EF navigation
-    [ForeignKey("Company")]
+    [ForeignKey(nameof(Company))]
     public CompanyProfilePoco CompanyProfile { get; set; } = null!;
 
 
     [ForeignKey(nameof(LanguageId))]
     public SystemLanguageCodePoco SystemLanguageCode { get; set; } = null!;
     #endregion
+
 
     [Column("Company")]
     public Guid Company { get; set; }

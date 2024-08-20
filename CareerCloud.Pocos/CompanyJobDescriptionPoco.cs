@@ -16,6 +16,7 @@ public class CompanyJobDescriptionPoco : IPoco
     public CompanyJobPoco CompanyJob { get; set; } = null!;
     #endregion
 
+
     [Column("Job")]
     public Guid Job { get; set; }
 
