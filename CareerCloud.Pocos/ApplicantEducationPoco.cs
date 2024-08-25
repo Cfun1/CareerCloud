@@ -14,6 +14,8 @@ public class ApplicantEducationPoco : IPoco
 
     #region EF navigation
     //api layer might require to add JsonIgnore attribute to avoid overflow exception caused by infinite relationship loop when serializing json
+    //ForeignKeys already defined in db context which takes precedence, included here just for clarity
+
     [ForeignKey(nameof(Applicant))]
     public ApplicantProfilePoco ApplicantProfile { get; set; } = null!;
     #endregion
