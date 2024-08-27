@@ -50,6 +50,7 @@ public class CareerCloudContext : DbContext
     {
         optionsBuilder
                     .UseSqlServer(DataAccessLayer.CommonDbConnection.String)
+                    .AddInterceptors(new LoggingSaveChangesInterceptor())
         //            .UseLazyLoadingProxies()
         //.LogTo(msg => Debug.WriteLine(msg), LogLevel.Information);
         ;
