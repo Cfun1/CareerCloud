@@ -6,12 +6,12 @@ using Microsoft.IdentityModel.Tokens;
 namespace CareerCloud.ADODataAccessLayer;
 internal static class ReflectionHelpers
 {
-    /*** Retireve value of custom attribute Table from T type using refelction ***/
+    /*** Retrieve value of custom attribute Table from T type using reflection ***/
     internal static string? GetTableNameFrom<T>() where T : new() //IPoco,because of SystemCountryCode SystemLanguageCode
         => (typeof(T).GetCustomAttributes(typeof(TableAttribute), inherit: false)
                 .FirstOrDefault() as TableAttribute)?.Name;
 
-    /*** Retireve name and value of the first property having custom attribute "key" from T type using refelction ***/
+    /*** Retrieve name and value of the first property having custom attribute "key" from T type using reflection ***/
     internal static (string, object) GetKeyPropertyNameValueFrom<T>(T poco) where T : new()
     {
         if (poco == null)
@@ -26,7 +26,8 @@ internal static class ReflectionHelpers
     internal static string GetKeyPropertyNameFrom<T>() where T : new()
     {
         var keyProperty = typeof(T).GetProperties()
-         .Where(prop => prop.GetCustomAttributes(typeof(KeyAttribute), false).Any()).FirstOrDefault();
+                        .FirstOrDefault(prop =>
+                            prop.GetCustomAttributes(typeof(KeyAttribute), false).Any());
 
         if (keyProperty is null)
             throw new KeyNotFoundException($"Property with key attribute not found for {typeof(T)}");
@@ -65,9 +66,18 @@ internal static class ReflectionHelpers
     {
         IEnumerable<string> propertiesNames;
 
-        var properties = typeof(T).GetProperties().Where(prop => prop.GetCustomAttributes(typeof(ColumnAttribute), false).Any() &&
-            (prop.GetCustomAttributes(typeof(KeyAttribute), false).IsNullOrEmpty() || !skipKey));
-        propertiesNames = properties.Select(prop => prop.Name);
+        var properties = typeof(T).GetProperties()
+            .Where(prop => prop.GetCustomAttributes(typeof(ColumnAttribute), false).Any()
+            && (prop.GetCustomAttributes(typeof(KeyAttribute), false).IsNullOrEmpty() || !skipKey));
+
+        try
+        {
+            propertiesNames = properties.Select(prop => prop.Name);
+        }
+        catch (ArgumentNullException ex)
+        {
+            throw new Exception($"Unexpected null source or selector: {ex.ParamName} {ex.Message}");
+        }
 
         if (propertiesNames == null)
             throw new Exception($"Unexpected null column attribute for {propertiesNames}");
@@ -77,10 +87,13 @@ internal static class ReflectionHelpers
 
     internal static string GetColumnFromProperty<T>(string propName)
     {
-        var prop = typeof(T).GetProperties().Where(prop => prop.Name == propName).FirstOrDefault();
-        var temp = (ColumnAttribute)prop.GetCustomAttribute(typeof(ColumnAttribute));
+        var prop = typeof(T).GetProperties().First(prop => prop.Name == propName);
+        if (prop == null)
+            throw new InvalidOperationException();
 
-        if (temp == null)
+        var temp = (ColumnAttribute?)prop.GetCustomAttribute(typeof(ColumnAttribute));
+
+        if (temp == null || temp.Name == null)
             return string.Empty;
         //commented out because the properties added in the pocos for EF introduced an exception here
         //throw new Exception($"Unexpected null column attribute for {prop.Name}");
