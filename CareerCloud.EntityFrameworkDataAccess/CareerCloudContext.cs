@@ -2,8 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 
 namespace CareerCloud.EntityFrameworkDataAccess;
-//TODO:
-//implement types for better optimization: .HasColumnType("varchar(200)")
+//TODO: future consideration
+//AsSingleQuery()
 public class CareerCloudContext : DbContext
 {
     public DbSet<ApplicantEducationPoco> ApplicantEducation { get; set; }
