@@ -22,9 +22,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CareerCloud.ADODataAccessLayer\CareerCloud.ADODataAccessLayer.csproj" />
-    <ProjectReference Include="..\CareerCloud.DataAccessLayer\CareerCloud.DataAccessLayer.csproj" />
-    <ProjectReference Include="..\CareerCloud.Pocos\CareerCloud.Pocos.csproj" />
+    <ProjectReference Include="..\..\Core\CareerCloud.Pocos\CareerCloud.Pocos.csproj" />
+    <ProjectReference Include="..\..\DataAccess\CareerCloud.ADODataAccessLayer\CareerCloud.ADODataAccessLayer.csproj" />
+    <ProjectReference Include="..\..\DataAccess\CareerCloud.DataAccessLayer\CareerCloud.DataAccessLayer.csproj" />
   </ItemGroup>
 
   <ItemGroup>

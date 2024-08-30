@@ -17,8 +17,8 @@
    </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Core\CareerCloud.Pocos\CareerCloud.Pocos.csproj" />
     <ProjectReference Include="..\CareerCloud.DataAccessLayer\CareerCloud.DataAccessLayer.csproj" />
-    <ProjectReference Include="..\CareerCloud.Pocos\CareerCloud.Pocos.csproj" />
-  </ItemGroup>
+   </ItemGroup>
 
 </Project>

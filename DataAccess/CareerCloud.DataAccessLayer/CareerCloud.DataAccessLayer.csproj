@@ -12,8 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CareerCloud.Pocos\CareerCloud.Pocos.csproj" />
-  </ItemGroup>
+    <ProjectReference Include="..\..\Core\CareerCloud.Pocos\CareerCloud.Pocos.csproj" />
+   </ItemGroup>
 
   <ItemGroup>
     <None Update="appsettings.json">

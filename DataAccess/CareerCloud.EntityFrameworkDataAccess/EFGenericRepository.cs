@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 namespace CareerCloud.EntityFrameworkDataAccess;
 
 /*  Future considerations:
-*   Async methods
+*   Async methods, cancellation tokens
 *   Centralized logging of certain exceptions or stats
 */
 public class EFGenericRepository<T> : IDisposable, IDataRepository<T> where T : class
