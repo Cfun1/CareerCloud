@@ -1,5 +1,6 @@
 ﻿using CareerCloud.BusinessLogicLayer;
 using CareerCloud.DataAccessLayer;
+using CareerCloud.DataTransfer;
 using CareerCloud.Pocos;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -17,8 +18,8 @@ namespace CareerCloud.WebApp.API;
 
 public class ApplicantEducationController : ControllerBase, IApiController<ApplicantEducationPoco>
 {
-    ApplicantEducationLogic? logic;
-    ApplicantEducationModel? applicantEducationModel;
+    readonly ApplicantEducationLogic? logic;
+    ApplicantEducationDto? applicantEducationModel;
 
     public ApplicantEducationController(IDataRepository<ApplicantEducationPoco> applicantEducationRepo)
     {
@@ -34,7 +35,7 @@ public class ApplicantEducationController : ControllerBase, IApiController<Appli
 
     // GET: api/ApplicantEducation
     [HttpGet]
-    [ProducesResponseType<ICollection<ApplicantEducationModel>>(StatusCodes.Status200OK)]
+    [ProducesResponseType<ICollection<ApplicantEducationDto>>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
     public ActionResult<string> GetAll()
     {
@@ -58,7 +59,7 @@ public class ApplicantEducationController : ControllerBase, IApiController<Appli
 
     // GET: api/ApplicantEducation/{Id}
     [HttpGet("{id}")]
-    [ProducesResponseType<ApplicantEducationModel>(StatusCodes.Status200OK)]
+    [ProducesResponseType<ApplicantEducationDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public ActionResult<string> GetSingle(Guid id)

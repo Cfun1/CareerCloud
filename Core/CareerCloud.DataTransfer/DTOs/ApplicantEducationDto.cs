@@ -1,9 +1,8 @@
 using CareerCloud.Pocos;
 
-namespace CareerCloud.WebApp.API;
+namespace CareerCloud.DataTransfer;
 
-
-public class ApplicantEducationModel : IPoco
+public class ApplicantEducationDto : IPoco
 {
     public Guid Id { get; set; }
 
