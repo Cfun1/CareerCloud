@@ -13,7 +13,6 @@ public interface IApiController<TPoco> where TPoco : IPoco, new()
 
     ActionResult<string> Update(TPoco[] pocos);
 
-    ActionResult<string> Remove(TPoco[] pocos);
-
-    //ActionResult<string> CallStoredProc(string name, params Tuple<string, string>[] parameters);
+    //don't return deleted object: https://datatracker.ietf.org/doc/html/rfc7231
+    ActionResult Remove(TPoco[] pocos);
 }

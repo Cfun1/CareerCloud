@@ -5,12 +5,6 @@ using CareerCloud.Pocos;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
-/*Futur consideration:
- * sorting, pagination, versionning, security: (authorizing, authentication, rate limit)
- * https://datatracker.ietf.org/doc/html/rfc7231
- * don't return deleted object
- */
-
 namespace CareerCloud.WebApp.API;
 
 [ApiController]
@@ -28,6 +22,10 @@ public class ApplicantEducationController : ControllerBase, IApiController<Appli
 
     // POST: api/ApplicantEducation/Add/{Id}
     [HttpPost("Add")]
+    [ProducesResponseType<ApplicantEducationDto>(StatusCodes.Status200OK)]
+    [ProducesResponseType<ApplicantEducationDto>(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
     public ActionResult<string> Add([FromBody] ApplicantEducationPoco[] pocos)
     {
         throw new NotImplementedException();
@@ -42,7 +40,7 @@ public class ApplicantEducationController : ControllerBase, IApiController<Appli
         try
         {
             if (logic is null)
-                throw new ArgumentNullException(nameof(logic));
+                throw new NullReferenceException(nameof(logic));
 
             var apiResult = logic.GetAll();
             string json = JsonConvert.SerializeObject(apiResult, Formatting.Indented);
@@ -62,12 +60,14 @@ public class ApplicantEducationController : ControllerBase, IApiController<Appli
     [ProducesResponseType<ApplicantEducationDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
+
     public ActionResult<string> GetSingle(Guid id)
     {
         try
         {
             if (logic is null)
-                throw new ArgumentNullException(nameof(logic));
+                throw new NullReferenceException(nameof(logic));
 
             var apiResult = logic.Get(id);
 
@@ -87,9 +87,13 @@ public class ApplicantEducationController : ControllerBase, IApiController<Appli
 
     //PUT: api/ApplicantEducation/Remove/
     [HttpDelete("Remove")]
-    public ActionResult<string> Remove([FromBody] ApplicantEducationPoco[] pocos)
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status202Accepted)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+
+    public ActionResult Remove([FromBody] ApplicantEducationPoco[] pocos)
     {
-        throw new NotImplementedException();
+        return StatusCode(StatusCodes.Status202Accepted);
     }
 
     //PUT: api/ApplicantEducation/Update/
