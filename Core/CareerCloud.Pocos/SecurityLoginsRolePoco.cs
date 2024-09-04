@@ -1,11 +1,12 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Newtonsoft.Json;
 
 namespace CareerCloud.Pocos;
 
 [Table("Security_Logins_Roles")]
 
-public class SecurityLoginsRolePoco : IPoco
+public class SecurityLoginsRolePoco : IPoco, IRowVersion
 {
     [Key, Column("Id")]
     public Guid Id { get; set; }
@@ -29,6 +30,7 @@ public class SecurityLoginsRolePoco : IPoco
     public Guid Role { get; set; }
 
 
-    [Column("Time_Stamp", TypeName = $"{SqlTypes.TIMESTAMP}"), Timestamp]
+    [Column("Time_Stamp", TypeName = $"{SqlTypes.TIMESTAMP}")]
+    [JsonIgnore, Timestamp]
     public byte[]? TimeStamp { get; set; }
 }

@@ -1,12 +1,13 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Newtonsoft.Json;
 
 namespace CareerCloud.Pocos;
 
 
 [Table("Applicant_Educations")]
 
-public class ApplicantEducationPoco : IPoco
+public class ApplicantEducationPoco : IPoco, IRowVersion
 {
     [Key, Column("Id")]
     public Guid Id { get; set; }
@@ -17,7 +18,7 @@ public class ApplicantEducationPoco : IPoco
     //ForeignKeys already defined in db context which takes precedence, included here just for clarity
 
     [ForeignKey(nameof(Applicant))]
-    public ApplicantProfilePoco ApplicantProfile { get; set; } = null!;
+    public ApplicantProfilePoco? ApplicantProfile { get; set; }
     #endregion
 
 
@@ -45,6 +46,7 @@ public class ApplicantEducationPoco : IPoco
     public DateTime? StartDate { get; set; }
 
 
-    [Column("Time_Stamp", TypeName = SqlTypes.TIMESTAMP), Timestamp]
+    [Column("Time_Stamp", TypeName = $"{SqlTypes.TIMESTAMP}")]
+    [JsonIgnore, Timestamp]
     public byte[] TimeStamp { get; set; }
 }

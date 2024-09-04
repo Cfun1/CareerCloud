@@ -1,11 +1,12 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Newtonsoft.Json;
 
 namespace CareerCloud.Pocos;
 
 [Table("Company_Descriptions")]
 
-public class CompanyDescriptionPoco : IPoco
+public class CompanyDescriptionPoco : IPoco, IRowVersion
 {
 
     [Key, Column("Id")]
@@ -37,6 +38,7 @@ public class CompanyDescriptionPoco : IPoco
     public string LanguageId { get; set; }
 
 
-    [Column("Time_Stamp", TypeName = $"{SqlTypes.TIMESTAMP}"), Timestamp]
+    [Column("Time_Stamp", TypeName = $"{SqlTypes.TIMESTAMP}")]
+    [JsonIgnore, Timestamp]
     public byte[] TimeStamp { get; set; }
 }
