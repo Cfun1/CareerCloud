@@ -1,11 +1,12 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Newtonsoft.Json;
 
 namespace CareerCloud.Pocos;
 
 [Table("Company_Locations")]
 
-public class CompanyLocationPoco : IPoco
+public class CompanyLocationPoco : IPoco, IRowVersion
 {
     [Key, Column("Id")]
     public Guid Id { get; set; }
@@ -40,10 +41,10 @@ public class CompanyLocationPoco : IPoco
     public string? Street { get; set; }
 
 
-    [Column("Time_Stamp", TypeName = $"{SqlTypes.TIMESTAMP}"), Timestamp]
-    public byte[] TimeStamp { get; set; }
-
-
     [Column("Zip_Postal_Code", TypeName = $"{SqlTypes.CHAR}(20)")]
     public string? PostalCode { get; set; }
+
+    [Column("Time_Stamp", TypeName = $"{SqlTypes.TIMESTAMP}")]
+    [JsonIgnore, Timestamp]
+    public byte[] TimeStamp { get; set; }
 }
