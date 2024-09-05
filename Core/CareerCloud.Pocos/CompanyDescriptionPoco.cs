@@ -1,6 +1,5 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Newtonsoft.Json;
 
 namespace CareerCloud.Pocos;
 
@@ -39,6 +38,6 @@ public class CompanyDescriptionPoco : IPoco, IRowVersion
 
 
     [Column("Time_Stamp", TypeName = $"{SqlTypes.TIMESTAMP}")]
-    [JsonIgnore, Timestamp]
+    [Timestamp]
     public byte[] TimeStamp { get; set; }
 }

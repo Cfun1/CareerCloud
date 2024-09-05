@@ -14,7 +14,7 @@ public static class ApplicantEducationDtoExtensions
             CertificateDiploma = dto.CertificateDiploma,
             CompletionPercent = dto.CompletionPercent,
             Major = dto.Major,
-            TimeStamp = [0]
+            TimeStamp = [0] //otherwise api controlelr validation failed
         };
 
     public static IEnumerable<ApplicantEducationPoco> ToModel(this IEnumerable<ApplicantEducationDto> dtos)

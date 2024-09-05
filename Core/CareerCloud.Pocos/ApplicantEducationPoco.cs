@@ -1,6 +1,5 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Newtonsoft.Json;
 
 namespace CareerCloud.Pocos;
 
@@ -14,9 +13,6 @@ public class ApplicantEducationPoco : IPoco, IRowVersion
 
 
     #region EF navigation
-    //api layer might require to add JsonIgnore attribute to avoid overflow exception caused by infinite relationship loop when serializing json
-    //ForeignKeys already defined in db context which takes precedence, included here just for clarity
-
     [ForeignKey(nameof(Applicant))]
     public ApplicantProfilePoco? ApplicantProfile { get; set; }
     #endregion
@@ -47,6 +43,6 @@ public class ApplicantEducationPoco : IPoco, IRowVersion
 
 
     [Column("Time_Stamp", TypeName = $"{SqlTypes.TIMESTAMP}")]
-    [JsonIgnore, Timestamp]
+    [Timestamp]
     public byte[] TimeStamp { get; set; }
 }
