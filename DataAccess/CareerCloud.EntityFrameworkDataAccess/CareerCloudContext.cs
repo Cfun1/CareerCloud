@@ -1,5 +1,7 @@
-﻿using CareerCloud.Pocos;
+﻿using System.Diagnostics;
+using CareerCloud.Pocos;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace CareerCloud.EntityFrameworkDataAccess;
 //TODO: future consideration
@@ -52,60 +54,59 @@ public class CareerCloudContext : DbContext
                     .UseSqlServer(DataAccessLayer.CommonDbConnection.String)
                     .AddInterceptors(new LoggingSaveChangesInterceptor())
         //            .UseLazyLoadingProxies()
-        //.LogTo(msg => Debug.WriteLine(msg), LogLevel.Information);
+        .LogTo(msg => Debug.WriteLine(msg), LogLevel.Information);
         ;
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         //no need for IsRequired(true/false) EF will make assumption based on nullability of type
-
         #region ApplicantProfilePoco
         modelBuilder.Entity<ApplicantProfilePoco>(builder =>
-        {
-            //ApplicantProfilePoco <- (Applicant) ->> ApplicantEducations
-            builder
-                .HasMany(e => e.ApplicantEducations)
-                .WithOne(e => e.ApplicantProfile)
-                .HasForeignKey(e => e.Applicant);
+    {
+        //ApplicantProfilePoco <- (Applicant) ->> ApplicantEducations
+        builder
+            .HasMany(e => e.ApplicantEducations)
+            .WithOne(e => e.ApplicantProfile)
+            .HasForeignKey(e => e.Applicant);
 
-            //ApplicantProfilePoco  <- (Applicant) ->> ApplicantJobApplicationPoco
-            builder
-                .HasMany(e => e.ApplicantJobApplications)
-                .WithOne(e => e.ApplicantProfile)
-                .HasForeignKey(e => e.Applicant);
+        //ApplicantProfilePoco  <- (Applicant) ->> ApplicantJobApplicationPoco
+        builder
+            .HasMany(e => e.ApplicantJobApplications)
+            .WithOne(e => e.ApplicantProfile)
+            .HasForeignKey(e => e.Applicant);
 
-            //ApplicantProfilePoco <- (Applicant) ->> ApplicantResumePoco 
-            builder
-                .HasMany(e => e.ApplicantResumes)
-                .WithOne(e => e.ApplicantProfile)
-                .HasForeignKey(e => e.Applicant);
+        //ApplicantProfilePoco <- (Applicant) ->> ApplicantResumePoco 
+        builder
+            .HasMany(e => e.ApplicantResumes)
+            .WithOne(e => e.ApplicantProfile)
+            .HasForeignKey(e => e.Applicant);
 
-            //ApplicantProfilePoco  <- (Applicant) ->> ApplicantSkillPoco
-            builder
-                .HasMany(e => e.ApplicantSkills)
-                .WithOne(e => e.ApplicantProfile)
-                .HasForeignKey(e => e.Applicant);
+        //ApplicantProfilePoco  <- (Applicant) ->> ApplicantSkillPoco
+        builder
+            .HasMany(e => e.ApplicantSkills)
+            .WithOne(e => e.ApplicantProfile)
+            .HasForeignKey(e => e.Applicant);
 
-            //ApplicantProfilePoco <- (Applicant) ->> ApplicantWorkHistoryPoco
-            builder
-                .HasMany(e => e.ApplicantWorkHistorys)
-                .WithOne(e => e.ApplicantProfile)
-                .HasForeignKey(e => e.Applicant);
+        //ApplicantProfilePoco <- (Applicant) ->> ApplicantWorkHistoryPoco
+        builder
+            .HasMany(e => e.ApplicantWorkHistorys)
+            .WithOne(e => e.ApplicantProfile)
+            .HasForeignKey(e => e.Applicant);
 
-            //note: should be one-to-one I believe: a single SecurityLogin reference a single applicant
-            //ApplicantProfilePoco <<- (Login) -> SecurityLoginPoco
-            builder
-                .HasOne(e => e.SecurityLogin)
-                .WithMany(e => e.ApplicantProfiles)
-                .HasForeignKey(e => e.Login);
+        //note: should be one-to-one I believe: a single SecurityLogin reference a single applicant
+        //ApplicantProfilePoco <<- (Login) -> SecurityLoginPoco
+        builder
+            .HasOne(e => e.SecurityLogin)
+            .WithMany(e => e.ApplicantProfiles)
+            .HasForeignKey(e => e.Login);
 
-            //ApplicantProfilePoco <<- (Country) -> SystemCountryCodePoco
-            builder
-                .HasOne(e => e.SystemCountryCode)
-                .WithMany(e => e.ApplicantProfiles)      //not required by test
-                .HasForeignKey(e => e.Country);
-        });
+        //ApplicantProfilePoco <<- (Country) -> SystemCountryCodePoco
+        builder
+            .HasOne(e => e.SystemCountryCode)
+            .WithMany(e => e.ApplicantProfiles)      //not required by test
+            .HasForeignKey(e => e.Country);
+    });
         #endregion
 
 

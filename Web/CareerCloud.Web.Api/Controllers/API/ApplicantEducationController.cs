@@ -7,10 +7,13 @@ using Newtonsoft.Json;
 
 namespace CareerCloud.WebApp.API;
 
-[ApiController]
-[Route("api/[controller]")]
+[ApiController]   //auto validation, verbose aggregated output in case of failed model validation BadRequet
+                  //without this, valdiation needs to be performed manually in each endpoint method
+                  //using ModelState.IsValid
 
-public class ApplicantEducationController : ControllerBase, IApiController<ApplicantEducationPoco>
+[Route("api/[controller]")]
+public class ApplicantEducationController : ControllerBase,
+                                            IApiController<ApplicantEducationDto>
 {
     readonly ApplicantEducationLogic? logic;
     ApplicantEducationDto? applicantEducationModel;
@@ -20,18 +23,37 @@ public class ApplicantEducationController : ControllerBase, IApiController<Appli
         logic = new ApplicantEducationLogic(applicantEducationRepo);
     }
 
-    // POST: api/ApplicantEducation/Add/{Id}
+    /// POST: api/ApplicantEducation/Add/{Id}
     [HttpPost("Add")]
     [ProducesResponseType<ApplicantEducationDto>(StatusCodes.Status200OK)]
     [ProducesResponseType<ApplicantEducationDto>(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
-    public ActionResult<string> Add([FromBody] ApplicantEducationPoco[] pocos)
+    public ActionResult<string> Add([FromBody] ApplicantEducationDto[] dtos)
     {
-        throw new NotImplementedException();
+        try
+        {
+            if (logic is null)
+                throw new NullReferenceException(nameof(logic));
+
+            var pocos = dtos.ToModel().ToArray();
+            logic.Add(pocos);
+            string jsonResult = JsonConvert.SerializeObject(pocos, Formatting.Indented);
+            return Created("", jsonResult);
+        }
+
+        catch (AggregateException ex)
+        {
+            return BadRequest(ex);
+        }
+        catch (Exception)
+        {
+            Response.Headers?.TryAdd("Retry-After", "3m");
+            return StatusCode(StatusCodes.Status503ServiceUnavailable);
+        }
     }
 
-    // GET: api/ApplicantEducation
+    /// GET: api/ApplicantEducation
     [HttpGet]
     [ProducesResponseType<ICollection<ApplicantEducationDto>>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
@@ -43,6 +65,7 @@ public class ApplicantEducationController : ControllerBase, IApiController<Appli
                 throw new NullReferenceException(nameof(logic));
 
             var apiResult = logic.GetAll();
+
             string json = JsonConvert.SerializeObject(apiResult, Formatting.Indented);
             return Ok(json);
         }
@@ -54,16 +77,22 @@ public class ApplicantEducationController : ControllerBase, IApiController<Appli
         }
     }
 
+    /*https://learn.microsoft.com/en-us/aspnet/core/fundamentals/routing?view=aspnetcore-8.0#route-constraint-reference
+    [HttpGet("{id:Guid}")]  //automatic validate the param type.
+    Avoid using it because it returns returns 404 if type mismatch, which is confusing
+    */
 
-    // GET: api/ApplicantEducation/{Id}
+    /// GET: api/ApplicantEducation/{Id}
     [HttpGet("{id}")]
     [ProducesResponseType<ApplicantEducationDto>(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
-
     public ActionResult<string> GetSingle(Guid id)
     {
+        if (id == Guid.Empty)
+            return BadRequest(id);
+
         try
         {
             if (logic is null)
@@ -85,21 +114,67 @@ public class ApplicantEducationController : ControllerBase, IApiController<Appli
         }
     }
 
-    //PUT: api/ApplicantEducation/Remove/
+    /// PUT: api/ApplicantEducation/Remove/
     [HttpDelete("Remove")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status202Accepted)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-
-    public ActionResult Remove([FromBody] ApplicantEducationPoco[] pocos)
+    public ActionResult Remove([FromBody] ApplicantEducationDto[] dtos)
     {
-        return StatusCode(StatusCodes.Status202Accepted);
+        try
+        {
+            if (logic is null)
+                throw new NullReferenceException(nameof(logic));
+
+            if (dtos.Length == 0)
+                throw new ArgumentException(nameof(dtos));
+
+            var originalPoco = logic.Get(dtos[0].Id);
+            originalPoco.CompletionPercent = 55;
+
+            // logic.Update(dtos.Model());
+            logic.Update([originalPoco]);
+
+            return StatusCode(StatusCodes.Status202Accepted);
+        }
+
+        catch (Exception ex)
+        {
+            Response.Headers?.TryAdd("Retry-After", "500");
+            return StatusCode(StatusCodes.Status503ServiceUnavailable);
+        }
     }
 
-    //PUT: api/ApplicantEducation/Update/
+    /// PUT: api/ApplicantEducation/Update/
     [HttpPut("Update")]
-    public ActionResult<string> Update([FromBody] ApplicantEducationPoco[] pocos)
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    public ActionResult<string> Update([FromBody] ApplicantEducationDto[] dtos)
     {
-        throw new NotImplementedException();
+        try
+        {
+            if (logic is null)
+                throw new NullReferenceException(nameof(logic));
+
+            if (dtos.Length == 0)
+                throw new ArgumentException(nameof(dtos));
+
+            var pocos = dtos.ToModel().ToArray();
+            var ids = pocos.Select(x => x.Id).ToArray();
+            var pocosReturned = logic.GetList(ids);
+
+            pocosReturned.ForEach(p => p.CompletionPercent = 55);
+
+            logic.Update(pocosReturned.ToArray());
+
+            string json = JsonConvert.SerializeObject(pocos, Formatting.Indented);
+            return Ok(json);
+        }
+
+        catch (Exception ex)
+        {
+            Response.Headers?.TryAdd("Retry-After", "500");
+            return StatusCode(StatusCodes.Status503ServiceUnavailable);
+        }
     }
 }

@@ -1,18 +1,17 @@
-﻿using CareerCloud.Pocos;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace CareerCloud.WebApp.API;
 
-public interface IApiController<TPoco> where TPoco : IPoco, new()
+public interface IApiController<TDto> where TDto : new()
 {
     ActionResult<string> GetAll();
 
     ActionResult<string> GetSingle(Guid id);
 
-    ActionResult<string> Add(TPoco[] pocos);
+    ActionResult<string> Add(TDto[] pocoDtos);
 
-    ActionResult<string> Update(TPoco[] pocos);
+    ActionResult<string> Update(TDto[] pocoDtos);
 
     //don't return deleted object: https://datatracker.ietf.org/doc/html/rfc7231
-    ActionResult Remove(TPoco[] pocos);
+    ActionResult Remove(TDto[] pocoDtos);
 }

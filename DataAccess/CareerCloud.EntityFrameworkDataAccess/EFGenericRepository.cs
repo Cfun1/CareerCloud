@@ -87,6 +87,8 @@ public class EFGenericRepository<T> : IDisposable, IDataRepository<T> where T : 
         return entitiesList;
     }
 
+    //potentially could crash if DB compatibility level < SQL 2016 (no support for the new OPENJSON  )
+    //https://learn.microsoft.com/en-us/ef/core/what-is-new/ef-core-8.0/breaking-changes#contains-in-linq-queries-may-stop-working-on-older-sql-server-versions
     public IList<T> GetList(Expression<Func<T, bool>> where, params Expression<Func<T, object>>[] navigationProperties)
     {
         if (where is null)
@@ -97,7 +99,7 @@ public class EFGenericRepository<T> : IDisposable, IDataRepository<T> where T : 
             if (navigationProp is not null)
                 linqQueryT.Include(navigationProp);
 
-        var entitiesList = linqQueryT.ToList();
+        var entitiesList = linqQueryT?.ToList();
         if (entitiesList is null)
             throw new InvalidOperationException("No entities found that matches the given predicate.");
 

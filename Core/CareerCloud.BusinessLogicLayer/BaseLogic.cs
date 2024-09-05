@@ -22,9 +22,22 @@ public abstract class BaseLogic<TPoco> where TPoco : IPoco
         return _repository.GetSingle(c => c.Id == id);
     }
 
+    public virtual List<TPoco> GetList(Guid[] ids)
+    {
+        return _repository.GetList(c => ids.Contains(c.Id))?.ToList();
+    }
+
+    public virtual List<TPoco> GetList(TPoco[] pocos)
+    {
+        var pocosIds = pocos.Select(p => p.Id).ToList();
+        // Use the list of IDs in a query EF Core can translate to SQL
+
+        return _repository.GetList(c => pocosIds.Contains(c.Id))?.ToList();
+    }
+
     public virtual List<TPoco> GetAll()
     {
-        return _repository.GetAll().ToList();
+        return _repository.GetAll()?.ToList();
     }
 
     public virtual void Add(TPoco[] pocos)

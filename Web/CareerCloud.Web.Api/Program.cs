@@ -5,7 +5,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    //used for filtering/bypass some properties considered required by validation
+    //not needed anymore using DTO as an extra abstraction
+    //options.Filters.Add<IgnoreTimeStampFilter>();
+}
+);
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

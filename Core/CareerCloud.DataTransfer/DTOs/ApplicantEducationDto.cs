@@ -6,7 +6,7 @@ public class ApplicantEducationDto : IPoco
 {
     public Guid Id { get; set; }
 
-    //public ApplicantProfilePoco ApplicantProfile { get; set; } = null!;
+    public ApplicantProfilePoco? ApplicantProfile { get; set; }
 
     public Guid Applicant { get; set; }
 
@@ -14,7 +14,7 @@ public class ApplicantEducationDto : IPoco
 
     public DateTime? CompletionDate { get; set; }
 
-    public int? CompletionPercent { get; set; }
+    public byte? CompletionPercent { get; set; }
 
     public string Major { get; set; }
 
