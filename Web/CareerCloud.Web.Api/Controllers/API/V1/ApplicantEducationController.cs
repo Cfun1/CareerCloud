@@ -1,4 +1,5 @@
-﻿using CareerCloud.BusinessLogicLayer;
+﻿using Asp.Versioning;
+using CareerCloud.BusinessLogicLayer;
 using CareerCloud.DataAccessLayer;
 using CareerCloud.DataTransfer;
 using CareerCloud.Pocos;
@@ -10,9 +11,9 @@ namespace CareerCloud.WebApp.API;
 [ApiController]   //auto validation, verbose aggregated output in case of failed model validation BadRequet
                   //without this, valdiation needs to be performed manually in each endpoint method
                   //using ModelState.IsValid
-
-[Route("api/[controller]")]
-public class ApplicantEducationController : ControllerBase,
+[ApiVersion("1.0")]
+[Route("api/v{version:apiVersion}/[Controller]")]
+public partial class ApplicantEducationController : ControllerBase,
                                             IApiController<ApplicantEducationDto>
 {
     readonly ApplicantEducationLogic? logic;
@@ -25,6 +26,7 @@ public class ApplicantEducationController : ControllerBase,
 
     /// POST: api/ApplicantEducation/Add/{Id}
     [HttpPost("Add")]
+    [MapToApiVersion("1.0")]
     [ProducesResponseType<ApplicantEducationDto>(StatusCodes.Status200OK)]
     [ProducesResponseType<ApplicantEducationDto>(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -55,6 +57,7 @@ public class ApplicantEducationController : ControllerBase,
 
     /// GET: api/ApplicantEducation
     [HttpGet]
+    [MapToApiVersion("1.0")]
     [ProducesResponseType<ICollection<ApplicantEducationDto>>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
     public ActionResult<string> GetAll()
@@ -84,6 +87,7 @@ public class ApplicantEducationController : ControllerBase,
 
     /// GET: api/ApplicantEducation/{Id}
     [HttpGet("{id}")]
+    [MapToApiVersion("1.0")]
     [ProducesResponseType<ApplicantEducationDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -116,6 +120,7 @@ public class ApplicantEducationController : ControllerBase,
 
     /// PUT: api/ApplicantEducation/Remove/
     [HttpDelete("Remove")]
+    [MapToApiVersion("1.0")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status202Accepted)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -147,6 +152,7 @@ public class ApplicantEducationController : ControllerBase,
 
     /// PUT: api/ApplicantEducation/Update/
     [HttpPut("Update")]
+    [MapToApiVersion("1.0")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public ActionResult<string> Update([FromBody] ApplicantEducationDto[] dtos)
