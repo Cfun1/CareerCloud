@@ -1,12 +1,16 @@
 using Asp.Versioning;
+using CareerCloud.ADODataAccessLayer;
 using CareerCloud.DataAccessLayer;
 using CareerCloud.EntityFrameworkDataAccess;
+using CareerCloud.Pocos;
 using CareerCloud.Web.Api;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 
 var builder = WebApplication.CreateBuilder(args);
+var dataAccessFramework = builder.Configuration.GetValue<string>("DataAccessFramework");
+
 
 // Add services to the container.
 builder.Services.AddControllers(options =>
@@ -17,30 +21,60 @@ builder.Services.AddControllers(options =>
 }
 );
 
-builder.Services.AddApiVersioning(options =>
-{
-    options.DefaultApiVersion = new ApiVersion(1, 0);
-    options.ReportApiVersions = true;
-    options.AssumeDefaultVersionWhenUnspecified = true;
-    options.ApiVersionReader = new UrlSegmentApiVersionReader();
-})
-    //usefull for swagger
-    .AddApiExplorer(options =>
-    {
-        options.GroupNameFormat = "'v'VVV"; //Our format of our version number “‘v’major[.minor][-status]”
-        options.SubstituteApiVersionInUrl = true; //This will help us to resolve the ambiguity when there is a routing conflict due to routing template one or more end points are same.
-    });
+ConfigureApiVersionning();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddScoped(typeof(IDataRepository<>), typeof(EFGenericRepository<>));
-builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
+
+ConfigureDataAccess();
+
+ConfigureSwagger();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
+{
+    UseSwagger();
+}
+
+
+app.UseHttpsRedirection();
+
+app.UseAuthorization();
+
+app.MapControllers();
+
+app.Run();
+
+
+#region Methods
+void ConfigureApiVersionning()
+{
+
+    builder.Services.AddApiVersioning(options =>
+    {
+        options.DefaultApiVersion = new ApiVersion(1, 0);
+        options.ReportApiVersions = true;
+        options.AssumeDefaultVersionWhenUnspecified = true;
+        options.ApiVersionReader = new UrlSegmentApiVersionReader();
+    })
+        //usefull for swagger
+        .AddApiExplorer(options =>
+        {
+            options.GroupNameFormat = "'v'VVV"; //Our format of our version number “‘v’major[.minor][-status]”
+            options.SubstituteApiVersionInUrl = true; //This will help us to resolve the ambiguity when there is a routing conflict due to routing template one or more end points are same.
+        });
+}
+
+void ConfigureSwagger()
+{
+    builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>,
+         ConfigureSwaggerOptions>();
+}
+
+void UseSwagger()
 {
     app.UseSwagger();
     app.UseSwaggerUI(
@@ -55,10 +89,50 @@ if (app.Environment.IsDevelopment())
         );
 }
 
-app.UseHttpsRedirection();
+void ConfigureDataAccess()
+{
+    switch (dataAccessFramework)
+    {
+        case "EF":
+            builder.Services.AddScoped(typeof(IDataRepository<>), typeof(EFGenericRepository<>));
+            break;
 
-app.UseAuthorization();
+        case "ADO":
+            var repos = new HashSet<KeyValuePair<Type, Type>>()
+        {
+            new(typeof(ApplicantEducationPoco), typeof(ApplicantEducationRepository)),
+            new(typeof(ApplicantJobApplicationPoco), typeof(ApplicantJobApplicationRepository)),
+            new(typeof(ApplicantProfilePoco), typeof(ApplicantProfileRepository)),
+            new(typeof(ApplicantResumePoco), typeof(ApplicantResumeRepository)),
+            new(typeof(ApplicantSkillPoco), typeof(ApplicantSkillRepository)),
+            new(typeof(ApplicantWorkHistoryPoco), typeof(ApplicantWorkHistoryRepository)),
+            new(typeof(CompanyDescriptionPoco), typeof(CompanyDescriptionRepository)),
+            new(typeof(CompanyJobDescriptionPoco), typeof(CompanyJobDescriptionRepository)),
+            new(typeof(CompanyJobEducationPoco), typeof(CompanyJobEducationRepository)),
+            new(typeof(CompanyJobPoco), typeof(CompanyJobRepository)),
+            new(typeof(CompanyJobSkillPoco), typeof(CompanyJobSkillRepository)),
+            new(typeof(CompanyLocationPoco), typeof(CompanyLocationRepository)),
+            new(typeof(CompanyProfilePoco), typeof(CompanyProfileRepository)),
 
-app.MapControllers();
+            new(typeof(SecurityLoginPoco), typeof(SecurityLoginRepository)),
+            new(typeof(SecurityLoginsLogPoco), typeof(SecurityLoginsLogRepository)),
+            new(typeof(SecurityLoginsRolePoco), typeof(SecurityLoginsRoleRepository)),
+            new(typeof(SecurityRolePoco), typeof(SecurityRoleRepository)),
+            new(typeof(SystemCountryCodePoco), typeof(SystemCountryCodeRepository)),
+            new(typeof(SystemLanguageCodePoco), typeof(SystemLanguageCodeRepository)),
 
-app.Run();
+        };
+
+            foreach (var repo in repos)
+            {
+                // Dynamically create the generic interface type
+                Type repositoryInterface = typeof(IDataRepository<>).MakeGenericType(repo.Key);
+                builder.Services.AddScoped(repositoryInterface, repo.Value);
+            }
+            break;
+
+        default:
+            throw new InvalidOperationException("The required configuration 'DataAccessFramework' is missing in appsettings.json: supported frameworks 'EF' 'ADO'");
+    }
+}
+#endregion

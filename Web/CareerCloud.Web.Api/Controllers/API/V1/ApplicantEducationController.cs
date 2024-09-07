@@ -8,21 +8,22 @@ using Newtonsoft.Json;
 
 namespace CareerCloud.WebApp.API;
 
-[ApiController]   //auto validation, verbose aggregated output in case of failed model validation BadRequet
-                  //without this, valdiation needs to be performed manually in each endpoint method
-                  //using ModelState.IsValid
+[ApiController] //auto validation, verbose aggregated response in case of
+                //failed model validation with BadRequet
+                //without this, valdiation needs to be performed manually in each endpoint method
+                //using ModelState.IsValid
+
 [ApiVersion("1.0")]
 [Route("api/v{version:apiVersion}/[Controller]")]
-public partial class ApplicantEducationController : ControllerBase,
-                                            IApiController<ApplicantEducationDto>
+public partial class ApplicantEducationController :
+            ApplicantEducationBaseController<ApplicantEducationPoco,
+                                             ApplicantEducationLogic>,
+            IApiController<ApplicantEducationDto>
 {
-    readonly ApplicantEducationLogic? logic;
-    ApplicantEducationDto? applicantEducationModel;
-
-    public ApplicantEducationController(IDataRepository<ApplicantEducationPoco> applicantEducationRepo)
+    public ApplicantEducationController(IDataRepository<ApplicantEducationPoco> applicantEducationRepo) : base(applicantEducationRepo)
     {
-        logic = new ApplicantEducationLogic(applicantEducationRepo);
     }
+
 
     /// POST: api/ApplicantEducation/Add/{Id}
     [HttpPost("Add")]
@@ -143,7 +144,7 @@ public partial class ApplicantEducationController : ControllerBase,
             return StatusCode(StatusCodes.Status202Accepted);
         }
 
-        catch (Exception ex)
+        catch (Exception)
         {
             Response.Headers?.TryAdd("Retry-After", "500");
             return StatusCode(StatusCodes.Status503ServiceUnavailable);
@@ -177,7 +178,7 @@ public partial class ApplicantEducationController : ControllerBase,
             return Ok(json);
         }
 
-        catch (Exception ex)
+        catch (Exception)
         {
             Response.Headers?.TryAdd("Retry-After", "500");
             return StatusCode(StatusCodes.Status503ServiceUnavailable);

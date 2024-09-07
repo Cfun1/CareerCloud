@@ -5,8 +5,8 @@ using Newtonsoft.Json;
 
 namespace CareerCloud.WebApp.API;
 
-[ApiVersion("2.0", Deprecated = true)]
-public partial class ApplicantEducationController : ControllerBase
+[ApiVersion("2.0")] //, Deprecated = true)]
+public partial class ApplicantEducationController
 {
 
     /// GET: api/ApplicantEducation
