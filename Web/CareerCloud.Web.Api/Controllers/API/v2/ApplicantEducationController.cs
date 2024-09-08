@@ -1,12 +1,11 @@
 using Asp.Versioning;
 using CareerCloud.DataTransfer;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 namespace CareerCloud.WebApp.API;
 
 [ApiVersion("2.0")] //, Deprecated = true)]
-public partial class ApplicantEducationController
+public partial class ApplicantEducationsController
 {
 
     /// GET: api/ApplicantEducation
@@ -25,8 +24,7 @@ public partial class ApplicantEducationController
 
             var apiResult = logic.GetAll();
 
-            string json = JsonConvert.SerializeObject(apiResult, Formatting.Indented);
-            return Ok(json);
+            return Ok(apiResult);
         }
 
         catch (Exception)

@@ -4,7 +4,6 @@ using CareerCloud.DataAccessLayer;
 using CareerCloud.DataTransfer;
 using CareerCloud.Pocos;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 namespace CareerCloud.WebApp.API;
 
@@ -15,12 +14,12 @@ namespace CareerCloud.WebApp.API;
 
 [ApiVersion("1.0")]
 [Route("api/v{version:apiVersion}/[Controller]")]
-public partial class ApplicantEducationController :
-                     ApplicantEducationBaseController<ApplicantEducationPoco,
-                                                      ApplicantEducationLogic>,
+public partial class ApplicantEducationsController :
+                     CareerCloudBaseController<ApplicantEducationPoco,
+                                                ApplicantEducationLogic>,
                      IApiController<ApplicantEducationDto>
 {
-    public ApplicantEducationController(IDataRepository<ApplicantEducationPoco> applicantEducationRepo) : base(applicantEducationRepo)
+    public ApplicantEducationsController(IDataRepository<ApplicantEducationPoco> applicantEducationRepo) : base(applicantEducationRepo)
     {
     }
 
@@ -32,7 +31,7 @@ public partial class ApplicantEducationController :
     [ProducesResponseType<ApplicantEducationDto>(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
-    public ActionResult<string> Create([FromBody] ApplicantEducationDto[] dtos)
+    public ActionResult<ICollection<ApplicantEducationDto>> Create([FromBody] ApplicantEducationDto[] dtos)
     {
         try
         {
@@ -41,15 +40,14 @@ public partial class ApplicantEducationController :
 
             var pocos = dtos.ToModel().ToArray();
             logic.Add(pocos);
-            string jsonResult = JsonConvert.SerializeObject(pocos, Formatting.Indented);
-            return Created("", jsonResult);
+            return Created(Request.Host.Value + Request.Path.Value, dtos);
         }
 
         catch (AggregateException ex)
         {
-            return BadRequest(ex);
+            return BadRequest(ex.InnerExceptions);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
             Response.Headers?.TryAdd("Retry-After", "3m");
             return StatusCode(StatusCodes.Status503ServiceUnavailable);
@@ -61,7 +59,7 @@ public partial class ApplicantEducationController :
     [MapToApiVersion("1.0")]
     [ProducesResponseType<ICollection<ApplicantEducationDto>>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
-    public ActionResult<string> GetAll()
+    public ActionResult<ICollection<ApplicantEducationDto>> GetAll()
     {
         try
         {
@@ -70,8 +68,7 @@ public partial class ApplicantEducationController :
 
             var apiResult = logic.GetAll();
 
-            string json = JsonConvert.SerializeObject(apiResult.ToDto(), Formatting.Indented);
-            return Ok(json);
+            return Ok(apiResult.ToDto());
         }
 
         catch (Exception)
@@ -93,7 +90,7 @@ public partial class ApplicantEducationController :
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
-    public ActionResult<string> GetSingle(Guid id)
+    public ActionResult<ApplicantEducationDto> GetSingle(Guid id)
     {
         if (id == Guid.Empty)
             return BadRequest(id);
@@ -108,8 +105,7 @@ public partial class ApplicantEducationController :
             if (apiResult == null)
                 return NotFound($"The object with id={id} was not found");
 
-            string json = JsonConvert.SerializeObject(apiResult.ToDto(), Formatting.Indented);
-            return Ok(json);
+            return Ok(apiResult.ToDto());
         }
 
         catch (Exception)
@@ -156,7 +152,7 @@ public partial class ApplicantEducationController :
     [MapToApiVersion("1.0")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    public ActionResult<string> Update([FromBody] ApplicantEducationDto[] dtos)
+    public ActionResult<ICollection<ApplicantEducationDto>> Update([FromBody] ApplicantEducationDto[] dtos)
     {
         try
         {
@@ -174,8 +170,7 @@ public partial class ApplicantEducationController :
 
             logic.Update(pocosReturned.ToArray());
 
-            string json = JsonConvert.SerializeObject(pocos.ToDto(), Formatting.Indented);
-            return Ok(json);
+            return Ok(pocos.ToDto());
         }
 
         catch (Exception)
