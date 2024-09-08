@@ -16,17 +16,17 @@ namespace CareerCloud.WebApp.API;
 [ApiVersion("1.0")]
 [Route("api/v{version:apiVersion}/[Controller]")]
 public partial class ApplicantEducationController :
-            ApplicantEducationBaseController<ApplicantEducationPoco,
-                                             ApplicantEducationLogic>,
-            IApiController<ApplicantEducationDto>
+                     ApplicantEducationBaseController<ApplicantEducationPoco,
+                                                      ApplicantEducationLogic>,
+                     IApiController<ApplicantEducationDto>
 {
     public ApplicantEducationController(IDataRepository<ApplicantEducationPoco> applicantEducationRepo) : base(applicantEducationRepo)
     {
     }
 
 
-    /// POST: api/ApplicantEducation/Add/{Id}
-    [HttpPost("Add")]
+    /// POST: api/ApplicantEducation/
+    [HttpPost]
     [MapToApiVersion("1.0")]
     [ProducesResponseType<ApplicantEducationDto>(StatusCodes.Status200OK)]
     [ProducesResponseType<ApplicantEducationDto>(StatusCodes.Status201Created)]
@@ -119,8 +119,8 @@ public partial class ApplicantEducationController :
         }
     }
 
-    /// PUT: api/ApplicantEducation/Remove/
-    [HttpDelete("Remove")]
+    /// PUT: api/ApplicantEducation/
+    [HttpDelete]
     [MapToApiVersion("1.0")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status202Accepted)]
@@ -151,8 +151,8 @@ public partial class ApplicantEducationController :
         }
     }
 
-    /// PUT: api/ApplicantEducation/Update/
-    [HttpPut("Update")]
+    /// PUT: api/ApplicantEducation/
+    [HttpPut]
     [MapToApiVersion("1.0")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
