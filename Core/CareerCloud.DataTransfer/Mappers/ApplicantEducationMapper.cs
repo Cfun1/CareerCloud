@@ -26,16 +26,15 @@ public static class ApplicantEducationDtoExtensions
 public static class ApplicantEducationPocoExtensions
 {
     public static ApplicantEducationDto ToDto(this ApplicantEducationPoco poco)
-        => new ApplicantEducationDto()
-        {
-            Id = poco.Id,
-            Applicant = poco.Applicant,
-            StartDate = poco.StartDate,
-            CompletionDate = poco.CompletionDate,
-            CertificateDiploma = poco.CertificateDiploma,
-            CompletionPercent = poco.CompletionPercent,
-            Major = poco.Major,
-        };
+        => new ApplicantEducationDto(
+            Id: poco.Id,
+            Applicant: poco.Applicant,
+            CertificateDiploma: poco.CertificateDiploma,
+            StartDate: poco.StartDate,
+            CompletionPercent: poco.CompletionPercent,
+            Major: poco.Major,
+            CompletionDate: poco.CompletionDate
+            );
 
     public static IEnumerable<ApplicantEducationDto> ToDto(this IEnumerable<ApplicantEducationPoco> pocos)
     {

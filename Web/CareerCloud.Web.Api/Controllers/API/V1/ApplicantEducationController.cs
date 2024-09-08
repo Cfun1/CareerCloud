@@ -32,7 +32,7 @@ public partial class ApplicantEducationController :
     [ProducesResponseType<ApplicantEducationDto>(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
-    public ActionResult<string> Add([FromBody] ApplicantEducationDto[] dtos)
+    public ActionResult<string> Create([FromBody] ApplicantEducationDto[] dtos)
     {
         try
         {
@@ -70,7 +70,7 @@ public partial class ApplicantEducationController :
 
             var apiResult = logic.GetAll();
 
-            string json = JsonConvert.SerializeObject(apiResult, Formatting.Indented);
+            string json = JsonConvert.SerializeObject(apiResult.ToDto(), Formatting.Indented);
             return Ok(json);
         }
 
@@ -108,7 +108,7 @@ public partial class ApplicantEducationController :
             if (apiResult == null)
                 return NotFound($"The object with id={id} was not found");
 
-            string json = JsonConvert.SerializeObject(apiResult, Formatting.Indented);
+            string json = JsonConvert.SerializeObject(apiResult.ToDto(), Formatting.Indented);
             return Ok(json);
         }
 
@@ -119,13 +119,13 @@ public partial class ApplicantEducationController :
         }
     }
 
-    /// PUT: api/ApplicantEducation/
+    /// DELETE: api/ApplicantEducation/
     [HttpDelete]
     [MapToApiVersion("1.0")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status202Accepted)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    public ActionResult Remove([FromBody] ApplicantEducationDto[] dtos)
+    public ActionResult Delete([FromBody] ApplicantEducationDto[] dtos)
     {
         try
         {
@@ -174,7 +174,7 @@ public partial class ApplicantEducationController :
 
             logic.Update(pocosReturned.ToArray());
 
-            string json = JsonConvert.SerializeObject(pocos, Formatting.Indented);
+            string json = JsonConvert.SerializeObject(pocos.ToDto(), Formatting.Indented);
             return Ok(json);
         }
 
