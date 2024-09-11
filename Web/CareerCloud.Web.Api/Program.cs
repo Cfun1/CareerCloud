@@ -4,6 +4,8 @@ using CareerCloud.DataAccessLayer;
 using CareerCloud.EntityFrameworkDataAccess;
 using CareerCloud.Pocos;
 using CareerCloud.Web.Api;
+using CareerCloud.Web.Api.Extensions;
+using CareerCloud.Web.Api.Swagger;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
