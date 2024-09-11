@@ -4,12 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CareerCloud.WebApp.API;
 
-[ApiVersion("2.0")] //, Deprecated = true)]
+[ApiVersion("1.1")] //, Deprecated = true)]
 public partial class ApplicantEducationsController
 {
 
-    /// GET: api/ApplicantEducation
-    [MapToApiVersion("2.0")]
+    /// GET: api/ApplicantEducations
+    [MapToApiVersion("1.1")]
     [HttpGet]
     [ProducesResponseType<ICollection<ApplicantEducationDto>>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]

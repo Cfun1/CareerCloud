@@ -11,9 +11,10 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 
 var builder = WebApplication.CreateBuilder(args);
-var dataAccessFramework = builder.Configuration.GetValue<string>("DataAccessFramework");
+var dataAccessFramework = builder.Configuration.GetStringWithCheck("DataAccessFramework");
+var apiVersionHeader = builder.Configuration.GetStringWithCheck("ApiVersionHeader");
 
-
+#region builder
 // Add services to the container.
 builder.Services.AddControllers(options =>
 {
@@ -27,15 +28,22 @@ ConfigureApiVersionning();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(opt =>
+    {
+        //used to (filter) enforce custom header parameter to be optional
+        opt.OperationFilter<OptionalApiVersionHeaderParameter>(apiVersionHeader);
+    }
+);
 
 ConfigureDataAccess();
 
 ConfigureSwagger();
 
+#endregion
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+#region app
 if (app.Environment.IsDevelopment())
 {
     UseSwagger();
@@ -49,18 +57,20 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
-
+#endregion
 
 #region Methods
-void ConfigureApiVersionning()
+WebApplicationBuilder ConfigureApiVersionning()
 {
 
     builder.Services.AddApiVersioning(options =>
     {
         options.DefaultApiVersion = new ApiVersion(1, 0);
         options.ReportApiVersions = true;
+        options.DefaultApiVersion = new ApiVersion(1);
         options.AssumeDefaultVersionWhenUnspecified = true;
-        options.ApiVersionReader = new UrlSegmentApiVersionReader();
+        // options.ApiVersionReader = new UrlSegmentApiVersionReader();
+        options.ApiVersionReader = new HeaderApiVersionReader(apiVersionHeader, apiVersionHeader);
     })
         //usefull for swagger
         .AddApiExplorer(options =>
@@ -68,15 +78,17 @@ void ConfigureApiVersionning()
             options.GroupNameFormat = "'v'VVV"; //Our format of our version number “‘v’major[.minor][-status]”
             options.SubstituteApiVersionInUrl = true; //This will help us to resolve the ambiguity when there is a routing conflict due to routing template one or more end points are same.
         });
+    return builder;
 }
 
-void ConfigureSwagger()
+WebApplicationBuilder ConfigureSwagger()
 {
     builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>,
          ConfigureSwaggerOptions>();
+    return builder;
 }
 
-void UseSwagger()
+WebApplicationBuilder UseSwagger()
 {
     app.UseSwagger();
     app.UseSwaggerUI(
@@ -89,9 +101,10 @@ void UseSwagger()
             }
         }
         );
+    return builder;
 }
 
-void ConfigureDataAccess()
+WebApplicationBuilder ConfigureDataAccess()
 {
     switch (dataAccessFramework)
     {
@@ -136,5 +149,6 @@ void ConfigureDataAccess()
         default:
             throw new InvalidOperationException("The required configuration 'DataAccessFramework' is missing in appsettings.json: supported frameworks 'EF' 'ADO'");
     }
+    return builder;
 }
 #endregion

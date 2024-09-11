@@ -13,7 +13,8 @@ namespace CareerCloud.WebApp.API;
                 //using ModelState.IsValid
 
 [ApiVersion("1.0")]
-[Route("api/v{version:apiVersion}/[Controller]")]
+[Route("api/[Controller]")]
+//[Route("api/v{version:apiVersion}/[Controller]")]
 public partial class ApplicantEducationsController :
                      CareerCloudBaseController<ApplicantEducationPoco,
                                                 ApplicantEducationLogic>,
@@ -24,7 +25,7 @@ public partial class ApplicantEducationsController :
     }
 
 
-    /// POST: api/ApplicantEducation/
+    /// POST: api/ApplicantEducations/
     [HttpPost]
     [MapToApiVersion("1.0")]
     [ProducesResponseType<ApplicantEducationDto>(StatusCodes.Status200OK)]
@@ -54,7 +55,7 @@ public partial class ApplicantEducationsController :
         }
     }
 
-    /// GET: api/ApplicantEducation
+    /// GET: api/ApplicantEducations
     [HttpGet]
     [MapToApiVersion("1.0")]
     [ProducesResponseType<ICollection<ApplicantEducationDto>>(StatusCodes.Status200OK)]
@@ -83,7 +84,7 @@ public partial class ApplicantEducationsController :
     Avoid using it because it returns returns 404 if type mismatch, which is confusing
     */
 
-    /// GET: api/ApplicantEducation/{Id}
+    /// GET: api/ApplicantEducations/{Id}
     [HttpGet("{id}")]
     [MapToApiVersion("1.0")]
     [ProducesResponseType<ApplicantEducationDto>(StatusCodes.Status200OK)]
@@ -115,7 +116,7 @@ public partial class ApplicantEducationsController :
         }
     }
 
-    /// DELETE: api/ApplicantEducation/
+    /// DELETE: api/ApplicantEducations/
     [HttpDelete]
     [MapToApiVersion("1.0")]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -147,7 +148,7 @@ public partial class ApplicantEducationsController :
         }
     }
 
-    /// PUT: api/ApplicantEducation/
+    /// PUT: api/ApplicantEducations/
     [HttpPut]
     [MapToApiVersion("1.0")]
     [ProducesResponseType(StatusCodes.Status200OK)]
