@@ -7,6 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\API\v1\ApplicantJobApplicationController - backup.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Controllers\API\v1\ApplicantJobApplicationController - backup.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Asp.Versioning.Mvc" Version="8.1.0" />
     <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.7.3" />

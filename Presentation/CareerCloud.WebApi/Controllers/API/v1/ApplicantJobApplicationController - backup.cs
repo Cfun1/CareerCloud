@@ -16,17 +16,17 @@ namespace CareerCloud.WebAPI.Controllers;
 [ApiVersion("1.0")]
 [Route("api/careercloud/[Controller]/v{version:apiVersion}")]
 /// api/careercloud/ApplicantEducation/v1
-public partial class ApplicantEducationController :
+public partial class ApplicantJobApplicationController :
                      CareerCloudBaseController<ApplicantEducationPoco,
                                                 ApplicantEducationLogic>
 //,IApiController<ApplicantEducationDto>
 {
-    public ApplicantEducationController(IDataRepository<ApplicantEducationPoco> applicantEducationRepo) : base(applicantEducationRepo)
+    public ApplicantJobApplicationController(IDataRepository<ApplicantEducationPoco> applicantEducationRepo) : base(applicantEducationRepo)
     {
     }
 
     //todo: only needed for the test, DI workaround, delete after
-    public ApplicantEducationController() : base() { }
+    public ApplicantJobApplicationController() : base() { }
 
     /// POST: api/ApplicantEducations/
     [HttpPost]
@@ -35,22 +35,26 @@ public partial class ApplicantEducationController :
     [ProducesResponseType<ApplicantEducationDto>(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
-    public ActionResult PostApplicantEducation([FromBody] ApplicantEducationPoco?[] pocos)
+    public ActionResult<ICollection<ApplicantEducationDto>> Create([FromBody] ApplicantEducationDto?[] dtos)
     {
         try
         {
             if (logic is null)
                 throw new NullReferenceException(nameof(logic));
 
-            if (pocos.IsNullOrEmpty())
-                throw new ArgumentNullException(nameof(pocos));
+            if (dtos.IsNullOrEmpty())
+                throw new ArgumentNullException(nameof(dtos));
 
+            var pocos = dtos!.ToModel().ToArray();
             pocos.ToList().ForEach(poco => poco.Id =
-               poco.Id == Guid.Empty ? Guid.NewGuid() : poco.Id);
+                poco.Id == Guid.Empty ? Guid.NewGuid() : poco.Id);
+            dtos.ToList().Clear();
+            dtos = pocos!.ToDto().ToArray();
+
 
             logic.Add(pocos);
             //CreatedAtAction allows HATEOS implementation
-            return CreatedAtAction(nameof(GetApplicantEducation), new { pocos.First()!.Id }, pocos);
+            return CreatedAtAction(nameof(GetApplicantEducation), new { dtos.First()!.Id }, dtos);
         }
 
         catch (AggregateException ex)
@@ -59,8 +63,7 @@ public partial class ApplicantEducationController :
         }
         catch (Exception ex)
         {
-            //todo response could be null here
-            //Response.Headers?.TryAdd("Retry-After", "3m");
+            Response.Headers?.TryAdd("Retry-After", "3m");
             return StatusCode(StatusCodes.Status503ServiceUnavailable);
         }
     }
@@ -138,17 +141,17 @@ public partial class ApplicantEducationController :
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status202Accepted)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    public ActionResult DeleteApplicantEducation([FromBody] ApplicantEducationPoco[] pocos)
+    public ActionResult Delete([FromBody] ApplicantEducationDto[] dtos)
     {
         try
         {
             if (logic is null)
                 throw new NullReferenceException(nameof(logic));
 
-            if (pocos.IsNullOrEmpty())
-                throw new ArgumentNullException(nameof(pocos));
+            if (dtos.IsNullOrEmpty())
+                throw new ArgumentNullException(nameof(dtos));
 
-            logic.Delete(pocos);
+            logic.Delete(dtos.ToModel().ToArray());
             return StatusCode(StatusCodes.Status202Accepted);
         }
 
@@ -195,19 +198,20 @@ public partial class ApplicantEducationController :
     [MapToApiVersion("1.0")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    public ActionResult PutApplicantEducation([FromBody] ApplicantEducationPoco[] pocos)
+    public ActionResult<ICollection<ApplicantEducationDto>> Update([FromBody] ApplicantEducationDto[] dtos)
     {
         try
         {
             if (logic is null)
                 throw new NullReferenceException(nameof(logic));
 
-            if (pocos.IsNullOrEmpty())
-                throw new ArgumentNullException(nameof(pocos));
+            if (dtos.IsNullOrEmpty())
+                throw new ArgumentNullException(nameof(dtos));
 
             //todo find a solution on how to get timestamp whenever mapper dto -> model -> EF
             //otherwise EF sql operation will fail
 
+            var pocos = dtos.ToModel().ToArray();
             logic.Update(pocos);
 
             return Ok(pocos.ToDto());
