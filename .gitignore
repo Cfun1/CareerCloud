@@ -366,4 +366,4 @@ FodyWeavers.xsd
 /*.txt
 /*.png
 /ConsoleApp/ConsoleApp.csproj
-/Web/CareerCloud.Web.Api/*.md
+/Presentation/CareerCloud.WebApi/*.md
