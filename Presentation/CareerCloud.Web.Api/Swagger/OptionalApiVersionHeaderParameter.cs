@@ -2,7 +2,7 @@
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace CareerCloud.Web.Api.Swagger;
+namespace CareerCloud.WebAPI.Swagger;
 
 public class OptionalApiVersionHeaderParameter : IOperationFilter
 {

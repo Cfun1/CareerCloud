@@ -1,7 +1,7 @@
 ﻿using CareerCloud.DataTransfer;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CareerCloud.WebApp.API;
+namespace CareerCloud.WebAPI.Controllers.API.Common;
 
 public interface IApiController<TDto> where TDto : class, IDto
 {

@@ -1,4 +1,4 @@
-﻿namespace CareerCloud.Web.Api.Extensions;
+﻿namespace CareerCloud.WebAPI.Extensions;
 
 internal static class ConfigurationExtensions
 {

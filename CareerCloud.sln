@@ -41,7 +41,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CareerCloud.DataTransfer", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CareerCloudCore.UnitTests.Assignment5", "Tests\CareerCloudCore.UnitTests.Assignment5\CareerCloudCore.UnitTests.Assignment5.csproj", "{33F1C596-7B70-4EDA-8A91-DE14AFBA70CA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CareerCloud.Web.Api", "Presentation\CareerCloud.Web.Api\CareerCloud.Web.Api.csproj", "{63F1E5F0-2D06-4A0E-BC1F-E3A23D695A51}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CareerCloud.WebAPI", "Presentation\CareerCloud.Web.Api\CareerCloud.WebAPI.csproj", "{63F1E5F0-2D06-4A0E-BC1F-E3A23D695A51}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

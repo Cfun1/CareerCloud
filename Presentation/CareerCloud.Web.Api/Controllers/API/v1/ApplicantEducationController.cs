@@ -3,6 +3,7 @@ using CareerCloud.BusinessLogicLayer;
 using CareerCloud.DataAccessLayer;
 using CareerCloud.DataTransfer;
 using CareerCloud.Pocos;
+using CareerCloud.WebAPI.Controllers.API.Common;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 

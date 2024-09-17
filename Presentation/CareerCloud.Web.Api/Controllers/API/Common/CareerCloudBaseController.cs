@@ -3,7 +3,7 @@ using CareerCloud.DataAccessLayer;
 using CareerCloud.Pocos;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CareerCloud.WebApp.API;
+namespace CareerCloud.WebAPI.Controllers.API.Common;
 
 public class CareerCloudBaseController<Tpoco, Tlogic> : ControllerBase
     where Tpoco : IPoco, new()

@@ -1,7 +1,7 @@
 ﻿using CareerCloud.Pocos;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace CareerCloud.WebApp;
+namespace CareerCloud.WebAPI;
 //Not used: check program.cs
 internal class IgnoreTimeStampFilter : ActionFilterAttribute
 {
