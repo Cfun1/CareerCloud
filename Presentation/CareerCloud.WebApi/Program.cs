@@ -63,12 +63,14 @@ WebApplicationBuilder ConfigureApiVersionning()
 
     builder.Services.AddApiVersioning(options =>
     {
-        options.DefaultApiVersion = new ApiVersion(1, 0);
         options.ReportApiVersions = true;
-        options.DefaultApiVersion = new ApiVersion(1);
+        //options.DefaultApiVersion = new ApiVersion(1, 0);
+        options.DefaultApiVersion = ApiVersion.Default;
+
         options.AssumeDefaultVersionWhenUnspecified = true;
-        // options.ApiVersionReader = new UrlSegmentApiVersionReader();
-        options.ApiVersionReader = new HeaderApiVersionReader(apiVersionHeader, apiVersionHeader);
+
+        options.ApiVersionReader = new UrlSegmentApiVersionReader();
+        //options.ApiVersionReader = new HeaderApiVersionReader(apiVersionHeader, apiVersionHeader);
     })
         //usefull for swagger
         .AddApiExplorer(options =>
