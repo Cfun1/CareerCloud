@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CareerCloud.WebApp.API;
 
 [ApiVersion("1.1")] //, Deprecated = true)]
-public partial class ApplicantEducationsController
+public partial class ApplicantEducationController
 {
 
     /// GET: api/ApplicantEducations

@@ -16,12 +16,12 @@ namespace CareerCloud.WebApp.API;
 [ApiVersion("1.0")]
 [Route("api/[Controller]")]
 //[Route("api/v{version:apiVersion}/[Controller]")]
-public partial class ApplicantEducationsController :
+public partial class ApplicantEducationController :
                      CareerCloudBaseController<ApplicantEducationPoco,
                                                 ApplicantEducationLogic>,
                      IApiController<ApplicantEducationDto>
 {
-    public ApplicantEducationsController(IDataRepository<ApplicantEducationPoco> applicantEducationRepo) : base(applicantEducationRepo)
+    public ApplicantEducationController(IDataRepository<ApplicantEducationPoco> applicantEducationRepo) : base(applicantEducationRepo)
     {
     }
 
