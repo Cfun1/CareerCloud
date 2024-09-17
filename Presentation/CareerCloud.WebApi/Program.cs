@@ -48,7 +48,6 @@ if (app.Environment.IsDevelopment())
     UseSwagger();
 }
 
-
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
@@ -139,7 +138,7 @@ WebApplicationBuilder ConfigureDataAccess()
 
             foreach (var repo in repos)
             {
-                // Dynamically create the generic interface type
+                // Dynamically (at runtime) create the generic interface type
                 Type repositoryInterface = typeof(IDataRepository<>).MakeGenericType(repo.Key);
                 builder.Services.AddScoped(repositoryInterface, repo.Value);
             }

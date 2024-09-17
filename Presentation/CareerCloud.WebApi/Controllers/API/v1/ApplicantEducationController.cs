@@ -14,7 +14,7 @@ namespace CareerCloud.WebApp.API;
                 //using ModelState.IsValid
 
 [ApiVersion("1.0")]
-[Route("api/[Controller]")]
+[Route("api/careercloud/[Controller]/v{version:apiVersion}")]
 //[Route("api/v{version:apiVersion}/[Controller]")]
 public partial class ApplicantEducationController :
                      CareerCloudBaseController<ApplicantEducationPoco,
