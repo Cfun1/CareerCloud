@@ -4,9 +4,9 @@ using CareerCloud.DataAccessLayer;
 using CareerCloud.DataTransfer;
 using CareerCloud.Pocos;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 
 namespace CareerCloud.WebApp.API;
-
 [ApiController] //auto validation, verbose aggregated response in case of
                 //failed model validation with BadRequet
                 //without this, valdiation needs to be performed manually in each endpoint method
@@ -32,16 +32,26 @@ public partial class ApplicantEducationsController :
     [ProducesResponseType<ApplicantEducationDto>(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
-    public ActionResult<ICollection<ApplicantEducationDto>> Create([FromBody] ApplicantEducationDto[] dtos)
+    public ActionResult<ICollection<ApplicantEducationDto>> Create([FromBody] ApplicantEducationDto?[] dtos)
     {
         try
         {
             if (logic is null)
                 throw new NullReferenceException(nameof(logic));
 
-            var pocos = dtos.ToModel().ToArray();
+            if (dtos.IsNullOrEmpty())
+                throw new ArgumentNullException(nameof(dtos));
+
+            var pocos = dtos!.ToModel().ToArray();
+            pocos.ToList().ForEach(poco => poco.Id =
+                poco.Id == Guid.Empty ? Guid.NewGuid() : poco.Id);
+            dtos.ToList().Clear();
+            dtos = pocos!.ToDto().ToArray();
+
+
             logic.Add(pocos);
-            return Created(Request.Host.Value + Request.Path.Value, dtos);
+            //CreatedAtAction allows HATEOS implementation
+            return CreatedAtAction(nameof(GetSingle), new { dtos.First()!.Id }, dtos);
         }
 
         catch (AggregateException ex)
@@ -129,15 +139,41 @@ public partial class ApplicantEducationsController :
             if (logic is null)
                 throw new NullReferenceException(nameof(logic));
 
-            if (dtos.Length == 0)
-                throw new ArgumentException(nameof(dtos));
+            if (dtos.IsNullOrEmpty())
+                throw new ArgumentNullException(nameof(dtos));
 
-            var originalPoco = logic.Get(dtos[0].Id);
-            originalPoco.CompletionPercent = 55;
+            logic.Delete(dtos.ToModel().ToArray());
+            return StatusCode(StatusCodes.Status202Accepted);
+        }
 
-            // logic.Update(dtos.Model());
-            logic.Update([originalPoco]);
+        catch (Exception)
+        {
+            Response.Headers?.TryAdd("Retry-After", "500");
+            return StatusCode(StatusCodes.Status503ServiceUnavailable);
+        }
+    }
 
+    /// DELETE: api/ApplicantEducations/id
+    [HttpDelete("{id}")]
+    [MapToApiVersion("1.0")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status202Accepted)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    public ActionResult Delete(Guid id)
+    {
+        try
+        {
+            if (logic is null)
+                throw new NullReferenceException(nameof(logic));
+
+            if (id == Guid.Empty)
+                throw new ArgumentException(nameof(id));
+
+            var poco = logic.Get(id);
+            if (poco is null)
+                return NotFound();
+
+            logic.Delete([poco]);
             return StatusCode(StatusCodes.Status202Accepted);
         }
 
@@ -160,21 +196,19 @@ public partial class ApplicantEducationsController :
             if (logic is null)
                 throw new NullReferenceException(nameof(logic));
 
-            if (dtos.Length == 0)
-                throw new ArgumentException(nameof(dtos));
+            if (dtos.IsNullOrEmpty())
+                throw new ArgumentNullException(nameof(dtos));
+
+            //todo find a solution on how to get timestamp whenever mapper dto -> model -> EF
+            //otherwise EF sql operation will fail
 
             var pocos = dtos.ToModel().ToArray();
-            var ids = pocos.Select(x => x.Id).ToArray();
-            var pocosReturned = logic.GetList(ids);
-
-            pocosReturned.ForEach(p => p.CompletionPercent = 55);
-
-            logic.Update(pocosReturned.ToArray());
+            logic.Update(pocos);
 
             return Ok(pocos.ToDto());
         }
 
-        catch (Exception)
+        catch (Exception ex)
         {
             Response.Headers?.TryAdd("Retry-After", "500");
             return StatusCode(StatusCodes.Status503ServiceUnavailable);
