@@ -2,7 +2,7 @@ using Asp.Versioning;
 using CareerCloud.DataTransfer;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CareerCloud.WebApp.API;
+namespace CareerCloud.WebAPI.Controllers;
 
 [ApiVersion("1.1")] //, Deprecated = true)]
 public partial class ApplicantEducationController

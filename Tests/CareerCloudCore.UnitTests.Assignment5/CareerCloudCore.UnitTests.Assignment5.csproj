@@ -23,7 +23,7 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\..\Core\CareerCloud.Pocos\CareerCloud.Pocos.csproj" />
-	  <ProjectReference Include="..\..\Presentation\CareerCloud.Web.Api\CareerCloud.WebAPI.csproj" />
+	  <ProjectReference Include="..\..\Presentation\CareerCloud.WebApi\CareerCloud.WebAPI.csproj" />
 	</ItemGroup>
 
 </Project>

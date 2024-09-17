@@ -3,11 +3,11 @@ using CareerCloud.BusinessLogicLayer;
 using CareerCloud.DataAccessLayer;
 using CareerCloud.DataTransfer;
 using CareerCloud.Pocos;
-using CareerCloud.WebAPI.Controllers.API.Common;
+using CareerCloud.WebAPI.Controllers.Common;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
-namespace CareerCloud.WebApp.API;
+namespace CareerCloud.WebAPI.Controllers;
 [ApiController] //auto validation, verbose aggregated response in case of
                 //failed model validation with BadRequet
                 //without this, valdiation needs to be performed manually in each endpoint method
@@ -15,16 +15,18 @@ namespace CareerCloud.WebApp.API;
 
 [ApiVersion("1.0")]
 [Route("api/careercloud/[Controller]/v{version:apiVersion}")]
-//[Route("api/v{version:apiVersion}/[Controller]")]
+/// api/careercloud/ApplicantEducation/v1
 public partial class ApplicantEducationController :
                      CareerCloudBaseController<ApplicantEducationPoco,
-                                                ApplicantEducationLogic>,
-                     IApiController<ApplicantEducationDto>
+                                                ApplicantEducationLogic>
+//,IApiController<ApplicantEducationDto>
 {
     public ApplicantEducationController(IDataRepository<ApplicantEducationPoco> applicantEducationRepo) : base(applicantEducationRepo)
     {
     }
 
+    //todo: only needed for the test, DI workaround, delete after
+    public ApplicantEducationController() : base() { }
 
     /// POST: api/ApplicantEducations/
     [HttpPost]
@@ -52,7 +54,7 @@ public partial class ApplicantEducationController :
 
             logic.Add(pocos);
             //CreatedAtAction allows HATEOS implementation
-            return CreatedAtAction(nameof(GetSingle), new { dtos.First()!.Id }, dtos);
+            return CreatedAtAction(nameof(GetApplicantEducation), new { dtos.First()!.Id }, dtos);
         }
 
         catch (AggregateException ex)
@@ -95,14 +97,15 @@ public partial class ApplicantEducationController :
     Avoid using it because it returns returns 404 if type mismatch, which is confusing
     */
 
-    /// GET: api/ApplicantEducations/{Id}
-    [HttpGet("{id}")]
+    /// GET:  api/careercloud/ApplicantEducation/v1/education/{id}
+    [HttpGet("education/{id}")]
     [MapToApiVersion("1.0")]
     [ProducesResponseType<ApplicantEducationDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
-    public ActionResult<ApplicantEducationDto> GetSingle(Guid id)
+    //public ActionResult<ApplicantEducationDto> GetApplicantEducation(Guid id)
+    public ActionResult GetApplicantEducation(Guid id)
     {
         if (id == Guid.Empty)
             return BadRequest(id);
@@ -120,7 +123,12 @@ public partial class ApplicantEducationController :
             return Ok(apiResult.ToDto());
         }
 
-        catch (Exception)
+        catch (AggregateException ex)
+        {
+            return BadRequest(ex);
+        }
+
+        catch (NullReferenceException)
         {
             Response.Headers?.TryAdd("Retry-After", "500");
             return StatusCode(StatusCodes.Status503ServiceUnavailable);
