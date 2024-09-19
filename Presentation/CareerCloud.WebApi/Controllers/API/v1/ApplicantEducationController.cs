@@ -1,7 +1,6 @@
 ﻿using Asp.Versioning;
 using CareerCloud.BusinessLogicLayer;
 using CareerCloud.DataAccessLayer;
-using CareerCloud.DataTransfer;
 using CareerCloud.Pocos;
 using CareerCloud.WebAPI.Controllers.Common;
 using Microsoft.AspNetCore.Mvc;
@@ -28,11 +27,11 @@ public partial class ApplicantEducationController :
     //todo: only needed for the test, DI workaround, delete after
     public ApplicantEducationController() : base() { }
 
-    /// POST: api/ApplicantEducations/
-    [HttpPost]
+    /// POST: api/careercloud/ApplicantEducation/v1/Education
+    [HttpPost("Education")]
     [MapToApiVersion("1.0")]
-    [ProducesResponseType<ApplicantEducationDto>(StatusCodes.Status200OK)]
-    [ProducesResponseType<ApplicantEducationDto>(StatusCodes.Status201Created)]
+    [ProducesResponseType<ApplicantEducationPoco>(StatusCodes.Status200OK)]
+    [ProducesResponseType<ApplicantEducationPoco>(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
     public ActionResult PostApplicantEducation([FromBody] ApplicantEducationPoco?[] pocos)
@@ -65,12 +64,12 @@ public partial class ApplicantEducationController :
         }
     }
 
-    /// GET: api/ApplicantEducations
-    [HttpGet]
+    /// GET: api/careercloud/ApplicantEducation/v1/Education
+    [HttpGet("Education")]
     [MapToApiVersion("1.0")]
-    [ProducesResponseType<ICollection<ApplicantEducationDto>>(StatusCodes.Status200OK)]
+    [ProducesResponseType<ICollection<ApplicantEducationPoco>>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
-    public ActionResult<ICollection<ApplicantEducationDto>> GetAll()
+    public ActionResult<ICollection<ApplicantEducationPoco>> GetAll()
     {
         try
         {
@@ -79,7 +78,7 @@ public partial class ApplicantEducationController :
 
             var apiResult = logic.GetAll();
 
-            return Ok(apiResult.ToDto());
+            return Ok(apiResult);
         }
 
         catch (Exception)
@@ -94,10 +93,11 @@ public partial class ApplicantEducationController :
     Avoid using it because it returns returns 404 if type mismatch, which is confusing
     */
 
-    /// GET:  api/careercloud/ApplicantEducation/v1/education/{id}
+    /// GET: api/careercloud/ApplicantEducation/v1/Education/{id}
+
     [HttpGet("education/{id}")]
     [MapToApiVersion("1.0")]
-    [ProducesResponseType<ApplicantEducationDto>(StatusCodes.Status200OK)]
+    [ProducesResponseType<ApplicantEducationPoco>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
@@ -117,7 +117,7 @@ public partial class ApplicantEducationController :
             if (apiResult == null)
                 return NotFound($"The object with id={id} was not found");
 
-            return Ok(apiResult.ToDto());
+            return Ok(apiResult);
         }
 
         catch (AggregateException ex)
@@ -132,8 +132,8 @@ public partial class ApplicantEducationController :
         }
     }
 
-    /// DELETE: api/ApplicantEducations/
-    [HttpDelete]
+    /// DELETE: api/careercloud/ApplicantEducation/v1/Education
+    [HttpDelete("Education")]
     [MapToApiVersion("1.0")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status202Accepted)]
@@ -159,8 +159,9 @@ public partial class ApplicantEducationController :
         }
     }
 
-    /// DELETE: api/ApplicantEducations/id
-    [HttpDelete("{id}")]
+    /*
+    /// DELETE: api/careercloud/ApplicantEducation/v1/Education/{Id}
+    [HttpDelete("Education/{id}")]
     [MapToApiVersion("1.0")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status202Accepted)]
@@ -188,10 +189,10 @@ public partial class ApplicantEducationController :
             Response.Headers?.TryAdd("Retry-After", "500");
             return StatusCode(StatusCodes.Status503ServiceUnavailable);
         }
-    }
+    }*/
 
-    /// PUT: api/ApplicantEducations/
-    [HttpPut]
+    /// PUT: api/careercloud/ApplicantEducation/v1/Education/
+    [HttpPut("Education")]
     [MapToApiVersion("1.0")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -210,7 +211,7 @@ public partial class ApplicantEducationController :
 
             logic.Update(pocos);
 
-            return Ok(pocos.ToDto());
+            return Ok(pocos);
         }
 
         catch (Exception ex)
