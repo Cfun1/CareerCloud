@@ -1,6 +1,5 @@
 ﻿using Asp.Versioning;
 using CareerCloud.BusinessLogicLayer;
-using CareerCloud.DataAccessLayer;
 using CareerCloud.Pocos;
 using CareerCloud.WebAPI.Controllers.Common;
 using Microsoft.AspNetCore.Mvc;
@@ -20,11 +19,11 @@ public partial class ApplicantEducationController :
                                                 ApplicantEducationLogic>
 //,IApiController<ApplicantEducationDto>
 {
-    public ApplicantEducationController(IDataRepository<ApplicantEducationPoco> applicantEducationRepo) : base(applicantEducationRepo)
-    {
-    }
+    //public ApplicantEducationController(IDataRepository<ApplicantEducationPoco> applicantEducationRepo) : base(applicantEducationRepo)
+    //{
+    //}
 
-    //todo: only needed for the test, DI workaround, delete after
+    //todo: only needed for the test, DI workaround, replace with upper later
     public ApplicantEducationController() : base() { }
 
     /// POST: api/careercloud/ApplicantEducation/v1/Education
@@ -49,7 +48,8 @@ public partial class ApplicantEducationController :
 
             logic.Add(pocos);
             //CreatedAtAction allows HATEOS implementation
-            return CreatedAtAction(nameof(GetApplicantEducation), new { pocos.First()!.Id }, pocos);
+            //return CreatedAtAction(nameof(GetApplicantEducation), new { pocos.First()!.Id }, pocos);
+            return Ok();
         }
 
         catch (AggregateException ex)
@@ -115,7 +115,8 @@ public partial class ApplicantEducationController :
             var apiResult = logic.Get(id);
 
             if (apiResult == null)
-                return NotFound($"The object with id={id} was not found");
+                //return NotFound($"The object with id={id} was not found");
+                return NotFound();
 
             return Ok(apiResult);
         }
@@ -149,12 +150,13 @@ public partial class ApplicantEducationController :
                 throw new ArgumentNullException(nameof(pocos));
 
             logic.Delete(pocos);
-            return StatusCode(StatusCodes.Status202Accepted);
+            //return StatusCode(StatusCodes.Status202Accepted);
+            return Ok();
         }
 
         catch (Exception)
         {
-            Response.Headers?.TryAdd("Retry-After", "500");
+            //Response.Headers?.TryAdd("Retry-After", "500");
             return StatusCode(StatusCodes.Status503ServiceUnavailable);
         }
     }
@@ -211,12 +213,12 @@ public partial class ApplicantEducationController :
 
             logic.Update(pocos);
 
-            return Ok(pocos);
+            return Ok();
         }
 
         catch (Exception ex)
         {
-            Response.Headers?.TryAdd("Retry-After", "500");
+            //Response.Headers?.TryAdd("Retry-After", "500");
             return StatusCode(StatusCodes.Status503ServiceUnavailable);
         }
     }

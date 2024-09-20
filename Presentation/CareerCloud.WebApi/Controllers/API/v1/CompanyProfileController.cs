@@ -1,7 +1,7 @@
 ﻿using Asp.Versioning;
 using CareerCloud.BusinessLogicLayer;
-using CareerCloud.EntityFrameworkDataAccess;
 using CareerCloud.Pocos;
+using CareerCloud.WebAPI.Controllers.Common;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
@@ -10,44 +10,40 @@ namespace CareerCloud.WebAPI.Controllers;
 
 [ApiVersion("1.0")]
 [Route("api/careercloud/[Controller]/v{version:apiVersion}")]
-/// api/careercloud/SystemLanguageCode/v1
-public /* partial */ class SystemLanguageCodeController : ControllerBase
+/// api/careercloud/CompanyProfile/v1
+public /* partial */ class CompanyProfileController :
+                     CareerCloudBaseController<CompanyProfilePoco,
+                                                CompanyProfileLogic>
+//,IApiController<CompanyProfilePoco>
 {
-    internal readonly SystemLanguageCodeLogic? _logic;
-
-    //public SystemLanguageCodeController(IDataRepository<SystemLanguageCodePoco> repo)
+    //public CompanyProfileController(IDataRepository<CompanyProfilePoco> companyProfileRepo) : base(companyProfileRepo)
     //{
-    //    _logic = new SystemLanguageCodeLogic(repo);
     //}
 
-    public SystemLanguageCodeController()
-    {
-        var repo = new EFGenericRepository<SystemLanguageCodePoco>();
-        _logic = new SystemLanguageCodeLogic(repo);
-    }
+    //todo: only needed for the test, DI workaround, replace with upper later
+    public CompanyProfileController() : base() { }
 
-    /// POST: api/careercloud/SystemLanguageCode/v1/LanguageCode/
-    [HttpPost("LanguageCode")]
+    /// POST: api/careercloud/CompanyProfile/v1/Profile
+    [HttpPost("Profile")]
     [MapToApiVersion("1.0")]
-    [ProducesResponseType<SystemLanguageCodePoco>(StatusCodes.Status200OK)]
-    [ProducesResponseType<SystemLanguageCodePoco>(StatusCodes.Status201Created)]
+    [ProducesResponseType<CompanyProfilePoco>(StatusCodes.Status200OK)]
+    [ProducesResponseType<CompanyProfilePoco>(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
-    public ActionResult PostSystemLanguageCode([FromBody] SystemLanguageCodePoco?[] pocos)
+    public ActionResult PostCompanyProfile([FromBody] CompanyProfilePoco?[] pocos)
     {
         try
         {
-            if (_logic is null)
-                throw new NullReferenceException(nameof(_logic));
+            if (logic is null)
+                throw new NullReferenceException(nameof(logic));
 
             if (pocos.IsNullOrEmpty())
                 throw new ArgumentNullException(nameof(pocos));
 
-            if (pocos.ToList().Any(poco =>
-               poco.LanguageID == string.Empty))
-                throw new ArgumentNullException();
+            pocos.ToList().ForEach(poco => poco.Id =
+               poco.Id == Guid.Empty ? Guid.NewGuid() : poco.Id);
 
-            _logic.Add(pocos);
+            logic.Add(pocos);
             return Ok();
         }
 
@@ -61,48 +57,46 @@ public /* partial */ class SystemLanguageCodeController : ControllerBase
         }
     }
 
-    /// GET: api/careercloud/SystemLanguageCode/v1/LanguageCode/
-    [HttpGet("LanguageCode")]
+    /// GET: api/careercloud/CompanyProfile/v1/Profile
+    [HttpGet("Profile")]
     [MapToApiVersion("1.0")]
-    [ProducesResponseType<ICollection<SystemLanguageCodePoco>>(StatusCodes.Status200OK)]
+    [ProducesResponseType<ICollection<CompanyProfilePoco>>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
-    public ActionResult<ICollection<SystemLanguageCodePoco>> GetSystemLanguageCodes()
+    public ActionResult<ICollection<CompanyProfilePoco>> GetAll()
     {
         try
         {
-            if (_logic is null)
-                throw new NullReferenceException(nameof(_logic));
+            if (logic is null)
+                throw new NullReferenceException(nameof(logic));
 
-            var apiResult = _logic.GetAll();
-
-            return Ok(apiResult);
+            var apiResult = logic.GetAll();
+            return Ok();
         }
 
         catch (Exception)
         {
-            Response.Headers?.TryAdd("Retry-After", "3m");
             return StatusCode(StatusCodes.Status503ServiceUnavailable);
         }
     }
 
-    /// GET: api/careercloud/SystemLanguageCode/v1/LanguageCode/{id}
-    [HttpGet("LanguageCode/{id}")]
+    /// GET: api/careercloud/CompanyProfile/v1/Profile/Id
+    [HttpGet("Profile/{id}")]
     [MapToApiVersion("1.0")]
-    [ProducesResponseType<SystemLanguageCodePoco>(StatusCodes.Status200OK)]
+    [ProducesResponseType<CompanyProfilePoco>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
-    public ActionResult GetSystemLanguageCode(string id)
+    public ActionResult GetCompanyProfile(Guid id)
     {
-        if (id == string.Empty)
+        if (id == Guid.Empty)
             return BadRequest(id);
 
         try
         {
-            if (_logic is null)
-                throw new NullReferenceException(nameof(_logic));
+            if (logic is null)
+                throw new NullReferenceException(nameof(logic));
 
-            var apiResult = _logic.Get(id);
+            var apiResult = logic.Get(id);
 
             if (apiResult == null)
                 return NotFound();
@@ -121,23 +115,23 @@ public /* partial */ class SystemLanguageCodeController : ControllerBase
         }
     }
 
-    /// DELETE: api/careercloud/SystemLanguageCode/v1/LanguageCode/
-    [HttpDelete("LanguageCode")]
+    /// DELETE: api/careercloud/CompanyProfile/v1/Profile
+    [HttpDelete("Profile")]
     [MapToApiVersion("1.0")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status202Accepted)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    public ActionResult DeleteSystemLanguageCode([FromBody] SystemLanguageCodePoco[] pocos)
+    public ActionResult DeleteCompanyProfile([FromBody] CompanyProfilePoco[] pocos)
     {
         try
         {
-            if (_logic is null)
-                throw new NullReferenceException(nameof(_logic));
+            if (logic is null)
+                throw new NullReferenceException(nameof(logic));
 
             if (pocos.IsNullOrEmpty())
                 throw new ArgumentNullException(nameof(pocos));
 
-            _logic.Delete(pocos);
+            logic.Delete(pocos);
             return Ok();
         }
 
@@ -148,27 +142,27 @@ public /* partial */ class SystemLanguageCodeController : ControllerBase
     }
 
     /*
-    /// DELETE: api/careercloud/SystemLanguageCode/v1/LanguageCode/{id}
-    [HttpDelete("LanguageCode/{id}")]
+     /// DELETE: api/careercloud/CompanyProfile/v1/Profile/Id
+    [HttpDelete("Profile/{id}")]
     [MapToApiVersion("1.0")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status202Accepted)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    public ActionResult Delete(string id)
+    public ActionResult Delete(Guid id)
     {
         try
         {
-            if (_logic is null)
-                throw new NullReferenceException(nameof(_logic));
+            if (logic is null)
+                throw new NullReferenceException(nameof(logic));
 
-            if (id == string.Empty)
+            if (id == Guid.Empty)
                 throw new ArgumentException(nameof(id));
 
-            var poco = _logic.Get(id);
+            var poco = logic.Get(id);
             if (poco is null)
                 return NotFound();
 
-            _logic.Delete([poco]);
+            logic.Delete([poco]);
             return Ok();
         }
 
@@ -179,29 +173,28 @@ public /* partial */ class SystemLanguageCodeController : ControllerBase
     }
     */
 
-    /// PUT: api/careercloud/SystemLanguageCode/v1/LanguageCode/
-    [HttpPut("LanguageCode")]
+    /// PUT: api/careercloud/CompanyProfile/v1/Profile
+    [HttpPut("Profile")]
     [MapToApiVersion("1.0")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    public ActionResult PutSystemLanguageCode([FromBody] SystemLanguageCodePoco[] pocos)
+    public ActionResult PutCompanyProfile([FromBody] CompanyProfilePoco[] pocos)
     {
         try
         {
-            if (_logic is null)
-                throw new NullReferenceException(nameof(_logic));
+            if (logic is null)
+                throw new NullReferenceException(nameof(logic));
 
             if (pocos.IsNullOrEmpty())
                 throw new ArgumentNullException(nameof(pocos));
 
-            _logic.Update(pocos);
+            logic.Update(pocos);
 
             return Ok();
         }
 
         catch (Exception ex)
         {
-            Response.Headers?.TryAdd("Retry-After", "500");
             return StatusCode(StatusCodes.Status503ServiceUnavailable);
         }
     }

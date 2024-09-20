@@ -11,7 +11,7 @@ namespace CareerCloud.WebAPI.Controllers;
 [ApiVersion("1.0")]
 [Route("api/careercloud/[Controller]/v{version:apiVersion}")]
 /// api/careercloud/SystemCountryCode/v1
-public partial class SystemCountryCodeController : ControllerBase
+public /* partial */ class SystemCountryCodeController : ControllerBase
 {
     internal readonly SystemCountryCodeLogic? _logic;
 

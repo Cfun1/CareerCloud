@@ -1,7 +1,8 @@
-﻿using Asp.Versioning;
+
+using Asp.Versioning;
 using CareerCloud.BusinessLogicLayer;
-using CareerCloud.EntityFrameworkDataAccess;
 using CareerCloud.Pocos;
+using CareerCloud.WebAPI.Controllers.Common;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
@@ -10,44 +11,40 @@ namespace CareerCloud.WebAPI.Controllers;
 
 [ApiVersion("1.0")]
 [Route("api/careercloud/[Controller]/v{version:apiVersion}")]
-/// api/careercloud/SystemLanguageCode/v1
-public /* partial */ class SystemLanguageCodeController : ControllerBase
+/// api/careercloud/SecurityLoginsRole/v1
+public /* partial */ class SecurityLoginsRoleController :
+                     CareerCloudBaseController<SecurityLoginsRolePoco,
+                                                SecurityLoginsRoleLogic>
+//,IApiController<SecurityLoginsRolePoco>
 {
-    internal readonly SystemLanguageCodeLogic? _logic;
-
-    //public SystemLanguageCodeController(IDataRepository<SystemLanguageCodePoco> repo)
+    //public SecurityLoginsRoleController(IDataRepository<SecurityLoginsRolePoco> SecurityLoginsRoleRepo) : base(SecurityLoginsRoleRepo)
     //{
-    //    _logic = new SystemLanguageCodeLogic(repo);
     //}
 
-    public SystemLanguageCodeController()
-    {
-        var repo = new EFGenericRepository<SystemLanguageCodePoco>();
-        _logic = new SystemLanguageCodeLogic(repo);
-    }
+    //todo: only needed for the test, DI workaround, replace with upper ctor later
+    public SecurityLoginsRoleController() : base() { }
 
-    /// POST: api/careercloud/SystemLanguageCode/v1/LanguageCode/
-    [HttpPost("LanguageCode")]
+    /// POST: api/careercloud/SecurityLoginsRole/v1/LoginsRole
+    [HttpPost("LoginsRole")]
     [MapToApiVersion("1.0")]
-    [ProducesResponseType<SystemLanguageCodePoco>(StatusCodes.Status200OK)]
-    [ProducesResponseType<SystemLanguageCodePoco>(StatusCodes.Status201Created)]
+    [ProducesResponseType<SecurityLoginsRolePoco>(StatusCodes.Status200OK)]
+    [ProducesResponseType<SecurityLoginsRolePoco>(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
-    public ActionResult PostSystemLanguageCode([FromBody] SystemLanguageCodePoco?[] pocos)
+    public ActionResult PostSecurityLoginRole([FromBody] SecurityLoginsRolePoco?[] pocos)
     {
         try
         {
-            if (_logic is null)
-                throw new NullReferenceException(nameof(_logic));
+            if (logic is null)
+                throw new NullReferenceException(nameof(logic));
 
             if (pocos.IsNullOrEmpty())
                 throw new ArgumentNullException(nameof(pocos));
 
-            if (pocos.ToList().Any(poco =>
-               poco.LanguageID == string.Empty))
-                throw new ArgumentNullException();
+            pocos.ToList().ForEach(poco => poco.Id =
+               poco.Id == Guid.Empty ? Guid.NewGuid() : poco.Id);
 
-            _logic.Add(pocos);
+            logic.Add(pocos);
             return Ok();
         }
 
@@ -61,48 +58,46 @@ public /* partial */ class SystemLanguageCodeController : ControllerBase
         }
     }
 
-    /// GET: api/careercloud/SystemLanguageCode/v1/LanguageCode/
-    [HttpGet("LanguageCode")]
+    /// GET: api/careercloud/SecurityLoginsRole/v1/LoginsRole
+    [HttpGet("LoginsRole")]
     [MapToApiVersion("1.0")]
-    [ProducesResponseType<ICollection<SystemLanguageCodePoco>>(StatusCodes.Status200OK)]
+    [ProducesResponseType<ICollection<SecurityLoginsRolePoco>>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
-    public ActionResult<ICollection<SystemLanguageCodePoco>> GetSystemLanguageCodes()
+    public ActionResult<ICollection<SecurityLoginsRolePoco>> GetAll()
     {
         try
         {
-            if (_logic is null)
-                throw new NullReferenceException(nameof(_logic));
+            if (logic is null)
+                throw new NullReferenceException(nameof(logic));
 
-            var apiResult = _logic.GetAll();
-
-            return Ok(apiResult);
+            var apiResult = logic.GetAll();
+            return Ok();
         }
 
         catch (Exception)
         {
-            Response.Headers?.TryAdd("Retry-After", "3m");
             return StatusCode(StatusCodes.Status503ServiceUnavailable);
         }
     }
 
-    /// GET: api/careercloud/SystemLanguageCode/v1/LanguageCode/{id}
-    [HttpGet("LanguageCode/{id}")]
+    /// GET: api/careercloud/SecurityLoginsRole/v1/LoginsRole/Id
+    [HttpGet("LoginsRole/{id}")]
     [MapToApiVersion("1.0")]
-    [ProducesResponseType<SystemLanguageCodePoco>(StatusCodes.Status200OK)]
+    [ProducesResponseType<SecurityLoginsRolePoco>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
-    public ActionResult GetSystemLanguageCode(string id)
+    public ActionResult GetSecurityLoginsRole(Guid id)
     {
-        if (id == string.Empty)
+        if (id == Guid.Empty)
             return BadRequest(id);
 
         try
         {
-            if (_logic is null)
-                throw new NullReferenceException(nameof(_logic));
+            if (logic is null)
+                throw new NullReferenceException(nameof(logic));
 
-            var apiResult = _logic.Get(id);
+            var apiResult = logic.Get(id);
 
             if (apiResult == null)
                 return NotFound();
@@ -121,23 +116,23 @@ public /* partial */ class SystemLanguageCodeController : ControllerBase
         }
     }
 
-    /// DELETE: api/careercloud/SystemLanguageCode/v1/LanguageCode/
-    [HttpDelete("LanguageCode")]
+    /// DELETE: api/careercloud/SecurityLoginsRole/v1/LoginsRole
+    [HttpDelete("LoginsRole")]
     [MapToApiVersion("1.0")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status202Accepted)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    public ActionResult DeleteSystemLanguageCode([FromBody] SystemLanguageCodePoco[] pocos)
+    public ActionResult DeleteSecurityLoginRole([FromBody] SecurityLoginsRolePoco[] pocos)
     {
         try
         {
-            if (_logic is null)
-                throw new NullReferenceException(nameof(_logic));
+            if (logic is null)
+                throw new NullReferenceException(nameof(logic));
 
             if (pocos.IsNullOrEmpty())
                 throw new ArgumentNullException(nameof(pocos));
 
-            _logic.Delete(pocos);
+            logic.Delete(pocos);
             return Ok();
         }
 
@@ -148,27 +143,27 @@ public /* partial */ class SystemLanguageCodeController : ControllerBase
     }
 
     /*
-    /// DELETE: api/careercloud/SystemLanguageCode/v1/LanguageCode/{id}
-    [HttpDelete("LanguageCode/{id}")]
+     /// DELETE: api/careercloud/SecurityLoginsRole/v1/LoginsRole/Id
+    [HttpDelete("LoginsRole/{id}")]
     [MapToApiVersion("1.0")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status202Accepted)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    public ActionResult Delete(string id)
+    public ActionResult Delete(Guid id)
     {
         try
         {
-            if (_logic is null)
-                throw new NullReferenceException(nameof(_logic));
+            if (logic is null)
+                throw new NullReferenceException(nameof(logic));
 
-            if (id == string.Empty)
+            if (id == Guid.Empty)
                 throw new ArgumentException(nameof(id));
 
-            var poco = _logic.Get(id);
+            var poco = logic.Get(id);
             if (poco is null)
                 return NotFound();
 
-            _logic.Delete([poco]);
+            logic.Delete([poco]);
             return Ok();
         }
 
@@ -179,29 +174,28 @@ public /* partial */ class SystemLanguageCodeController : ControllerBase
     }
     */
 
-    /// PUT: api/careercloud/SystemLanguageCode/v1/LanguageCode/
-    [HttpPut("LanguageCode")]
+    /// PUT: api/careercloud/SecurityLoginsRole/v1/LoginsRole
+    [HttpPut("LoginsRole")]
     [MapToApiVersion("1.0")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    public ActionResult PutSystemLanguageCode([FromBody] SystemLanguageCodePoco[] pocos)
+    public ActionResult PutSecurityLoginsRole([FromBody] SecurityLoginsRolePoco[] pocos)
     {
         try
         {
-            if (_logic is null)
-                throw new NullReferenceException(nameof(_logic));
+            if (logic is null)
+                throw new NullReferenceException(nameof(logic));
 
             if (pocos.IsNullOrEmpty())
                 throw new ArgumentNullException(nameof(pocos));
 
-            _logic.Update(pocos);
+            logic.Update(pocos);
 
             return Ok();
         }
 
         catch (Exception ex)
         {
-            Response.Headers?.TryAdd("Retry-After", "500");
             return StatusCode(StatusCodes.Status503ServiceUnavailable);
         }
     }
