@@ -362,9 +362,8 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
-/MyNotes.txt
-/NoteToAmandeep.txt
-/Test3 Results.png
-/Tables-columns-list - Copy.txt
-/Tables-columns-list.txt
+
+/*.txt
+/*.png
 /ConsoleApp/ConsoleApp.csproj
+/Presentation/CareerCloud.WebApi/*.md

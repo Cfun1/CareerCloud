@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Controllers\API\v1\ApplicantJobApplicationController - backup.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Controllers\API\v1\ApplicantJobApplicationController - backup.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Asp.Versioning.Mvc" Version="8.1.0" />
+    <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.7.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\CareerCloud.BusinessLogicLayer\CareerCloud.BusinessLogicLayer.csproj" />
+    <ProjectReference Include="..\..\Core\CareerCloud.DataTransfer\CareerCloud.DataTransfer.csproj" />
+    <ProjectReference Include="..\..\DataAccess\CareerCloud.ADODataAccessLayer\CareerCloud.ADODataAccessLayer.csproj" />
+    <ProjectReference Include="..\..\DataAccess\CareerCloud.DataAccessLayer\CareerCloud.DataAccessLayer.csproj" />
+    <ProjectReference Include="..\..\DataAccess\CareerCloud.EntityFrameworkDataAccess\CareerCloud.EntityFrameworkDataAccess.csproj" />
+  </ItemGroup>
+
+</Project>
