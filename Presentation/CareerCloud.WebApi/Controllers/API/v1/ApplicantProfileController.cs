@@ -1,4 +1,3 @@
-
 using Asp.Versioning;
 using CareerCloud.BusinessLogicLayer;
 using CareerCloud.DataAccessLayer;
@@ -13,17 +12,18 @@ namespace CareerCloud.WebAPI.Controllers;
 [ApiVersion("1.0")]
 [Route("api/careercloud/[Controller]/v{version:apiVersion}")]
 /// api/careercloud/ApplicantProfile/v1
-public /* partial */ class ApplicantProfileController :
+public partial class ApplicantProfileController :
                      CareerCloudBaseController<ApplicantProfilePoco,
                                                 ApplicantProfileLogic>
 //,IApiController<ApplicantProfilePoco>
 {
-    //public ApplicantProfileController(IDataRepository<ApplicantProfilePoco> ApplicantProfileRepo) : base(ApplicantProfileRepo)
-    //{
-    //}
+    public ApplicantProfileController(IDataRepository<ApplicantProfilePoco> ApplicantProfileRepo)
+        : base(ApplicantProfileRepo)
+    {
+    }
 
     //todo: only needed for the test, DI workaround, replace with upper ctor later
-    public ApplicantProfileController() : base() { }
+    //public ApplicantProfileController() : base() { }
 
     /// POST: api/careercloud/ApplicantProfile/v1/Profile
     [HttpPost("Profile")]

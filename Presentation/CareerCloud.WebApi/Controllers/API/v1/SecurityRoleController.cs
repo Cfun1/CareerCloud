@@ -1,6 +1,6 @@
-
 using Asp.Versioning;
 using CareerCloud.BusinessLogicLayer;
+using CareerCloud.DataAccessLayer;
 using CareerCloud.Pocos;
 using CareerCloud.WebAPI.Controllers.Common;
 using Microsoft.AspNetCore.Mvc;
@@ -12,17 +12,18 @@ namespace CareerCloud.WebAPI.Controllers;
 [ApiVersion("1.3")]
 [Route("api/careercloud/[Controller]/v{version:apiVersion}")]
 /// api/careercloud/SecurityRole/v1
-public /* partial */ class SecurityRoleController :
+public partial class SecurityRoleController :
                      CareerCloudBaseController<SecurityRolePoco,
                                                 SecurityRoleLogic>
 //,IApiController<SecurityRolePoco>
 {
-    //public SecurityRoleController(IDataRepository<SecurityRolePoco> SecurityRoleRepo) : base(SecurityRoleRepo)
-    //{
-    //}
+    public SecurityRoleController(IDataRepository<SecurityRolePoco> SecurityRoleRepo)
+        : base(SecurityRoleRepo)
+    {
+    }
 
     //todo: only needed for the test, DI workaround, replace with upper ctor later
-    public SecurityRoleController() : base() { }
+    //public SecurityRoleController() : base() { }
 
     /// POST: api/careercloud/SecurityRole/v1/Role
     [HttpPost("Role")]

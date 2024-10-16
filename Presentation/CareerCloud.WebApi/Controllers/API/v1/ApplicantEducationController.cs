@@ -1,5 +1,6 @@
 ﻿using Asp.Versioning;
 using CareerCloud.BusinessLogicLayer;
+using CareerCloud.DataAccessLayer;
 using CareerCloud.Pocos;
 using CareerCloud.WebAPI.Controllers.Common;
 using Microsoft.AspNetCore.Mvc;
@@ -19,12 +20,12 @@ public partial class ApplicantEducationController :
                                                 ApplicantEducationLogic>
 //,IApiController<ApplicantEducationDto>
 {
-    //public ApplicantEducationController(IDataRepository<ApplicantEducationPoco> applicantEducationRepo) : base(applicantEducationRepo)
-    //{
-    //}
+    public ApplicantEducationController(IDataRepository<ApplicantEducationPoco> applicantEducationRepo) : base(applicantEducationRepo)
+    {
+    }
 
     //todo: only needed for the test, DI workaround, replace with upper later
-    public ApplicantEducationController() : base() { }
+    //public ApplicantEducationController() : base() { }
 
     /// POST: api/careercloud/ApplicantEducation/v1/Education
     [HttpPost("Education")]

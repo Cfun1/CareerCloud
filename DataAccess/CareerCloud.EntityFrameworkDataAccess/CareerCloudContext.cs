@@ -1,13 +1,19 @@
-﻿using System.Diagnostics;
-using CareerCloud.Pocos;
+﻿using CareerCloud.Pocos;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 
 namespace CareerCloud.EntityFrameworkDataAccess;
 //TODO: future consideration
 //AsSingleQuery()
 public class CareerCloudContext : DbContext
 {
+    public CareerCloudContext(DbContextOptions<CareerCloudContext> options)
+            : base(options)
+    {
+    }
+
+    //only kept for Test project to run
+    //public CareerCloudContext() { }
+
     public DbSet<ApplicantEducationPoco> ApplicantEducation { get; set; }
 
     public DbSet<ApplicantJobApplicationPoco> ApplicantJobApplication { get; set; }
@@ -48,15 +54,17 @@ public class CareerCloudContext : DbContext
 
     public DbSet<SystemLanguageCodePoco> SystemLanguageCode { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        optionsBuilder
-                    .UseSqlServer(DataAccessLayer.CommonDbConnection.String)
-                    .AddInterceptors(new LoggingSaveChangesInterceptor())
-        //            .UseLazyLoadingProxies()
-        .LogTo(msg => Debug.WriteLine(msg), LogLevel.Information);
-        ;
-    }
+
+    //commenetd out: configraiton moved to Program.cs in API layer to levreage DI and use of dynamic connection string
+    //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    //{
+    //    optionsBuilder
+    //                .UseSqlServer(DataAccessLayer.CommonDbConnection.String)
+    //                .AddInterceptors(new LoggingSaveChangesInterceptor())
+    //    //            .UseLazyLoadingProxies()
+    //    .LogTo(msg => Debug.WriteLine(msg), LogLevel.Information);
+    //    ;
+    //}
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

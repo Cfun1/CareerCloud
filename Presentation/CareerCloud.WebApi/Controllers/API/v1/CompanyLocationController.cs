@@ -1,6 +1,6 @@
-
 using Asp.Versioning;
 using CareerCloud.BusinessLogicLayer;
+using CareerCloud.DataAccessLayer;
 using CareerCloud.Pocos;
 using CareerCloud.WebAPI.Controllers.Common;
 using Microsoft.AspNetCore.Mvc;
@@ -12,17 +12,18 @@ namespace CareerCloud.WebAPI.Controllers;
 [ApiVersion("1.0")]
 [Route("api/careercloud/[Controller]/v{version:apiVersion}")]
 /// api/careercloud/CompanyLocation/v1
-public /* partial */ class CompanyLocationController :
+public partial class CompanyLocationController :
                      CareerCloudBaseController<CompanyLocationPoco,
                                                 CompanyLocationLogic>
 //,IApiController<CompanyLocationPoco>
 {
-    //public CompanyLocationController(IDataRepository<CompanyLocationPoco> CompanyLocationRepo) : base(CompanyLocationRepo)
-    //{
-    //}
+    public CompanyLocationController(IDataRepository<CompanyLocationPoco> CompanyLocationRepo)
+        : base(CompanyLocationRepo)
+    {
+    }
 
     //todo: only needed for the test, DI workaround, delete after
-    public CompanyLocationController() : base() { }
+    //public CompanyLocationController() : base() { }
 
     /// POST: api/careercloud/CompanyLocation/v1/Location
     [HttpPost("Location")]
