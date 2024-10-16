@@ -1,4 +1,3 @@
-
 using Asp.Versioning;
 using CareerCloud.BusinessLogicLayer;
 using CareerCloud.DataAccessLayer;
@@ -13,17 +12,18 @@ namespace CareerCloud.WebAPI.Controllers;
 [ApiVersion("1.0")]
 [Route("api/careercloud/[Controller]/v{version:apiVersion}")]
 /// api/careercloud/CompanyJob/v1
-public /* partial */ class CompanyJobController :
+public partial class CompanyJobController :
                      CareerCloudBaseController<CompanyJobPoco,
                                                 CompanyJobLogic>
 //,IApiController<CompanyJobPoco>
 {
-    //public CompanyJobController(IDataRepository<CompanyJobPoco> CompanyJobRepo) : base(CompanyJobRepo)
-    //{
-    //}
+    public CompanyJobController(IDataRepository<CompanyJobPoco> CompanyJobRepo)
+        : base(CompanyJobRepo)
+    {
+    }
 
     //todo: only needed for the test, DI workaround, replace with upper ctor later
-    public CompanyJobController() : base() { }
+    //public CompanyJobController() : base() { }
 
     /// POST: api/careercloud/CompanyJob/v1/Job
     [HttpPost("Job")]

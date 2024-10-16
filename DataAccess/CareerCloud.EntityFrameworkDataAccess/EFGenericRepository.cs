@@ -11,12 +11,20 @@ namespace CareerCloud.EntityFrameworkDataAccess;
 public class EFGenericRepository<T> : IDisposable, IDataRepository<T> where T : class
 {
     //todo: temporary set to public for testing purposes, should be set back to private
-    CareerCloudContext context;
+    CareerCloudContext _context;
     DbSet<T> dbSetT;
 
-    public EFGenericRepository()
+    //only kept for Test project to run, remvoe for cloud to work
+    //public EFGenericRepository()
+    //{
+    //    context = new CareerCloudContext();
+    //    dbSetT = context.Set<T>();
+    //}
+
+    //depdency injection from API layer (conn string config/var)
+    public EFGenericRepository(CareerCloudContext context)
     {
-        context = new CareerCloudContext();
+        _context = context;
         dbSetT = context.Set<T>();
     }
 
@@ -24,7 +32,7 @@ public class EFGenericRepository<T> : IDisposable, IDataRepository<T> where T : 
     {
         try
         {
-            var recordCount = context.SaveChanges();
+            var recordCount = _context.SaveChanges();
             if (recordCount == 0)
                 throw new InvalidOperationException("SaveChanges() operation called but 0 rows were affected");
             return recordCount;
@@ -142,5 +150,5 @@ public class EFGenericRepository<T> : IDisposable, IDataRepository<T> where T : 
         CallSaveChanges();
     }
 
-    public void Dispose() => context?.Dispose();
+    public void Dispose() => _context?.Dispose();
 }

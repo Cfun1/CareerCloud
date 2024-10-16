@@ -1,6 +1,6 @@
 ﻿using Asp.Versioning;
 using CareerCloud.BusinessLogicLayer;
-using CareerCloud.EntityFrameworkDataAccess;
+using CareerCloud.DataAccessLayer;
 using CareerCloud.Pocos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -11,20 +11,20 @@ namespace CareerCloud.WebAPI.Controllers;
 [ApiVersion("1.0")]
 [Route("api/careercloud/[Controller]/v{version:apiVersion}")]
 /// api/careercloud/SystemLanguageCode/v1
-public /* partial */ class SystemLanguageCodeController : ControllerBase
+public partial class SystemLanguageCodeController : ControllerBase
 {
     internal readonly SystemLanguageCodeLogic? _logic;
 
-    //public SystemLanguageCodeController(IDataRepository<SystemLanguageCodePoco> repo)
-    //{
-    //    _logic = new SystemLanguageCodeLogic(repo);
-    //}
-
-    public SystemLanguageCodeController()
+    public SystemLanguageCodeController(IDataRepository<SystemLanguageCodePoco> repo)
     {
-        var repo = new EFGenericRepository<SystemLanguageCodePoco>();
         _logic = new SystemLanguageCodeLogic(repo);
     }
+
+    //public SystemLanguageCodeController()
+    //{
+    //    var repo = new EFGenericRepository<SystemLanguageCodePoco>();
+    //    _logic = new SystemLanguageCodeLogic(repo);
+    //}
 
     /// POST: api/careercloud/SystemLanguageCode/v1/LanguageCode/
     [HttpPost("LanguageCode")]

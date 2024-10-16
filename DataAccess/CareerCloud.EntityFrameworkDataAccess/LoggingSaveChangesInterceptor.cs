@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace CareerCloud.EntityFrameworkDataAccess;
-internal class LoggingSaveChangesInterceptor : SaveChangesInterceptor
+public class LoggingSaveChangesInterceptor : SaveChangesInterceptor
 {
     public override InterceptionResult<int> SavingChanges(DbContextEventData eventData, InterceptionResult<int> result)
     {

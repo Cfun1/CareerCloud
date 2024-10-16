@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Asp.Versioning;
 using CareerCloud.ADODataAccessLayer;
 using CareerCloud.DataAccessLayer;
@@ -5,6 +6,7 @@ using CareerCloud.EntityFrameworkDataAccess;
 using CareerCloud.Pocos;
 using CareerCloud.WebAPI.Extensions;
 using CareerCloud.WebAPI.Swagger;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
@@ -13,6 +15,20 @@ var builder = WebApplication.CreateBuilder(args);
 var dataAccessFramework = builder.Configuration.GetStringWithCheck("DataAccessFramework");
 var apiVersionHeader = builder.Configuration.GetStringWithCheck("ApiVersionHeader");
 
+var connectionString =
+builder.Configuration.GetConnectionString("DataConnection");
+builder.Services.AddDbContext<CareerCloudContext>(options =>
+{
+    options.UseSqlServer(connectionString!);
+    if (builder.Environment.IsDevelopment())
+    {
+        options.UseLazyLoadingProxies();
+
+        //todo: production? change this logging to serilog file logger
+        options.AddInterceptors(new LoggingSaveChangesInterceptor());
+        options.LogTo(msg => Debug.WriteLine(msg), LogLevel.Information);
+    }
+});
 #region builder
 // Add services to the container.
 builder.Services.AddControllers(options =>
@@ -38,6 +54,12 @@ ConfigureDataAccess();
 
 ConfigureSwagger();
 
+builder.Services.AddCors(p => p.AddPolicy(
+    "CorsPolicy", build =>
+    {
+        build.AllowAnyOrigin().WithMethods("GET", "POST").AllowAnyHeader();
+    }));
+
 #endregion
 
 var app = builder.Build();
@@ -47,6 +69,8 @@ if (app.Environment.IsDevelopment())
 {
     UseSwagger();
 }
+
+app.UseCors("CorsPolicy");
 
 app.UseHttpsRedirection();
 

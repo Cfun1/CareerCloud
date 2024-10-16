@@ -1,6 +1,6 @@
 ﻿using Asp.Versioning;
 using CareerCloud.BusinessLogicLayer;
-using CareerCloud.EntityFrameworkDataAccess;
+using CareerCloud.DataAccessLayer;
 using CareerCloud.Pocos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -11,21 +11,21 @@ namespace CareerCloud.WebAPI.Controllers;
 [ApiVersion("1.0")]
 [Route("api/careercloud/[Controller]/v{version:apiVersion}")]
 /// api/careercloud/SystemCountryCode/v1
-public /* partial */ class SystemCountryCodeController : ControllerBase
+public partial class SystemCountryCodeController : ControllerBase
 {
     internal readonly SystemCountryCodeLogic? _logic;
 
-    //public SystemCountryCodeController(IDataRepository<SystemCountryCodePoco> repo)
-    //{
-    //    _logic = new SystemCountryCodeLogic(repo);
-    //}
-
-    //todo: only needed for the test, DI workaround, replace with upper later
-    public SystemCountryCodeController()
+    public SystemCountryCodeController(IDataRepository<SystemCountryCodePoco> repo)
     {
-        var repo = new EFGenericRepository<SystemCountryCodePoco>();
         _logic = new SystemCountryCodeLogic(repo);
     }
+
+    //todo: only needed for the test, DI workaround, replace with upper later
+    //public SystemCountryCodeController()
+    //{
+    //    var repo = new EFGenericRepository<SystemCountryCodePoco>();
+    //    _logic = new SystemCountryCodeLogic(repo);
+    //}
 
     /// POST: api/careercloud/SystemCountryCode/v1/CountryCode
     [HttpPost("CountryCode")]
