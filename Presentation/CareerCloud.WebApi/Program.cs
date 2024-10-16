@@ -22,7 +22,7 @@ builder.Services.AddDbContext<CareerCloudContext>(options =>
     options.UseSqlServer(connectionString!);
     if (builder.Environment.IsDevelopment())
     {
-        //options.UseLazyLoadingProxies();
+        ////options.UseLazyLoadingProxies();
         //todo: production? change this logging to serilog file logger
         options.AddInterceptors(new LoggingSaveChangesInterceptor());
         options.LogTo(msg => Debug.WriteLine(msg), LogLevel.Information);
