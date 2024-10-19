@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+option csharp_namespace = "CareerCloud.gRPC";
+
+package ApplicantEducation;
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";        //contains nullable wrappers
+
+ service ApplicantEducation {
+   rpc Add (ApplicantEducationProtos) returns (google.protobuf.Empty);
+   rpc Get (GetApplicantEducationRequest) returns (ApplicantEducationProto);
+   rpc Update (ApplicantEducationProtos) returns (google.protobuf.Empty);
+   rpc Delete (ApplicantEducationProtos) returns (google.protobuf.Empty);
+ }
+
+ //another way to represent nullability is to uset he new keyword optional protobuf >3.16
+ message ApplicantEducationProto {
+    string Id = 1;           //Guid -> string parse tostring
+    string Applicant = 2;
+    google.protobuf.StringValue CertificateDiploma = 3; //string?
+    google.protobuf.Timestamp CompletionDate = 4;
+    google.protobuf.UInt32Value CompletionPercent = 5;
+    string Major = 6;
+    google.protobuf.Timestamp StartDate = 7;
+    bytes TimeStamp = 8;
+}
+
+ message GetApplicantEducationRequest {
+	 string id = 1;
+}
+
+ message ApplicantEducationProtos {
+	repeated ApplicantEducationProto ApplicantEducations = 1;
+}

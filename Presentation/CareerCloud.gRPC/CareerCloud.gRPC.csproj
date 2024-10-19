@@ -7,7 +7,28 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Protobuf Include="Protos\greet.proto" GrpcServices="Server" />
+    <None Remove="Protos\ApplicantJobApplication.proto" />
+    <None Remove="Protos\ApplicantProfile.proto" />
+    <None Remove="Protos\CompanyDescription.proto" />
+    <None Remove="Protos\CompanyJob.proto" />
+    <None Remove="Protos\CompanyJobEducation.proto" />
+    <None Remove="Protos\SecurityLogin.proto" />
+    <None Remove="Protos\SecurityLoginsLog.proto" />
+    <None Remove="Protos\SystemLanguageCode.proto" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="Protos\SystemLanguageCode.proto" GrpcServices="Server" />
+    <Protobuf Include="Protos\SecurityLoginsLog.proto" GrpcServices="Server" />
+    <Protobuf Include="Protos\SecurityLogin.proto" GrpcServices="Server" />
+    <Protobuf Include="Protos\CompanyJob.proto" GrpcServices="Server" />
+    <Protobuf Include="Protos\CompanyJobEducation.proto" GrpcServices="Server" />
+    <Protobuf Include="Protos\CompanyDescription.proto" GrpcServices="Server" />
+    <Protobuf Include="Protos\ApplicantProfile.proto" GrpcServices="Server" />
+    <Protobuf Include="Protos\ApplicantJobApplication.proto">
+      <GrpcServices>Server</GrpcServices>
+    </Protobuf>
+    <Protobuf Include="Protos\ApplicantEducation.proto" GrpcServices="Server" />
   </ItemGroup>
 
   <ItemGroup>
@@ -17,6 +38,9 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Core\CareerCloud.BusinessLogicLayer\CareerCloud.BusinessLogicLayer.csproj" />
     <ProjectReference Include="..\..\Core\CareerCloud.Pocos\CareerCloud.Pocos.csproj" />
+    <ProjectReference Include="..\..\DataAccess\CareerCloud.ADODataAccessLayer\CareerCloud.ADODataAccessLayer.csproj" />
+    <ProjectReference Include="..\..\DataAccess\CareerCloud.DataAccessLayer\CareerCloud.DataAccessLayer.csproj" />
+    <ProjectReference Include="..\..\DataAccess\CareerCloud.EntityFrameworkDataAccess\CareerCloud.EntityFrameworkDataAccess.csproj" />
   </ItemGroup>
 
 </Project>

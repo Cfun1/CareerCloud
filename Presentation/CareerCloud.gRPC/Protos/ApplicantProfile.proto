@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+option csharp_namespace = "CareerCloud.gRPC";
+
+package ApplicantProfile;
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";        //contains nullable wrappers
+
+ service ApplicantProfile {
+   rpc Add (ApplicantProfileProtos) returns (google.protobuf.Empty);
+   rpc Get (GetApplicantProfileRequest) returns (ApplicantProfileProtos);
+   rpc Update (ApplicantProfileProtos) returns (google.protobuf.Empty);
+   rpc Delete (ApplicantProfileProtos) returns (google.protobuf.Empty);
+ }
+
+ message ApplicantProfileProto {
+    string Id = 1;
+    google.protobuf.StringValue City = 2;
+    google.protobuf.StringValue Country = 3;
+
+    //https://learn.microsoft.com/en-us/aspnet/core/grpc/protobuf?view=aspnetcore-7.0#creating-a-custom-decimal-type-for-protobuf
+    //decimal CurrentRate= 4;
+    //decimal CurrentSalary= 5;
+
+    google.protobuf.StringValue Currency = 6;
+    string Login = 7;
+    google.protobuf.StringValue PostalCode = 8; //string?
+    google.protobuf.StringValue Province = 9; //string?
+    google.protobuf.StringValue Street = 10; //string?
+    bytes TimeStamp = 11;
+}
+
+ message GetApplicantProfileRequest {
+	 string id = 1;
+}
+
+ message ApplicantProfileProtos {
+	repeated ApplicantProfileProto pocos = 1;
+}
