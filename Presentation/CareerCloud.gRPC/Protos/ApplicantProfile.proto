@@ -10,7 +10,7 @@ import "google/protobuf/wrappers.proto";        //contains nullable wrappers
 
  service ApplicantProfile {
    rpc Add (ApplicantProfileProtos) returns (google.protobuf.Empty);
-   rpc Get (GetApplicantProfileRequest) returns (ApplicantProfileProtos);
+   rpc Get (GetApplicantProfileRequest) returns (ApplicantProfileProto);
    rpc Update (ApplicantProfileProtos) returns (google.protobuf.Empty);
    rpc Delete (ApplicantProfileProtos) returns (google.protobuf.Empty);
  }
@@ -37,5 +37,5 @@ import "google/protobuf/wrappers.proto";        //contains nullable wrappers
 }
 
  message ApplicantProfileProtos {
-	repeated ApplicantProfileProto pocos = 1;
+	repeated ApplicantProfileProto proto = 1;
 }

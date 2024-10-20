@@ -1,6 +1,6 @@
 using CareerCloud.BusinessLogicLayer;
 using CareerCloud.DataAccessLayer;
-using CareerCloud.gRPC.Helpers;
+using CareerCloud.gRPC.Mappers;
 using CareerCloud.Pocos;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;

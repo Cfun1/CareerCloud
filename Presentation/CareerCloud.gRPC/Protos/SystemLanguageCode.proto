@@ -10,7 +10,7 @@ import "google/protobuf/wrappers.proto";        //contains nullable wrappers
 
  service SystemLanguageCode {
    rpc Add (SystemLanguageCodeProtos) returns (google.protobuf.Empty);
-   rpc Get (GetSystemLanguageCodeRequest) returns (SystemLanguageCodeProtos);
+   rpc Get (GetSystemLanguageCodeRequest) returns (SystemLanguageCodeProto);
    rpc Update (SystemLanguageCodeProtos) returns (google.protobuf.Empty);
    rpc Delete (SystemLanguageCodeProtos) returns (google.protobuf.Empty);
  }
@@ -26,5 +26,5 @@ import "google/protobuf/wrappers.proto";        //contains nullable wrappers
 }
 
  message SystemLanguageCodeProtos {
-	repeated SystemLanguageCodeProto pocos = 1;
+	repeated SystemLanguageCodeProto proto = 1;
 }

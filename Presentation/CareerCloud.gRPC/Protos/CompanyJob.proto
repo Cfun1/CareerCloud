@@ -9,10 +9,10 @@ import "google/protobuf/timestamp.proto";
 import "google/protobuf/wrappers.proto";        //contains nullable wrappers
 
  service CompanyJob {
-   rpc Add (CompanyJobProtoProtos) returns (google.protobuf.Empty);
-   rpc Get (GetCompanyJobProtoRequest) returns (CompanyJobProtoProtos);
-   rpc Update (CompanyJobProtoProtos) returns (google.protobuf.Empty);
-   rpc Delete (CompanyJobProtoProtos) returns (google.protobuf.Empty);
+   rpc Add (CompanyJobProtos) returns (google.protobuf.Empty);
+   rpc Get (GetCompanyJobRequest) returns (CompanyJobProto);
+   rpc Update (CompanyJobProtos) returns (google.protobuf.Empty);
+   rpc Delete (CompanyJobProtos) returns (google.protobuf.Empty);
  }
 
  message CompanyJobProto {
@@ -24,10 +24,10 @@ import "google/protobuf/wrappers.proto";        //contains nullable wrappers
     bytes TimeStamp = 6;
 }
 
- message GetCompanyJobProtoRequest {
+ message GetCompanyJobRequest {
 	 string id = 1;
 }
 
- message CompanyJobProtoProtos {
-	repeated CompanyJobProto pocos = 1;
+ message CompanyJobProtos {
+	repeated CompanyJobProto proto = 1;
 }

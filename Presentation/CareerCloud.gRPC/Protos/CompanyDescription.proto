@@ -10,7 +10,7 @@ import "google/protobuf/wrappers.proto";        //contains nullable wrappers
 
  service CompanyDescription {
    rpc Add (CompanyDescriptionProtos) returns (google.protobuf.Empty);
-   rpc Get (GetCompanyDescriptionRequest) returns (CompanyDescriptionProtos);
+   rpc Get (GetCompanyDescriptionRequest) returns (CompanyDescriptionProto);
    rpc Update (CompanyDescriptionProtos) returns (google.protobuf.Empty);
    rpc Delete (CompanyDescriptionProtos) returns (google.protobuf.Empty);
  }
@@ -19,8 +19,9 @@ import "google/protobuf/wrappers.proto";        //contains nullable wrappers
     string Id = 1;           //Guid -> string parse tostring
     string Company = 2;
     string CompanyName = 3;
-    string LanguageId = 4;
-    bytes TimeStamp = 5;
+    string CompanyDescription = 4;
+    string LanguageId = 5;
+    bytes TimeStamp = 6;
 }
 
  message GetCompanyDescriptionRequest {
@@ -28,5 +29,5 @@ import "google/protobuf/wrappers.proto";        //contains nullable wrappers
 }
 
  message CompanyDescriptionProtos {
-	repeated CompanyDescriptionProto pocos = 1;
+	repeated CompanyDescriptionProto proto = 1;
 }

@@ -10,7 +10,7 @@ import "google/protobuf/wrappers.proto";        //contains nullable wrappers
 
  service SecurityLogin {
    rpc Add (SecurityLoginProtos) returns (google.protobuf.Empty);
-   rpc Get (GetSecurityLoginRequest) returns (SecurityLoginProtos);
+   rpc Get (GetSecurityLoginRequest) returns (SecurityLoginProto);
    rpc Update (SecurityLoginProtos) returns (google.protobuf.Empty);
    rpc Delete (SecurityLoginProtos) returns (google.protobuf.Empty);
  }
@@ -37,5 +37,5 @@ import "google/protobuf/wrappers.proto";        //contains nullable wrappers
 }
 
  message SecurityLoginProtos {
-	repeated SecurityLoginProto pocos = 1;
+	repeated SecurityLoginProto proto = 1;
 }

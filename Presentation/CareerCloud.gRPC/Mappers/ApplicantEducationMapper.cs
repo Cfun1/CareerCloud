@@ -1,10 +1,9 @@
 ﻿using CareerCloud.Pocos;
 using Google.Protobuf;
-using Google.Protobuf.WellKnownTypes;
 
-namespace CareerCloud.gRPC.Helpers;
+namespace CareerCloud.gRPC.Mappers;
 
-public static class Helpers
+public static class ApplicantEducationMapper
 {
     public static ApplicantEducationPoco[]? ToPoco(this ApplicantEducationProtos protos)
     {
@@ -48,15 +47,6 @@ public static class Helpers
             CompletionPercent = (uint)poco.CompletionPercent!,
             TimeStamp = ByteString.CopyFrom(poco.TimeStamp)
         };
-
-    public static Timestamp? DateTime2ProtoTimeStamp(this DateTime? dateTime)
-    {
-        if (dateTime is null)
-            return null;
-
-        var tempDateTimeUtc = ((DateTime)dateTime).ToUniversalTime();
-        return Timestamp.FromDateTime(tempDateTimeUtc);
-    }
 }
 //uint protobufValue = nullableByte.HasValue ? nullableByte.Value : 0; // Assuming 0 indicates null
 //    Value = nullableByte.HasValue ? new Google.Protobuf.UInt32Value { Value = nullableByte.Value } : null
